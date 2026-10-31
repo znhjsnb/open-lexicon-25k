@@ -1,0 +1,771 @@
+[
+  {
+    "id": "bnc.bnc-coca-25k-w00890",
+    "word": "hackamore",
+    "normalizedWord": "hackamore",
+    "pos": "n. 名词",
+    "meaning": "不用衔铁的马笼头",
+    "aliases": [
+      "hackamore"
+    ],
+    "phonetic": "ˈhækəˌmɔːr",
+    "pronunciation": {
+      "ipa": "ˈhækəˌmɔːr",
+      "note": "依据离线词典的美式读音重拼转写为IPA。",
+      "source": "https://www.merriam-webster.com/dictionary/hackamore",
+      "status": "transcribed_from_offline_respell"
+    },
+    "forms": "本课为n. 名词。本课练习单数或原形；不要将词表中的其他拼写直接当作屈折变化。",
+    "family": "词表相关形式：hackamores。",
+    "morphology": {
+      "text": "整词作为外来借词独立词素记忆。不凭字母外形硬拆词根。",
+      "source": "https://www.merriam-webster.com/dictionary/hackamore",
+      "status": "whole_word_with_explicit_exception"
+    },
+    "etymology": {
+      "text": "来自西班牙语 jáquima，意为“笼头”，进入英语时经过民间词源改造，成了 hackamore。可以联想套在马鼻部的带环。",
+      "source": "https://www.merriam-webster.com/dictionary/hackamore",
+      "status": "based_on_offline_origin"
+    },
+    "relations": [
+      {
+        "type": "上位词",
+        "word": "bridle",
+        "meaning": "笼头"
+      },
+      {
+        "type": "对比部件",
+        "word": "bit",
+        "meaning": "衔铁"
+      }
+    ],
+    "usage_note": "一种不用口内衔铁的笼头，借鼻部或下颌的带环起作用。没有衔铁不等于不会产生压力。",
+    "sources": [
+      {
+        "label": "离线词典事实摘要",
+        "url": "https://www.merriam-webster.com/dictionary/hackamore",
+        "path": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet-digest.json",
+        "localPath": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet-digest.json",
+        "entry": "hackamore"
+      },
+      {
+        "label": "BNC/COCA目录词族与频次",
+        "path": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet.json",
+        "localPath": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet.json",
+        "entryId": "bnc-coca-25k-w00890"
+      }
+    ],
+    "sentence": "The rider fitted a hackamore around the nose of the horse.",
+    "translation": "骑手给马戴上了一副不用衔铁、套在鼻部的笼头。",
+    "scenario": "骑手选了一副通过鼻部带环起作用的马具。",
+    "cloze": "The rider fitted a _____ around the nose of the horse.",
+    "cloze_answer": "hackamore",
+    "collocation": "fit a hackamore 给马戴无衔铁笼头\nbuy a hackamore 购买无衔铁笼头",
+    "context_hint": "Notice the absence of a bit inside the mouth.",
+    "hint": "Notice the absence of a bit inside the mouth.",
+    "teaching": {
+      "contrast": "一种不用口内衔铁的笼头，借鼻部或下颌的带环起作用。没有衔铁不等于不会产生压力。",
+      "sentence": "The tack shop kept a hackamore beside its display of saddles.",
+      "translation": "马具店把一副无衔铁笼头放在马鞍展示区旁。"
+    },
+    "comprehension_check": {
+      "sentence": "The trainer chose a hackamore so there would be no bit in the mouth of the horse.",
+      "question": "句中 hackamore 表示哪一种意思？",
+      "reference": "不用衔铁的马笼头",
+      "answers": [],
+      "known_wrong": [],
+      "wrong_reason": "不用衔铁的马笼头，与“装有口内衔铁的马笼头”不同。一种不用口内衔铁的笼头，借鼻部或下颌的带环起作用。没有衔铁不等于不会产生压力。",
+      "supplement_grading": true,
+      "version": "B03",
+      "fields": [
+        {
+          "id": "choice",
+          "label": "句中目标词表示（不用衔铁的马笼头／装有口内衔铁的马笼头）",
+          "answers": [
+            "不用衔铁的马笼头"
+          ],
+          "wrong_reason": "不用衔铁的马笼头，与“装有口内衔铁的马笼头”不同。一种不用口内衔铁的笼头，借鼻部或下颌的带环起作用。没有衔铁不等于不会产生压力。"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "pos": "n. 名词",
+        "phonetic": "/ˈhækəmɔːr/",
+        "meaning_zh": "不用衔铁、通过鼻部等处施压来控制马匹的笼头",
+        "meaning_en": "A bitless device for controlling a horse by pressure on its nose and other parts of its head.",
+        "english_definition": "A hackamore is a piece of equipment fitted around a horse’s head that controls the horse without putting a bit in its mouth.",
+        "collocation_en": "a mechanical hackamore; ride in a hackamore",
+        "collocation_zh": "机械式无衔铁笼头；使用无衔铁笼头骑马",
+        "sentence_en": "She rode the mare in a hackamore instead of a bridle with a bit.",
+        "sentence_zh": "她骑这匹母马时使用了无衔铁笼头，而不是带衔铁的马勒。"
+      }
+    ],
+    "etymology_story": {
+      "zh": "源自西班牙语 jáquima，意为“马笼头”，其更早来源是阿拉伯语中表示马衔或马勒的词。这个词在美国西部的骑马文化中进入英语，读音和拼写逐渐英语化。",
+      "en": "Hackamore comes from Spanish jáquima, meaning a halter or headstall, ultimately from an Arabic word for a bit or bridle. It entered English through the riding culture of the American West, acquiring an anglicized pronunciation and spelling."
+    },
+    "morphology_enriched": {
+      "zh": "现代构词：hackamore 为不可再作常用英语词素分析的借词，不能拆成 hack + more。复数为 hackamores；没有常用的派生词族。bosal（传统无衔铁笼头中的鼻环）和 mechanical hackamore（机械式无衔铁笼头）属于相关术语。",
+      "en": "Modern structure: hackamore is a borrowed base with no productive English root-and-affix breakdown; it is not hack + more. Its plural is hackamores, and it has no common derivational family. Related terminology includes bosal, the nosepiece of a traditional hackamore, and mechanical hackamore."
+    },
+    "synonyms_and_nuances": {
+      "zh": "bitless bridle（无衔铁马勒）是较宽泛的近义表达；halter（笼头）通常用于牵领或拴系马匹；bosal（鼻环）通常指传统 hackamore 的关键部件，而非整套装备。",
+      "en": "Bitless bridle is a broader near-synonym; a halter is generally used for leading or tying a horse; a bosal is usually the nosepiece of a traditional hackamore rather than the complete equipment."
+    },
+    "exam_tags": [],
+    "mnemonic_anchor": {
+      "zh": "抓住装备逻辑：控制点在鼻部，嘴里没有衔铁。",
+      "en": "Picture the control point on the horse’s nose, with no bit inside its mouth."
+    }
+  },
+  {
+    "id": "bnc.bnc-coca-25k-w00893",
+    "word": "harl",
+    "normalizedWord": "harl",
+    "pos": "v. 动词",
+    "meaning": "拖拽（通常沿地面）",
+    "aliases": [
+      "harl"
+    ],
+    "phonetic": "hɑːrl",
+    "pronunciation": {
+      "ipa": "hɑːrl",
+      "note": "依据离线词典的美式读音重拼转写为IPA。",
+      "source": "https://www.merriam-webster.com/dictionary/harl",
+      "status": "transcribed_from_offline_respell"
+    },
+    "forms": "本课为v. 动词。词表未列出其他变形；记住动词原形 harl。",
+    "family": "本词按整词记忆；本批词族表未列其他同族形式。",
+    "morphology": {
+      "text": "整词作为外来借词独立词素记忆。这里沿用整词记忆方式；实际来源见词源栏，不把本土旧词或儿语误当成新借词。不凭字母外形硬拆词根。",
+      "source": "https://www.merriam-webster.com/dictionary/harl",
+      "status": "whole_word_with_explicit_exception"
+    },
+    "etymology": {
+      "text": "本课的“拖拽”义来自中古英语 harlen，意思就是拖动。可以想象把沉重物体在地面上拖走。",
+      "source": "https://www.merriam-webster.com/dictionary/harl",
+      "status": "based_on_offline_origin"
+    },
+    "relations": [
+      {
+        "type": "近义词",
+        "word": "drag",
+        "meaning": "拖拽"
+      },
+      {
+        "type": "近义词",
+        "word": "pull",
+        "meaning": "拉"
+      }
+    ],
+    "usage_note": "地区性用词，本课只教拖拽义。harl 另有建筑抹粗灰泥的用法，不是这里的意思。",
+    "sources": [
+      {
+        "label": "离线词典事实摘要",
+        "url": "https://www.merriam-webster.com/dictionary/harl",
+        "path": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet-digest.json",
+        "localPath": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet-digest.json",
+        "entry": "harl"
+      },
+      {
+        "label": "BNC/COCA目录词族与频次",
+        "path": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet.json",
+        "localPath": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet.json",
+        "entryId": "bnc-coca-25k-w00893"
+      }
+    ],
+    "sentence": "We had to harl the heavy sack across the yard.",
+    "translation": "我们不得不把沉重的袋子拖过院子。",
+    "scenario": "袋子太重，你只能把它沿地面拖过去。",
+    "cloze": "We had to _____ the heavy sack across the yard.",
+    "cloze_answer": "harl",
+    "collocation": "harl a sack across a yard 把袋子拖过院子\nharl a branch off a track 把树枝拖离小路",
+    "context_hint": "Notice that the object stays on the ground as it moves.",
+    "hint": "Notice that the object stays on the ground as it moves.",
+    "teaching": {
+      "contrast": "地区性用词，本课只教拖拽义。harl 另有建筑抹粗灰泥的用法，不是这里的意思。",
+      "sentence": "The farmer used a rope to harl the branch off the track.",
+      "translation": "农夫用绳子把树枝拖离小路。"
+    },
+    "comprehension_check": {
+      "sentence": "They decided to harl the log along the ground rather than lift it.",
+      "question": "句中 harl 表示哪一种意思？",
+      "reference": "拖拽（通常沿地面）",
+      "answers": [],
+      "known_wrong": [],
+      "wrong_reason": "拖拽（通常沿地面），与“垂直举起”不同。地区性用词，本课只教拖拽义。harl 另有建筑抹粗灰泥的用法，不是这里的意思。",
+      "supplement_grading": true,
+      "version": "B03",
+      "fields": [
+        {
+          "id": "choice",
+          "label": "句中目标词表示（拖拽（通常沿地面）／垂直举起）",
+          "answers": [
+            "拖拽（通常沿地面）"
+          ],
+          "wrong_reason": "拖拽（通常沿地面），与“垂直举起”不同。地区性用词，本课只教拖拽义。harl 另有建筑抹粗灰泥的用法，不是这里的意思。"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "pos": "v. 动词",
+        "phonetic": "/hɑːl/",
+        "meaning_zh": "拖；沿地面拖拽（苏格兰及北英格兰方言）",
+        "meaning_en": "To drag or pull something along, especially over the ground, in Scottish and northern English usage.",
+        "english_definition": "If you harl something, you pull it along with effort, often dragging it over the ground.",
+        "collocation_en": "harl a sack; harl something along the ground",
+        "collocation_zh": "拖动一只袋子；把某物沿地面拖走",
+        "sentence_en": "They had to harl the heavy sack across the yard.",
+        "sentence_zh": "他们不得不把那只沉重的袋子拖过院子。"
+      },
+      {
+        "pos": "v. 动词",
+        "phonetic": "/hɑːl/",
+        "meaning_zh": "给墙面涂抹粗灰泥；作粗面抹灰处理（苏格兰建筑用语）",
+        "meaning_en": "To coat a wall with roughcast, especially in Scottish building practice.",
+        "english_definition": "If builders harl a wall, they cover it with a rough coating of mortar containing small stones or other aggregate.",
+        "collocation_en": "harl a wall; harled walls",
+        "collocation_zh": "给墙面作粗面抹灰；抹有粗灰泥的墙面",
+        "sentence_en": "The builders harled the outside walls with lime mortar.",
+        "sentence_zh": "建筑工人用石灰砂浆给外墙作了粗面抹灰。"
+      },
+      {
+        "pos": "n. 名词",
+        "phonetic": "/hɑːl/",
+        "meaning_zh": "墙面粗灰泥；粗面抹灰层（苏格兰建筑用语）",
+        "meaning_en": "A roughcast coating applied to an exterior wall, especially in Scotland.",
+        "english_definition": "Harl is a rough layer of mortar and aggregate used to cover and protect a wall.",
+        "collocation_en": "lime harl; a coat of harl",
+        "collocation_zh": "石灰粗灰泥；一层粗面灰泥",
+        "sentence_en": "Some of the old harl had fallen away, exposing the stone beneath.",
+        "sentence_zh": "部分旧粗灰泥已经脱落，露出了下面的石头。"
+      }
+    ],
+    "etymology_story": {
+      "zh": "“拖拽”义可追溯到中古英语 harlen，意为拖动或拉扯，更早的来源并不确定。苏格兰建筑用语中的“粗面抹灰”义与这种施工作业中甩抹灰浆的动作有关。",
+      "en": "The dragging sense goes back to Middle English harlen, meaning to drag or pull, although its earlier origin is uncertain. The Scottish building sense concerns applying rough mortar by casting or dashing it onto a wall."
+    },
+    "morphology_enriched": {
+      "zh": "现代构词：harl 是单纯词，不宜硬拆词根或当作来源明确的新借词。动词变化为 harls、harled、harling；harling 也可作名词，指粗面抹灰工艺或涂层；harled 可作分词形容词，表示“抹有粗灰泥的”。苏格兰语境中可以读出 r 音。",
+      "en": "Modern structure: harl is a simple base, not a transparent root-and-affix formation or a clearly identified recent borrowing. Verb forms are harls, harled, and harling; harling also names the roughcasting process or its coating, and harled can function as a participial adjective. Scottish pronunciations may retain the r sound."
+    },
+    "synonyms_and_nuances": {
+      "zh": "drag（拖）是“沿表面拖动”的普通表达，haul（用力拉运）强调费力搬运；roughcast（作粗面抹灰／粗灰泥）对应建筑义，不与前两词共享该含义。",
+      "en": "Drag is the ordinary word for pulling something across a surface, while haul emphasizes moving it with effort. Roughcast corresponds to the building senses and does not share the dragging meaning."
+    },
+    "exam_tags": [],
+    "mnemonic_anchor": {
+      "zh": "分两幅图记：重袋在地上拖，灰浆往墙上甩。",
+      "en": "Keep two pictures: a heavy sack dragged along the ground, and rough mortar dashed onto a wall."
+    }
+  },
+  {
+    "id": "bnc.bnc-coca-25k-w00903",
+    "word": "Heshvan",
+    "normalizedWord": "heshvan",
+    "pos": "n. 名词",
+    "meaning": "赫舍汪月（犹太历月份）",
+    "aliases": [
+      "Heshvan"
+    ],
+    "phonetic": "ˈxɛʃvən",
+    "pronunciation": {
+      "ipa": "ˈxɛʃvən",
+      "note": "依据离线词典的美式读音重拼转写为IPA。",
+      "source": "https://www.merriam-webster.com/dictionary/heshvan",
+      "status": "transcribed_from_offline_respell"
+    },
+    "forms": "本课为n. 名词。名称按规范大写，不作普通名词变形练习。",
+    "family": "本词按整词记忆；本批词族表未列其他同族形式。",
+    "morphology": {
+      "text": "整词作为外来借词独立词素记忆。不凭字母外形硬拆词根。",
+      "source": "https://www.merriam-webster.com/dictionary/heshvan",
+      "status": "whole_word_with_explicit_exception"
+    },
+    "etymology": {
+      "text": "借自希伯来语月份名称 Ḥeshwān，英语写作 Heshvan。把它和犹太历一起记，而不要按公历月份机械对号。",
+      "source": "https://www.merriam-webster.com/dictionary/heshvan",
+      "status": "based_on_offline_origin"
+    },
+    "relations": [
+      {
+        "type": "上位词",
+        "word": "month",
+        "meaning": "月份"
+      },
+      {
+        "type": "所属体系",
+        "word": "Jewish calendar",
+        "meaning": "犹太历"
+      }
+    ],
+    "usage_note": "犹太历民用年的第二个月、宗教年的第八个月。月份名称首字母大写；与公历月份不是固定的一一对应关系。",
+    "sources": [
+      {
+        "label": "离线词典事实摘要",
+        "url": "https://www.merriam-webster.com/dictionary/heshvan",
+        "path": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet-digest.json",
+        "localPath": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet-digest.json",
+        "entry": "heshvan"
+      },
+      {
+        "label": "BNC/COCA目录词族与频次",
+        "path": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet.json",
+        "localPath": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet.json",
+        "entryId": "bnc-coca-25k-w00903"
+      }
+    ],
+    "sentence": "The calendar marks the beginning of Heshvan this week.",
+    "translation": "日历标明本周进入赫舍汪月。",
+    "scenario": "你在犹太历日历上查看一个月份的名称。",
+    "cloze": "The calendar marks the beginning of _____ this week.",
+    "cloze_answer": "Heshvan",
+    "collocation": "the beginning of Heshvan 赫舍汪月的开始\na letter dated in Heshvan 注明赫舍汪月日期的信",
+    "context_hint": "Look at the calendar system used to name the month.",
+    "hint": "Look at the calendar system used to name the month.",
+    "teaching": {
+      "contrast": "犹太历民用年的第二个月、宗教年的第八个月。月份名称首字母大写；与公历月份不是固定的一一对应关系。",
+      "sentence": "The archivist dated the letter to Heshvan in the Jewish calendar.",
+      "translation": "档案员确定这封信的日期在犹太历赫舍汪月。"
+    },
+    "comprehension_check": {
+      "sentence": "The Jewish calendar on the wall shows the month of Heshvan.",
+      "question": "句中 Heshvan 表示哪一种意思？",
+      "reference": "赫舍汪月（犹太历月份）",
+      "answers": [],
+      "known_wrong": [],
+      "wrong_reason": "赫舍汪月（犹太历月份），与“一月（公历月份）”不同。犹太历民用年的第二个月、宗教年的第八个月。月份名称首字母大写；与公历月份不是固定的一一对应关系。",
+      "supplement_grading": true,
+      "version": "B03",
+      "fields": [
+        {
+          "id": "choice",
+          "label": "句中目标词表示（赫舍汪月（犹太历月份）／一月（公历月份））",
+          "answers": [
+            "赫舍汪月（犹太历月份）"
+          ],
+          "wrong_reason": "赫舍汪月（犹太历月份），与“一月（公历月份）”不同。犹太历民用年的第二个月、宗教年的第八个月。月份名称首字母大写；与公历月份不是固定的一一对应关系。"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "pos": "n. 专有名词",
+        "phonetic": "/ˈheʃvɑːn/",
+        "meaning_zh": "赫舍汪月：犹太历宗教年中的第八月、民用年中的第二月，通常在公历十月至十一月间",
+        "meaning_en": "The eighth month of the Jewish religious year and the second month of the Jewish civil year, usually falling in October–November.",
+        "english_definition": "Heshvan is a month in the Jewish calendar that comes after Tishri and before Kislev.",
+        "collocation_en": "the month of Heshvan; the first of Heshvan",
+        "collocation_zh": "赫舍汪月；赫舍汪月初一",
+        "sentence_en": "The anniversary falls on the tenth of Heshvan.",
+        "sentence_zh": "这个周年纪念日是在赫舍汪月初十。"
+      }
+    ],
+    "etymology_story": {
+      "zh": "借自希伯来语 Ḥeshwān，是较长月份名称 Marḥeshwān 的缩略形式。较长名称最终源于阿卡德语中意为“第八个月”的表达，反映了以尼散月为首月的月份次序。",
+      "en": "Heshvan comes from Hebrew Ḥeshwān, a shortened form of the longer month name Marḥeshwān. The longer name ultimately derives from an Akkadian expression meaning “eighth month,” reflecting the sequence that begins with Nisan."
+    },
+    "morphology_enriched": {
+      "zh": "现代构词：Heshvan 是整体借入的月份专名，首字母大写，没有可按现代英语拆解的词根和词缀，也没有常用派生词族。Cheshvan、Ḥeshvan 是转写变体；Marcheshvan、Marheshvan 是较长形式，不是英语前缀加词根的产物。",
+      "en": "Modern structure: Heshvan is a borrowed month name, capitalized and not divisible into productive English roots and affixes; it has no common derivational family. Cheshvan and Ḥeshvan are transliteration variants, while Marcheshvan and Marheshvan represent the longer name rather than English prefixation."
+    },
+    "synonyms_and_nuances": {
+      "zh": "Cheshvan 是同一月份名称的另一种转写，Marcheshvan 是较长形式；October（十月）和 November（十一月）只是它通常横跨的公历月份，并非同义词。",
+      "en": "Cheshvan is another transliteration of the same name, and Marcheshvan is its longer form. October and November are the Gregorian months it usually overlaps, not synonyms."
+    },
+    "exam_tags": [],
+    "mnemonic_anchor": {
+      "zh": "长名藏着“第八月”：宗教年数到八，民用年数到二。",
+      "en": "The longer name preserves “eighth month”: eighth in the religious year, second in the civil year."
+    }
+  },
+  {
+    "id": "bnc.bnc-coca-25k-w00909",
+    "word": "hoosegow",
+    "normalizedWord": "hoosegow",
+    "pos": "n. 名词",
+    "meaning": "监狱（美国俚语）",
+    "aliases": [
+      "hoosegow"
+    ],
+    "phonetic": "ˈhuːsɡaʊ",
+    "pronunciation": {
+      "ipa": "ˈhuːsɡaʊ",
+      "note": "依据离线词典的美式读音重拼转写为IPA。",
+      "source": "https://www.merriam-webster.com/dictionary/hoosegow",
+      "status": "transcribed_from_offline_respell"
+    },
+    "forms": "本课为n. 名词。本课练习单数或原形；不要将词表中的其他拼写直接当作屈折变化。",
+    "family": "词表相关形式：hoosegows。",
+    "morphology": {
+      "text": "整词作为外来借词独立词素记忆。不凭字母外形硬拆词根。",
+      "source": "https://www.merriam-webster.com/dictionary/hoosegow",
+      "status": "whole_word_with_explicit_exception"
+    },
+    "etymology": {
+      "text": "来自西班牙语 juzgado，原指法官团或法庭，又与 juzgar（审判）有关。进入美国英语后，它成了“监狱”的俚语称呼。",
+      "source": "https://www.merriam-webster.com/dictionary/hoosegow",
+      "status": "based_on_offline_origin"
+    },
+    "relations": [
+      {
+        "type": "同义词",
+        "word": "jail",
+        "meaning": "监狱"
+      },
+      {
+        "type": "相关词",
+        "word": "sheriff",
+        "meaning": "治安官"
+      }
+    ],
+    "usage_note": "美国俚语，常见于带诙谐口吻的叙述或西部故事。普通或正式表达用 jail；不是住宿的旅馆。",
+    "sources": [
+      {
+        "label": "离线词典事实摘要",
+        "url": "https://www.merriam-webster.com/dictionary/hoosegow",
+        "path": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet-digest.json",
+        "localPath": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet-digest.json",
+        "entry": "hoosegow"
+      },
+      {
+        "label": "BNC/COCA目录词族与频次",
+        "path": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet.json",
+        "localPath": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet.json",
+        "entryId": "bnc-coca-25k-w00909"
+      }
+    ],
+    "sentence": "The sheriff took the thief to the hoosegow.",
+    "translation": "治安官把小偷带进了监狱。",
+    "scenario": "你看一部西部电影，治安官把犯人关起来。",
+    "cloze": "The sheriff took the thief to the _____.",
+    "cloze_answer": "hoosegow",
+    "collocation": "land in the hoosegow 落得进监狱\nescape from the hoosegow 从监狱逃脱",
+    "context_hint": "Notice the arrest and the locked door.",
+    "hint": "Notice the arrest and the locked door.",
+    "teaching": {
+      "contrast": "美国俚语，常见于带诙谐口吻的叙述或西部故事。普通或正式表达用 jail；不是住宿的旅馆。",
+      "sentence": "In the old film, the hero escapes from the hoosegow at dawn.",
+      "translation": "在那部老电影里，主人公黎明时逃出了监狱。"
+    },
+    "comprehension_check": {
+      "sentence": "After the arrest, he spent the night locked in the hoosegow.",
+      "question": "句中 hoosegow 表示哪一种意思？",
+      "reference": "监狱（美国俚语）",
+      "answers": [],
+      "known_wrong": [],
+      "wrong_reason": "监狱（美国俚语），与“旅馆”不同。美国俚语，常见于带诙谐口吻的叙述或西部故事。普通或正式表达用 jail；不是住宿的旅馆。",
+      "supplement_grading": true,
+      "version": "B03",
+      "fields": [
+        {
+          "id": "choice",
+          "label": "句中目标词表示（监狱（美国俚语）／旅馆）",
+          "answers": [
+            "监狱（美国俚语）"
+          ],
+          "wrong_reason": "监狱（美国俚语），与“旅馆”不同。美国俚语，常见于带诙谐口吻的叙述或西部故事。普通或正式表达用 jail；不是住宿的旅馆。"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "pos": "n. 名词",
+        "phonetic": "/ˈhuːsɡaʊ/",
+        "meaning_zh": "监狱；拘留所（美国俚语，常带诙谐或旧式色彩）",
+        "meaning_en": "A jail or prison, in humorous or old-fashioned American slang.",
+        "english_definition": "The hoosegow is a jail, especially when someone refers to it in an informal or humorous way.",
+        "collocation_en": "in the hoosegow; end up in the hoosegow",
+        "collocation_zh": "在牢里；最终进了监狱",
+        "sentence_en": "He spent the night in the hoosegow after the sheriff arrested him.",
+        "sentence_zh": "他被县警长逮捕后，在拘留所里过了一夜。"
+      }
+    ],
+    "etymology_story": {
+      "zh": "源自墨西哥西班牙语 juzgado，原指法庭，与 juzgar（审判）有关，并可追溯至拉丁语 judicare（作出裁决）。进入美国英语后，词形按英语听感发生变化，含义也从司法场所转为“监狱”。",
+      "en": "Hoosegow comes from Mexican Spanish juzgado, meaning a court, related to juzgar, “to judge,” and ultimately Latin judicare. In American English, its sound and spelling were reshaped and its meaning shifted from a judicial institution to a jail."
+    },
+    "morphology_enriched": {
+      "zh": "现代构词：hoosegow 是整体借词，不能按英语字母外形拆成有意义的词根和词缀。复数为 hoosegows；没有常用派生词族。西班牙语 juzgado、juzgar 是词源关联形式，不是现代英语派生词。",
+      "en": "Modern structure: hoosegow is a borrowed base with no meaningful productive English root-and-affix division. Its plural is hoosegows, and it has no common derivational family. Spanish juzgado and juzgar are etymologically related forms, not modern English derivatives."
+    },
+    "synonyms_and_nuances": {
+      "zh": "jail（监狱、拘留所）是普通表达；prison（监狱）通常指服刑机构；slammer（班房）也是俚语，但 hoosegow 更容易让人联想到美国西部故事，语气较诙谐、旧式。",
+      "en": "Jail is the ordinary term; prison usually denotes an institution for serving sentences; slammer is also slang. Hoosegow has a more humorous, old-fashioned flavor and often evokes the American West."
+    },
+    "exam_tags": [],
+    "mnemonic_anchor": {
+      "zh": "顺着词义走：接受审判的法庭，变成关人的班房。",
+      "en": "Follow the semantic journey: the court where people are judged becomes the jail where they are held."
+    }
+  },
+  {
+    "id": "bnc.bnc-coca-25k-w00917",
+    "word": "jurat",
+    "normalizedWord": "jurat",
+    "pos": "n. 名词",
+    "meaning": "附于宣誓书的宣誓证明",
+    "aliases": [
+      "jurat"
+    ],
+    "phonetic": "ˈdʒʊræt",
+    "pronunciation": {
+      "ipa": "ˈdʒʊræt",
+      "note": "依据离线词典的美式读音重拼转写为IPA。",
+      "source": "https://www.merriam-webster.com/dictionary/jurat",
+      "status": "transcribed_from_offline_respell"
+    },
+    "forms": "本课为n. 名词。本课练习单数或原形；不要将词表中的其他拼写直接当作屈折变化。",
+    "family": "本词按整词记忆；本批词族表未列其他同族形式。",
+    "morphology": {
+      "text": "整词作为外来借词独立词素记忆。不凭字母外形硬拆词根。",
+      "source": "https://www.merriam-webster.com/dictionary/jurat",
+      "status": "whole_word_with_explicit_exception"
+    },
+    "etymology": {
+      "text": "缩自拉丁语 juratum est，意思是“已经宣誓”。这个短语后来成了宣誓书上证明宣誓情况的文字名称。",
+      "source": "https://www.merriam-webster.com/dictionary/jurat",
+      "status": "based_on_offline_origin"
+    },
+    "relations": [
+      {
+        "type": "相关文书",
+        "word": "affidavit",
+        "meaning": "宣誓书"
+      },
+      {
+        "type": "上位词",
+        "word": "certificate",
+        "meaning": "证明书"
+      }
+    ],
+    "usage_note": "法律文书术语，说明宣誓书何时、何地、在谁面前作出；jurat 指证明文字，affidavit 指宣誓书本身。",
+    "sources": [
+      {
+        "label": "离线词典事实摘要",
+        "url": "https://www.merriam-webster.com/dictionary/jurat",
+        "path": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet-digest.json",
+        "localPath": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet-digest.json",
+        "entry": "jurat"
+      },
+      {
+        "label": "BNC/COCA目录词族与频次",
+        "path": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet.json",
+        "localPath": "D:/liangmian-next/work/bnc-coca-production/batches/BNC-599/packet.json",
+        "entryId": "bnc-coca-25k-w00917"
+      }
+    ],
+    "sentence": "The clerk checked the jurat at the end of the affidavit.",
+    "translation": "办事员核对了宣誓书末尾的宣誓证明。",
+    "scenario": "办事员核对宣誓书末尾的日期、地点与见证信息。",
+    "cloze": "The clerk checked the _____ at the end of the affidavit.",
+    "cloze_answer": "jurat",
+    "collocation": "check a jurat 核对宣誓证明\na jurat template 宣誓证明模板",
+    "context_hint": "Notice the certificate attached to the sworn statement.",
+    "hint": "Notice the certificate attached to the sworn statement.",
+    "teaching": {
+      "contrast": "法律文书术语，说明宣誓书何时、何地、在谁面前作出；jurat 指证明文字，affidavit 指宣誓书本身。",
+      "sentence": "The training manual shows a jurat with spaces for the date and place.",
+      "translation": "培训手册展示了一份留有日期和地点填写栏的宣誓证明。"
+    },
+    "comprehension_check": {
+      "sentence": "The jurat recorded where and before whom the affidavit was sworn.",
+      "question": "句中 jurat 表示哪一种意思？",
+      "reference": "附于宣誓书的宣誓证明",
+      "answers": [],
+      "known_wrong": [],
+      "wrong_reason": "附于宣誓书的宣誓证明，与“解除合同的通知”不同。法律文书术语，说明宣誓书何时、何地、在谁面前作出；jurat 指证明文字，affidavit 指宣誓书本身。",
+      "supplement_grading": true,
+      "version": "B03",
+      "fields": [
+        {
+          "id": "choice",
+          "label": "句中目标词表示（附于宣誓书的宣誓证明／解除合同的通知）",
+          "answers": [
+            "附于宣誓书的宣誓证明"
+          ],
+          "wrong_reason": "附于宣誓书的宣誓证明，与“解除合同的通知”不同。法律文书术语，说明宣誓书何时、何地、在谁面前作出；jurat 指证明文字，affidavit 指宣誓书本身。"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "pos": "n. 名词",
+        "phonetic": "/ˈdʒʊræt/",
+        "meaning_zh": "宣誓证明：附于宣誓书等文件、证明宣誓或确认情况的文字",
+        "meaning_en": "A certificate recording that a document was sworn to or affirmed before an authorized official.",
+        "english_definition": "A jurat is a statement attached to an affidavit or similar document confirming that the person made an oath or affirmation before an authorized official.",
+        "collocation_en": "complete a jurat; the jurat of an affidavit",
+        "collocation_zh": "填写宣誓证明；宣誓书的宣誓证明部分",
+        "sentence_en": "The jurat recorded the date and place of the oath.",
+        "sentence_zh": "宣誓证明记录了宣誓的日期和地点。"
+      },
+      {
+        "pos": "n. 名词",
+        "phonetic": "/ˈdʒʊræt/",
+        "meaning_zh": "海峡群岛的宣誓司法官，参与法院审理的非职业法官",
+        "meaning_en": "A lay judicial officer serving in the courts of Jersey or Guernsey.",
+        "english_definition": "A jurat is a lay member of certain courts in the Channel Islands who helps decide cases.",
+        "collocation_en": "elect a jurat; serve as a jurat",
+        "collocation_zh": "选举一名宣誓司法官；担任宣誓司法官",
+        "sentence_en": "She served as a jurat in Guernsey for many years.",
+        "sentence_zh": "她曾在根西岛担任宣誓司法官多年。"
+      }
+    ],
+    "etymology_story": {
+      "zh": "宣誓证明义来自拉丁语 juratum（est），意为“已经宣誓”，原本是证明文字中的用语。官职义则与拉丁语 juratus（已宣誓的）有关；两种含义都以 jurare（宣誓）为历史基础。",
+      "en": "The certificate sense comes from Latin juratum (est), “it has been sworn,” wording used in the certification itself. The official’s title is related to Latin juratus, “sworn”; both senses ultimately rest on jurare, “to swear an oath.”"
+    },
+    "morphology_enriched": {
+      "zh": "现代构词：jurat 在英语中作为完整词干使用，不能机械拆成 jur + at。复数为 jurats；没有常用的直接派生词族。jury（陪审团）和 juror（陪审员）与它共享宣誓相关的历史来源，但不是由现代英语 jurat 派生。",
+      "en": "Modern structure: jurat functions as a complete English base and should not be mechanically divided into jur + at. Its plural is jurats, and it has no common direct derivational family. Jury and juror share its historical connection with oath-taking but are not derived from modern English jurat."
+    },
+    "synonyms_and_nuances": {
+      "zh": "attestation（证明、见证）比宣誓证明更宽泛；affidavit（宣誓书）是承载陈述的整份文件，jurat 是其中的证明部分；lay judge（非职业法官）可近似解释官职义，但不是各司法体系中完全对应的头衔。",
+      "en": "Attestation is broader than a jurat; an affidavit is the sworn document as a whole, while the jurat is its certification. Lay judge approximately explains the official’s role but is not an identical title across legal systems."
+    },
+    "exam_tags": [],
+    "mnemonic_anchor": {
+      "zh": "一个“宣誓”串起两义：纸上证明宣过誓，席上官员就职宣过誓。",
+      "en": "One oath links both senses: a written certificate of swearing, and an official sworn into office."
+    }
+  },
+  {
+    "id": "bnc.bnc-coca-25k-w01000",
+    "word": "xylonite",
+    "normalizedWord": "xylonite",
+    "pos": "n. 名词",
+    "meaning": "赛璐珞（一种早期塑料，原为商标名）",
+    "aliases": [
+      "赛璐珞"
+    ],
+    "phonetic": "ˈzaɪləˌnaɪt",
+    "pronunciation": {
+      "ipa": "ˈzaɪləˌnaɪt",
+      "note": "首音节重读；字母 x 在这里读 /z/。",
+      "source": "https://www.collinsdictionary.com/dictionary/english/xylonite",
+      "status": "source_transcribed"
+    },
+    "forms": "本课为材料名词，通常不可数：made of xylonite 用赛璐珞制成。",
+    "family": "xylonite comb 赛璐珞梳子；xylonite handle 赛璐珞柄（材料名构成的词组）。",
+    "morphology": {
+      "text": "整词作为外来借词独立词素记忆；这里沿用材料的旧商标名，不硬拆现代词根。xylonite + comb → xylonite comb（赛璐珞梳子），材料名放在物品名前作修饰语。",
+      "source": "https://www.collinsdictionary.com/dictionary/english/xylonite",
+      "status": "authored_from_lexical_facts"
+    },
+    "etymology": {
+      "text": "名称取材于希腊语 xylon，意思是“木材”，在英语中先作商标名，后用来称赛璐珞这种材料。可把“木材”联想到纤维素材料，再记住它常被制成仿象牙的旧梳子；这不是说它就是木头。",
+      "source": "https://en.wikisource.org/wiki/Chambers%27s_Twentieth_Century_Dictionary_1908/X_Xyster",
+      "status": "source_paraphrased"
+    },
+    "relations": [
+      {
+        "type": "同义词",
+        "word": "celluloid",
+        "meaning": "赛璐珞"
+      },
+      {
+        "type": "上位词",
+        "word": "plastic",
+        "meaning": "塑料"
+      },
+      {
+        "type": "相关词",
+        "word": "ivory",
+        "meaning": "象牙（旧物可用赛璐珞仿制其外观）"
+      }
+    ],
+    "usage_note": "这是旧材料名称，常见于早期工业和古董的介绍。材料义通常小写 xylonite；专指原商标时可见 Xylonite。它可仿琥珀、珊瑚或玳瑁外观，不是这些天然材料本身。",
+    "sources": [
+      {
+        "label": "本批脱水事实：词条身份、释义、原商标名",
+        "path": "D:\\liangmian-next\\work\\bnc-coca-production\\batches\\BNC-600\\packet-digest.json",
+        "url": "https://www.merriam-webster.com/dictionary/xylonite",
+        "entryId": "bnc-coca-25k-w01000"
+      },
+      {
+        "label": "BNC/COCA 目录词形与频次",
+        "path": "D:\\liangmian-next\\work\\bnc-coca-production\\batches\\BNC-600\\packet.json",
+        "entryId": "bnc-coca-25k-w01000"
+      },
+      {
+        "label": "作者补查 Collins：完整 IPA、材料义与物品用途",
+        "path": "D:\\liangmian-next\\work\\bnc-coca-production\\batches\\BNC-600\\packet-digest.json",
+        "url": "https://www.collinsdictionary.com/dictionary/english/xylonite",
+        "localPathScope": "此路径为原始脱水事实；补查网页未另存快照"
+      },
+      {
+        "label": "作者补查 Chambers 1908 原词典：希腊语 xylon，木材",
+        "path": "D:\\liangmian-next\\work\\bnc-coca-production\\batches\\BNC-600\\packet-digest.json",
+        "url": "https://en.wikisource.org/wiki/Chambers%27s_Twentieth_Century_Dictionary_1908/X_Xyster",
+        "localPathScope": "此路径为原始脱水事实；补查原词典转录页未另存快照"
+      }
+    ],
+    "sentence": "The museum label says that this old comb is made of xylonite.",
+    "translation": "博物馆的标签说，这把旧梳子是用赛璐珞制成的。",
+    "scenario": "参观博物馆时，阅读旧梳子的材料说明。",
+    "cloze": "The museum label says that this old comb is made of _____.",
+    "cloze_answer": "xylonite",
+    "collocation": "identify a xylonite comb 鉴别一把赛璐珞梳子\nmanufacture xylonite sheets 生产赛璐珞片材",
+    "context_hint": "Look for the material named after made of.",
+    "hint": "Look for the material named after made of.",
+    "teaching": {
+      "contrast": "xylonite 指一种具体的早期塑料，plastic 是更宽泛的材料类别；它可以仿玳瑁外观，却不是天然玳瑁。",
+      "sentence": "The factory used xylonite to make handles for umbrellas.",
+      "translation": "这家工厂用赛璐珞制作雨伞的手柄。"
+    },
+    "comprehension_check": {
+      "sentence": "Although the comb looked like tortoiseshell, it was actually made of xylonite.",
+      "question": "请选择句中 xylonite 的意思。",
+      "reference": "人造塑料材料",
+      "answers": [],
+      "known_wrong": [],
+      "wrong_reason": "looked like 表示只是外观相似；actually made of 说明真正的材质是赛璐珞这种人造塑料，不是天然玳瑁。",
+      "supplement_grading": true,
+      "version": "B03",
+      "fields": [
+        {
+          "id": "choice",
+          "label": "句中目标词表示（人造塑料材料／天然玳瑁材料）",
+          "answers": [
+            "人造塑料材料"
+          ],
+          "wrong_reason": "两项都是材料类别；句子用 although 与 actually 对比外观和真实材质，所指是人造的赛璐珞。"
+        }
+      ]
+    },
+    "isLoanword": true,
+    "senses": [
+      {
+        "pos": "n. 名词",
+        "phonetic": "/ˈzaɪlənaɪt/",
+        "meaning_zh": "赛璐珞；一种主要由硝酸纤维素和樟脑制成的早期塑料，名称原为商标",
+        "meaning_en": "An early celluloid plastic made chiefly from cellulose nitrate and camphor, originally sold under a trademark.",
+        "english_definition": "Xylonite is an early plastic that was used to make objects such as combs and could be made to look like ivory.",
+        "collocation_en": "xylonite comb; xylonite handles",
+        "collocation_zh": "赛璐珞梳子；赛璐珞手柄",
+        "sentence_en": "The antique comb is made of xylonite and resembles ivory.",
+        "sentence_zh": "这把古董梳子由赛璐珞制成，外观酷似象牙。"
+      }
+    ],
+    "etymology_story": {
+      "zh": "Xylonite 原为一种早期赛璐珞塑料的商标名，名称以希腊语 xylon（木材）为基础，加上材料名称中常见的后缀 -ite 构成。该名称后来也用作材料通称，其中“木材”的联想与纤维素有关，并不表示成品就是木头。",
+      "en": "Xylonite began as a trademark for an early celluloid plastic, with a name formed from Greek xylon, meaning “wood,” and the material-naming suffix -ite. It subsequently also became a common material name; the reference to wood suggests cellulose rather than implying that the finished plastic is wood."
+    },
+    "morphology_enriched": {
+      "zh": "历史命名结构为 xylon-（木材）+ -ite（用于材料等名称的后缀）；现代英语中通常把 xylonite 作为完整的、不可数的材料名使用，没有常用的派生词族。Xylonite 是商标形式的大写拼写；xylonite comb 等组合中的 xylonite 是名词作前置修饰语，不构成独立的形容词词性。",
+      "en": "The historical naming structure is xylon- (“wood”) + -ite, a suffix used in names of materials and other substances. In modern English, xylonite functions as a whole, uncountable material noun and has no established common derivative family; Xylonite is the capitalized trademark form, and its use in xylonite comb is attributive noun use rather than a separate adjective."
+    },
+    "synonyms_and_nuances": {
+      "zh": "celluloid（赛璐珞）是最接近的通用名称，xylonite 则带有特定商标和历史用语色彩；Parkesine（帕克辛塑料）是另一种早期硝酸纤维素塑料的名称，与 xylonite 属于相关材料，但不能在所有历史语境中互换。",
+      "en": "Celluloid is the closest generic equivalent, while xylonite carries a particular trademark history and a historical register. Parkesine names another early cellulose-nitrate plastic and is a related material term rather than an interchangeable name in every historical context."
+    },
+    "exam_tags": [],
+    "mnemonic_anchor": {
+      "zh": "xylon“木材”→ 纤维素 → 早期塑料：想象一把看似象牙的赛璐珞旧梳子。",
+      "en": "Xylon means “wood”: connect wood with cellulose, then picture an old celluloid comb that looks like ivory."
+    }
+  }
+]
