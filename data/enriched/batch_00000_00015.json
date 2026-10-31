@@ -1,0 +1,1723 @@
+[
+  {
+    "aliases": [
+      "可用",
+      "可以使用",
+      "可获得",
+      "可利用",
+      "可得到",
+      "可使用的",
+      "可获得的"
+    ],
+    "alternatives": {},
+    "cloze": "This room is _____ from Monday.",
+    "collocation": "be available for use 可供使用",
+    "comprehension_check": {
+      "answers": [
+        "不能，表示可以使用，不表示免费",
+        "不支持，表示可以使用，不表示免费",
+        "不支持，房间可以使用，但每小时要付4英镑",
+        "不能，三点后有可用的房间，每小时4英镑",
+        "不支持。available 说明三点后有可供使用的自习室，并不表示免费；这里每小时收费四英镑。"
+      ],
+      "known_wrong": [
+        "免费",
+        "表示免费",
+        "支持，因为是免费的"
+      ],
+      "question": "同学说“available 表示不用付钱”。这两句话支持他的判断吗？用中文说明 available 告诉了你什么。",
+      "reference": "不支持。available 说明三点后有可供使用的自习室，并不表示免费；这里每小时收费四英镑。",
+      "sentence": "Two study rooms are available after 3 p.m. Each costs £4 an hour.",
+      "version": "B03",
+      "wrong_reason": "available 说明可供使用；句中每小时四英镑的价格表明这里需要付费。"
+    },
+    "context_hint": "留意 from Monday，它限定了这间房的状态从何时开始。",
+    "etymology": {
+      "source": "https://www.collinsdictionary.com/dictionary/english/available",
+      "text": "Collins 将 available 记为晚期中古英语形式，并关联 avail 与 -able；这一历史记录不能代替现代语境释义。"
+    },
+    "family": "availability 可用性",
+    "forms": "形容词没有名词复数或动词时态变化。需要比较可获得程度时用 more / most available，不用 availabler。",
+    "hint": "be available for use 可供使用",
+    "id": "available.adj.1",
+    "meaning": "可获得的；可使用的",
+    "morphology": {
+      "category": "现代构词提示",
+      "source": "https://www.collinsdictionary.com/dictionary/english/available",
+      "text": "avail 与 -able 有构词联系，-able 是形容词后缀；available 的现代“可获得、可使用”义仍须整体记。availability 是相应名词，不能从结构推出“免费”。"
+    },
+    "needs_context": false,
+    "phonetic": "əˈveɪləbəl",
+    "pos": "adj. 形容词",
+    "pronunciation": {
+      "dialect": "en-GB",
+      "ipa": "əˈveɪləbəl",
+      "label": "英式",
+      "note": "这里采用完整的 /əl/ 写法；词典也用弱读 ə 的排版表示末尾音节。所查词条英美主要标音相同。",
+      "source": "https://dictionary.cambridge.org/dictionary/english/available"
+    },
+    "question": "这个句子中，available 是什么意思？用一句简短中文说明。",
+    "relations": [
+      {
+        "meaning": "可获得性；可用性",
+        "type": "派生词",
+        "word": "availability"
+      },
+      {
+        "meaning": "可供使用",
+        "type": "搭配",
+        "word": "available for use"
+      }
+    ],
+    "scenario": "你想预约自习室。管理员说从周一开始可以使用，重点是房间能否供你使用，以及何时能用；价格需要另外确认。",
+    "sentence": "This room is available from Monday.",
+    "source": {
+      "entryId": "coca-heads-band-02-25-w00046",
+      "location": "coca_heads(02).txt line 46",
+      "originalPos": "s",
+      "teaching": "原有 B03 讲解和理解题完整保留；B09 补充用法、形式、发音和关系。词典仅用于核实指定词义、用法、发音及构词/词源；中文说明为原创概述，不是词典逐段译文；其他义项只作边界提示，不算已教。",
+      "wordbook": "D:/dc-coca-bnc/data/wordbooks/coca-heads-band-02-25/groups/group-001.json"
+    },
+    "sources": [
+      {
+        "label": "Cambridge · available",
+        "url": "https://dictionary.cambridge.org/dictionary/english/available"
+      },
+      {
+        "label": "Collins · available",
+        "url": "https://www.collinsdictionary.com/dictionary/english/available"
+      }
+    ],
+    "teaching": {
+      "contrast": "available 表示能获得或使用。它本身不说明是否免费；看到价格或 free of charge，才能判断是否收费。",
+      "sentence": "Tickets are available online for ten pounds.",
+      "source": "https://dictionary.cambridge.org/us/dictionary/learner-english/available",
+      "translation": "网上可以买到票，票价十英镑。这里能买到，同时仍要付钱。"
+    },
+    "translation": "这间房从星期一起可以使用。",
+    "usage_note": "中性常用语。be available for use 表示可供使用，available from Monday 表示周一起可用；也可说 tickets available online。形容人有空是相关用法，本课只考物品或空间可获得、可使用，不包含“免费”。",
+    "word": "available",
+    "english_definition": "If something is available, you can get it or use it when you need it.",
+    "synonyms_and_nuances": "obtainable, accessible：available 强调实际有东西可供获取或使用，obtainable 强调能够设法得到，accessible 强调能够接近、进入或使用。",
+    "exam_tags": [
+      "高考",
+      "CET4",
+      "考研",
+      "IELTS",
+      "CEFR-A2"
+    ],
+    "mnemonic_anchor": "把 available 整体连到“现在有、可以用”：它与 avail 有构词联系，-able 是形容词后缀，但不能据此推出“免费”。availability 表示这种“可获得性、可用性”。"
+  },
+  {
+    "aliases": [
+      "借",
+      "借用",
+      "借入",
+      "向别人借",
+      "借来"
+    ],
+    "alternatives": {},
+    "cloze": "Can I _____ your laptop for an hour?",
+    "collocation": "borrow something from someone 向某人借某物",
+    "comprehension_check": {
+      "answers": [
+        "Lena借用Omar的充电器，今晚归还",
+        "Lena向Omar借充电器，晚上还给他",
+        "Lena借了Omar的充电器，之后会归还",
+        "Lena在用Omar的充电器，今晚会还给Omar",
+        "Lena 借用了 Omar 的充电器，今晚会把充电器还给 Omar。Lena 是借入的一方，Omar 是借出的一方。"
+      ],
+      "known_wrong": [
+        "Omar向Lena借充电器，今晚归还",
+        "Omar借用Lena的充电器，今晚归还"
+      ],
+      "question": "现在是谁在借用谁的充电器？之后要做什么？用中文说明，人名可以保留英文。",
+      "reference": "Lena 借用了 Omar 的充电器，今晚会把充电器还给 Omar。Lena 是借入的一方，Omar 是借出的一方。",
+      "sentence": "Lena borrowed a charger from Omar and will give it back tonight.",
+      "version": "B03",
+      "wrong_reason": "主语 Lena 是借入的人；from Omar 说明东西从 Omar 那里借来，今晚由 Lena 归还。"
+    },
+    "context_hint": "留意 for an hour，以及电脑最初属于谁。",
+    "etymology": {
+      "source": "https://www.merriam-webster.com/dictionary/borrow",
+      "text": "经中古英语 borwen，追溯到古英语 borgian。这里仅说明历史来源，不由古词拼写推出现代借用条件。"
+    },
+    "family": "borrower 借用者；对照 lend 借出",
+    "forms": "第三人称单数 borrows；过去式、过去分词 borrowed；现在分词 borrowing。borrower 是“借用者”，不是动词时态。",
+    "hint": "borrow something from someone 向某人借某物",
+    "id": "borrow.v.1",
+    "meaning": "借入；借用",
+    "morphology": {
+      "category": "现代构词提示",
+      "source": "https://www.merriam-webster.com/dictionary/borrow",
+      "text": "borrow 作为词基；borrow + -er → borrower，表示借入的人。borrow 本身不按 bor + row 拆义，row 的独立词义不能解释“借入”。"
+    },
+    "needs_context": false,
+    "phonetic": "ˈbɒrəʊ",
+    "pos": "v. 动词（借物时通常及物）",
+    "pronunciation": {
+      "dialect": "en-GB",
+      "ipa": "ˈbɒrəʊ",
+      "label": "英式",
+      "note": "英式 /ɒ/、/əʊ/；所查美式读音为 /ˈbɑːroʊ/。",
+      "source": "https://dictionary.cambridge.org/dictionary/english/borrow"
+    },
+    "question": "这个句子中，borrow 是什么意思？用一句简短中文说明。",
+    "relations": [
+      {
+        "meaning": "借用者；借入者",
+        "type": "派生词",
+        "word": "borrower"
+      },
+      {
+        "meaning": "借出；从物主的角度说",
+        "type": "对照词",
+        "word": "lend"
+      }
+    ],
+    "scenario": "你的电脑正在维修，想把室友的电脑拿来用一小时，再还给室友。从拿来使用的人的角度说，这个动作是 borrow。",
+    "sentence": "Can I borrow your laptop for an hour?",
+    "source": {
+      "entryId": "coca-heads-band-02-25-w00562",
+      "location": "coca_heads(02).txt line 562",
+      "originalPos": "v/vt/vi",
+      "teaching": "原有 B03 讲解和理解题完整保留；B09 补充用法、形式、发音和关系。词典仅用于核实指定词义、用法、发音及构词/词源；中文说明为原创概述，不是词典逐段译文；其他义项只作边界提示，不算已教。",
+      "wordbook": "D:/dc-coca-bnc/data/wordbooks/coca-heads-band-02-25/groups/group-012.json"
+    },
+    "sources": [
+      {
+        "label": "Cambridge · borrow",
+        "url": "https://dictionary.cambridge.org/dictionary/english/borrow"
+      },
+      {
+        "label": "Merriam-Webster · borrow",
+        "url": "https://www.merriam-webster.com/dictionary/borrow"
+      },
+      {
+        "label": "Cambridge · borrow-or-lend",
+        "url": "https://dictionary.cambridge.org/grammar/british-grammar/borrow-or-lend"
+      }
+    ],
+    "teaching": {
+      "contrast": "borrow 是向别人借入，lend 是借给别人。看主语是谁：拿来使用的一方 borrow，暂时交出去的一方 lend。",
+      "sentence": "Mia lends me her bike, so I borrow it from Mia.",
+      "source": "https://dictionary.cambridge.org/grammar/british-grammar/borrow-or-lend",
+      "translation": "Mia 把自行车借给我，也就是我向 Mia 借入自行车。同一次借用，从两个人的角度来表达。"
+    },
+    "translation": "我能借用你的笔记本电脑一小时吗？",
+    "usage_note": "中性常用语。borrow something from someone：向某人借入某物，通常打算归还；lend something to someone 是从借出者角度说。不能用 borrow me a pen 表达本课标准英语的“借给我一支笔”。",
+    "word": "borrow",
+    "english_definition": "If you borrow something, you take and use it with its owner's permission and intend to return it later.",
+    "synonyms_and_nuances": "take on loan, check out：borrow 泛指暂时借入，take on loan 更明确地强调借用安排，check out 在此义下主要指办理手续借出图书等物品。",
+    "exam_tags": [
+      "中考",
+      "高考",
+      "CET4",
+      "CEFR-A2"
+    ],
+    "mnemonic_anchor": "把 borrow 整体记成“从别人那里借进来”，用 borrow from 固定借入方向；borrow 加 -er 成为 borrower，即借入者。不要拆成 bor 和 row 来解释。"
+  },
+  {
+    "aliases": [
+      "预算",
+      "预算金额"
+    ],
+    "alternatives": {},
+    "cloze": "My weekly food _____ is fifty dollars.",
+    "collocation": "on a tight budget 预算紧张",
+    "comprehension_check": {
+      "answers": [
+        "计划可花的120英镑",
+        "计划可花的钱",
+        "预算是120英镑，不是已经花的90英镑",
+        "计划用于旅行的一百二十英镑",
+        "budget 指计划可用于旅行的一百二十英镑；九十英镑是目前已经花掉的钱。"
+      ],
+      "known_wrong": [
+        "已经花掉的90英镑",
+        "目前已经花掉的钱",
+        "90英镑"
+      ],
+      "question": "这次旅行的 budget 是哪笔金额：计划可花的钱，还是目前已经花掉的钱？用中文说明。",
+      "reference": "budget 指计划可用于旅行的一百二十英镑；九十英镑是目前已经花掉的钱。",
+      "sentence": "Our budget for the trip is £120. We have spent £90 so far.",
+      "version": "B03",
+      "wrong_reason": "budget 在这里是预先安排的 £120；£90 是已经发生的支出。"
+    },
+    "context_hint": "想想 weekly food 与 fifty dollars 的关系：这是花钱前作的安排。",
+    "etymology": {
+      "source": "https://www.merriam-webster.com/dictionary/budget",
+      "text": "中古英语 bowgette 来自法语 bougette，原与小皮袋有关；现代预算义不能按 bud + get 的英语字面来解释。"
+    },
+    "family": "budgeting 编制预算",
+    "forms": "复数 budgets。budgeted / budgeting 属于动词 budget“编制预算”的形式，不是本课名词的屈折形式。",
+    "hint": "on a tight budget 预算紧张",
+    "id": "budget.n.1",
+    "meaning": "预算",
+    "morphology": {
+      "category": "现代构词说明",
+      "source": "https://www.merriam-webster.com/dictionary/budget",
+      "text": "budget 在本课作为完整词基；末尾 get 不是“得到”的独立构词成分。budgeting 来自动词用法，不能当作预算名词的复数。"
+    },
+    "needs_context": false,
+    "phonetic": "ˈbʌdʒɪt",
+    "pos": "n. 名词（可数）",
+    "pronunciation": {
+      "dialect": "en-GB",
+      "ipa": "ˈbʌdʒɪt",
+      "label": "英式",
+      "note": "统一用 dʒ 表示塞擦音；旧写法 ʤ 是连字，本身不代表另一个读音。主要英美标音均为 /ˈbʌdʒɪt/。",
+      "source": "https://dictionary.cambridge.org/dictionary/english/budget"
+    },
+    "question": "这个句子中，budget 是什么意思？用一句简短中文说明。",
+    "relations": [
+      {
+        "meaning": "多个预算；名词复数",
+        "type": "屈折形式",
+        "word": "budgets"
+      },
+      {
+        "meaning": "编制预算；不计为本课名词义已掌握",
+        "type": "另一义项",
+        "word": "budget (v.)"
+      }
+    ],
+    "scenario": "安排这一周的伙食时，你先决定可花五十美元。这是留给伙食的预算额度；一周结束后实际花了多少，要看支出记录。",
+    "sentence": "My weekly food budget is fifty dollars.",
+    "source": {
+      "entryId": "coca-heads-band-03-25-w00088",
+      "location": "coca_heads(03).txt line 88",
+      "originalPos": "n/v/vi/vt",
+      "teaching": "原有 B03 讲解和理解题完整保留；B09 补充用法、形式、发音和关系。词典仅用于核实指定词义、用法、发音及构词/词源；中文说明为原创概述，不是词典逐段译文；其他义项只作边界提示，不算已教。",
+      "wordbook": "D:/dc-coca-bnc/data/wordbooks/coca-heads-band-03-25/groups/group-002.json"
+    },
+    "sources": [
+      {
+        "label": "Cambridge · budget",
+        "url": "https://dictionary.cambridge.org/dictionary/english/budget"
+      },
+      {
+        "label": "Merriam-Webster · budget",
+        "url": "https://www.merriam-webster.com/dictionary/budget"
+      }
+    ],
+    "teaching": {
+      "contrast": "这里的 budget 是计划可支出的金额。实际支出可以低于、等于或超过它，不能只看已经花了多少钱来判断预算。",
+      "sentence": "Our budget is £80, but we spent only £65.",
+      "source": "https://dictionary.cambridge.org/dictionary/english/budget",
+      "translation": "我们的预算是八十英镑，但实际只花了六十五英镑。预算和已花金额是两件事。"
+    },
+    "translation": "我每周的伙食预算是五十美元。",
+    "usage_note": "日常和财务语境均常用。a budget for food / a food budget 是伙食预算；on a tight budget 表示可花的钱有限。本课是计划可支出的额度，不是已经发生的支出。",
+    "word": "budget",
+    "english_definition": "A budget is a plan that shows how much money you have and how you intend to spend it over a particular period.",
+    "synonyms_and_nuances": "spending plan, allowance：budget 强调整体收支安排或支出限额，spending plan 直指花钱的计划，allowance 则通常是获准使用或定期领取的一笔钱。",
+    "exam_tags": [
+      "高考",
+      "CET4",
+      "考研",
+      "IELTS",
+      "CEFR-B2"
+    ],
+    "mnemonic_anchor": "把 budget 整体想成“先给钱安排去向”的预算表，on a tight budget 就是可支配的钱很紧。budgeting 是动词 budget 加 -ing，表示编制预算，不是名词复数。"
+  },
+  {
+    "aliases": [
+      "通勤",
+      "上下班",
+      "往返上下班",
+      "往返工作地点"
+    ],
+    "alternatives": {},
+    "cloze": "Many students _____ to their part-time jobs by bus.",
+    "collocation": "commute to work 通勤上班",
+    "comprehension_check": {
+      "answers": [
+        "每个工作日从家去医院上班",
+        "每天从家到医院工作，规律往返",
+        "去医院上班，因为定期往返家和工作地点",
+        "工作日定期往返家和医院上班",
+        "每个工作日从家去医院上班的行程。它连接住处与工作地点，而且规律重复；每年去海边游玩是另一种出行。"
+      ],
+      "known_wrong": [
+        "每年去海边旅游",
+        "去海边度假",
+        "所有出行"
+      ],
+      "question": "哪段行程可以用 commute 描述？用中文说明它的两个特点。",
+      "reference": "每个工作日从家去医院上班的行程。它连接住处与工作地点，而且规律重复；每年去海边游玩是另一种出行。",
+      "sentence": "Nora travels from home to the hospital for work every weekday. She visits a seaside town once a year.",
+      "version": "B03",
+      "wrong_reason": "这里考查规律往返家和工作地点的行程，即工作日去医院上班。海边游玩不符合这个场景。"
+    },
+    "context_hint": "留意 by bus，以及学生的住处和兼职地点这两个地方。",
+    "etymology": {
+      "source": "https://www.merriam-webster.com/dictionary/commute",
+      "text": "历史上来自拉丁语 commutare，意为改变、交换，由 com- 与 mutare 构成；这条线索不能直接推出今天的通勤义。"
+    },
+    "family": "commuter 通勤者",
+    "forms": "第三人称单数 commutes；过去式、过去分词 commuted；现在分词 commuting（去末尾 e 加 -ing）。",
+    "hint": "commute to work 通勤上班",
+    "id": "commute.v.1",
+    "meaning": "通勤；定期往返于家和工作地点",
+    "morphology": {
+      "category": "现代构词提示",
+      "source": "https://www.merriam-webster.com/dictionary/commute",
+      "text": "commute → commuter，用 -er 表示通勤者，拼写只保留一个 e。不能用现代英语 mute“静音”去解释 commute。"
+    },
+    "needs_context": false,
+    "phonetic": "kəˈmjuːt",
+    "pos": "v. 动词（本义不及物）",
+    "pronunciation": {
+      "dialect": "en-GB",
+      "ipa": "kəˈmjuːt",
+      "label": "英式",
+      "note": "重音在第二音节；此处英美主要标音相同。",
+      "source": "https://dictionary.cambridge.org/dictionary/english/commute"
+    },
+    "question": "这个句子中，commute 是什么意思？用一句简短中文说明。",
+    "relations": [
+      {
+        "meaning": "通勤者",
+        "type": "派生词",
+        "word": "commuter"
+      },
+      {
+        "meaning": "通勤上班",
+        "type": "搭配",
+        "word": "commute to work"
+      }
+    ],
+    "scenario": "这些学生住在一个地方，定期乘公交去另一个地方做兼职，再回到住处。commute 把这种住处与工作地点之间的规律往返说出来。",
+    "sentence": "Many students commute to their part-time jobs by bus.",
+    "source": {
+      "entryId": "coca-heads-band-04-25-w00701",
+      "location": "coca_heads(04).txt line 701",
+      "originalPos": "n/v/vt/vi",
+      "teaching": "原有 B03 讲解和理解题完整保留；B09 补充用法、形式、发音和关系。词典仅用于核实指定词义、用法、发音及构词/词源；中文说明为原创概述，不是词典逐段译文；其他义项只作边界提示，不算已教。",
+      "wordbook": "D:/dc-coca-bnc/data/wordbooks/coca-heads-band-04-25/groups/group-015.json"
+    },
+    "sources": [
+      {
+        "label": "Cambridge · commute",
+        "url": "https://dictionary.cambridge.org/dictionary/english/commute"
+      },
+      {
+        "label": "Merriam-Webster · commute",
+        "url": "https://www.merriam-webster.com/dictionary/commute"
+      }
+    ],
+    "teaching": {
+      "contrast": "这一用法看两个关键点：家与工作地点之间，以及规律往返。乘什么交通工具不是关键；一次度假出行不能仅因路远就叫 commute。",
+      "sentence": "I commute by bike on weekdays; I travel to the coast for holidays.",
+      "source": "https://dictionary.cambridge.org/us/dictionary/english/commute",
+      "translation": "工作日我骑车通勤；假期我去海边旅行。都是出行，但用途与规律不同。"
+    },
+    "translation": "很多学生乘公交往返于住处和兼职工作地点。",
+    "usage_note": "中性常用语。commute from home to work / commute to work / commute by bus。此课限定规律往返住处和工作地点；交通工具与路程长短本身不决定是否是通勤。",
+    "word": "commute",
+    "english_definition": "If you commute, you regularly travel between your home and your place of work.",
+    "synonyms_and_nuances": "travel to work, shuttle：commute 强调家与工作地点之间的规律往返，travel to work 只说明去上班的行程，shuttle 强调两地间反复往返而不限于上下班。",
+    "exam_tags": [
+      "CET6",
+      "IELTS",
+      "TOEFL",
+      "CEFR-B2"
+    ],
+    "mnemonic_anchor": "把 commute 整体绑定“家—单位”的固定往返路线，不用 mute“静音”解释。加表示人的 -er 时去掉词尾 e，得到 commuter“通勤者”。"
+  },
+  {
+    "aliases": [
+      "押金",
+      "预付的押金"
+    ],
+    "alternatives": {},
+    "cloze": "You must pay a refundable security _____ before moving into the flat.",
+    "collocation": "pay a deposit 支付押金",
+    "comprehension_check": {
+      "answers": [
+        "40英镑是押金，车完好归还就退；12英镑是每天的租用费",
+        "四十英镑是押金，完好还车后退回，十二英镑是租金",
+        "押金是40英镑，完好归还自行车会退，租用费每天12英镑",
+        "四十英镑是押金，车子完好归还时会退回；每天十二英镑是使用自行车的租用费。"
+      ],
+      "known_wrong": [
+        "每天12英镑",
+        "12英镑是押金",
+        "租用费"
+      ],
+      "question": "哪笔钱是 deposit？它和每天十二英镑的租用费有什么不同？请把退还条件也说出来。",
+      "reference": "四十英镑是押金，车子完好归还时会退回；每天十二英镑是使用自行车的租用费。",
+      "sentence": "The bike hire costs £12 a day. You also pay a £40 deposit, returned if you bring the bike back undamaged.",
+      "version": "B03",
+      "wrong_reason": "£40 是保障用的押金，完好还车时退还；£12 是每天的租用费。"
+    },
+    "context_hint": "留意 refundable，以及搬入公寓之前这个时间点。",
+    "etymology": {
+      "source": "https://www.merriam-webster.com/dictionary/deposit",
+      "text": "词源追溯到拉丁语 depositus，是 deponere 的过去分词。历史词形与今天“押金是否可退”的条件是两件事。"
+    },
+    "family": "deposit money 存钱（另一用法）",
+    "forms": "押金义的复数为 deposits。deposited / depositing 是动词 deposit 的形式，不能替代此处名词。",
+    "hint": "pay a deposit 支付押金",
+    "id": "deposit.n.1",
+    "meaning": "押金",
+    "morphology": {
+      "category": "现代构词说明",
+      "source": "https://www.merriam-webster.com/dictionary/deposit",
+      "text": "本课把 deposit 作为完整名词词基，不按 de- + posit 的现代字面拼义来定义押金。银行存款与租赁押金须靠语境区分。"
+    },
+    "needs_context": true,
+    "phonetic": "dɪˈpɒzɪt",
+    "pos": "n. 名词（此处可数）",
+    "pronunciation": {
+      "dialect": "en-GB",
+      "ipa": "dɪˈpɒzɪt",
+      "label": "英式",
+      "note": "英式重读元音 /ɒ/；所查美式为 /dɪˈpɑːzɪt/。",
+      "source": "https://dictionary.cambridge.org/dictionary/english/deposit"
+    },
+    "question": "这个句子中，deposit 是什么意思？用一句简短中文说明。",
+    "relations": [
+      {
+        "meaning": "租赁保障押金",
+        "type": "搭配",
+        "word": "security deposit"
+      },
+      {
+        "meaning": "把钱存入银行；动词用法",
+        "type": "另一义项",
+        "word": "deposit money"
+      }
+    ],
+    "scenario": "入住前，房东要求先交一笔保障款。句中的 refundable security deposit 明确说的是可退还的押金；能否退还还要看约定条件。",
+    "sentence": "You must pay a refundable security deposit before moving into the flat.",
+    "source": {
+      "entryId": "coca-heads-band-03-25-w00788",
+      "location": "coca_heads(03).txt line 788",
+      "originalPos": "n/vt/vi",
+      "teaching": "原有 B03 讲解和理解题完整保留；B09 补充用法、形式、发音和关系。词典仅用于核实指定词义、用法、发音及构词/词源；中文说明为原创概述，不是词典逐段译文；其他义项只作边界提示，不算已教。",
+      "wordbook": "D:/dc-coca-bnc/data/wordbooks/coca-heads-band-03-25/groups/group-016.json"
+    },
+    "sources": [
+      {
+        "label": "Cambridge · deposit",
+        "url": "https://dictionary.cambridge.org/dictionary/english/deposit"
+      },
+      {
+        "label": "Merriam-Webster · deposit",
+        "url": "https://www.merriam-webster.com/dictionary/deposit"
+      }
+    ],
+    "teaching": {
+      "contrast": "押金起保障作用，租用费是使用东西的费用。本轮学习租赁押金这一义项；deposit 在银行场景还可能是存款，不能见到这个词就一律理解成押金。",
+      "sentence": "The shop returns the deposit when I bring the bike back undamaged.",
+      "source": "https://dictionary.cambridge.org/dictionary/english-japanese/deposit",
+      "translation": "我把自行车完好归还时，店铺退还押金。这个例句把退款条件说清楚了。"
+    },
+    "translation": "搬进公寓前你必须付一笔可退还的租赁押金。",
+    "usage_note": "租赁语境常见 security deposit、refundable deposit。押金用于保障履约，退还要看约定条件；单独 pay a deposit 也可能指购买时的预付款，本课只教租赁押金。",
+    "word": "deposit",
+    "english_definition": "A deposit is money you pay when you rent something and get back if you return it in good condition and meet the rental agreement's other conditions.",
+    "synonyms_and_nuances": "security deposit, bond：deposit 单独使用也可能指订金或银行存款，security deposit 明确指用于担保履约的押金，bond 在英国、澳大利亚等地的租房语境中也可指押金。",
+    "exam_tags": [
+      "CET4",
+      "考研",
+      "IELTS",
+      "CEFR-B2"
+    ],
+    "mnemonic_anchor": "把 deposit 整体绑定租房画面：“先交一笔钱作担保，按约退租后可退回。”用 pay a deposit 记住押金义，靠租赁语境与银行存款义区分，不硬拆 de- 和 posit。"
+  },
+  {
+    "aliases": [
+      "房东",
+      "出租人"
+    ],
+    "alternatives": {},
+    "cloze": "The _____ repaired the broken kitchen tap.",
+    "collocation": "contact the landlord 联系房东",
+    "comprehension_check": {
+      "answers": [
+        "Leah出租房子是房东，Arun付租是租客",
+        "Leah是收租的房东，Arun是付租的租客",
+        "房东是Leah，租客是向她付租的Arun",
+        "Leah 是房东，把公寓出租给 Arun；Arun 是租客，向 Leah 付租金。"
+      ],
+      "fields": [
+        {
+          "answers": [
+            "Leah"
+          ],
+          "id": "landlord",
+          "label": "___ 是 landlord（房东）",
+          "wrong_reason": "出租公寓并收租的是 Leah。"
+        },
+        {
+          "answers": [
+            "Arun"
+          ],
+          "id": "tenant",
+          "label": "___ 是 tenant（租客）",
+          "wrong_reason": "居住并付租的是 Arun。"
+        },
+        {
+          "answers": [
+            "Arun"
+          ],
+          "id": "payer",
+          "label": "___ 付租金",
+          "wrong_reason": "请区分付款人和收款人。"
+        },
+        {
+          "answers": [
+            "Leah"
+          ],
+          "id": "recipient",
+          "label": "租金付给 ___",
+          "wrong_reason": "请区分付款人和收款人。"
+        }
+      ],
+      "known_wrong": [
+        "Arun是房东，Leah是向他付租的租客",
+        "Leah和Arun都是租客"
+      ],
+      "question": "填写四格，分别说明人物身份和付租方向。人名用 Leah 或 Arun；中英文均可按各格要求填写。",
+      "reference": "Leah 是房东，把公寓出租给 Arun；Arun 是租客，向 Leah 付租金。",
+      "sentence": "Leah owns a flat and lets Arun live there in return for monthly rent. Arun pays Leah each month.",
+      "version": "B15",
+      "wrong_reason": "Leah 出租自己的公寓并收租；Arun 付租居住，两人的角色不能倒置。"
+    },
+    "context_hint": "想想租客遇到房屋维修问题时通常联系哪一方。",
+    "etymology": {
+      "source": "https://www.collinsdictionary.com/dictionary/english/landlord",
+      "text": "Collins 记古英语 landhlāford，并关联 land 与 lord；现代房东义已词汇化。"
+    },
+    "family": "tenant 租客（对照词）",
+    "forms": "复数 landlords。tenant（租客）是另一种租赁角色，不是 landlord 的屈折或派生形式。",
+    "hint": "contact the landlord 联系房东",
+    "id": "landlord.n.1",
+    "meaning": "房东",
+    "morphology": {
+      "category": "现代构词提示",
+      "source": "https://www.collinsdictionary.com/dictionary/english/landlord",
+      "text": "可辨为 land + lord 的复合词，但现代 landlord 指房东，不要求这个人是贵族，也不只指土地所有者。"
+    },
+    "needs_context": false,
+    "phonetic": "ˈlændlɔːd",
+    "pos": "n. 名词（可数）",
+    "pronunciation": {
+      "dialect": "en-GB",
+      "ipa": "ˈlændlɔːd",
+      "label": "英式",
+      "note": "规范英式为 /ˈlændlɔːd/，不是旧字段中的 lɒ:d；美式通常读出 /r/：/ˈlændlɔːrd/。",
+      "source": "https://dictionary.cambridge.org/dictionary/english/landlord"
+    },
+    "question": "这个句子中，landlord 是什么意思？用一句简短中文说明。",
+    "relations": [
+      {
+        "meaning": "租客；租房并付租的一方",
+        "type": "对照词",
+        "word": "tenant"
+      },
+      {
+        "meaning": "房东的复数",
+        "type": "屈折形式",
+        "word": "landlords"
+      }
+    ],
+    "scenario": "你租住一间公寓，每月向出租这间公寓的业主付租金。你是 tenant，对方是 landlord；请来的维修工不会仅因修水龙头就成为房东。",
+    "sentence": "The landlord repaired the broken kitchen tap.",
+    "source": {
+      "entryId": "coca-heads-band-04-25-w00975",
+      "location": "coca_heads(04).txt line 975",
+      "originalPos": "n",
+      "teaching": "B09 场景、对比例句、问题、参考及错例为本项目原创编写。词典仅用于核实指定词义、用法、发音及构词/词源；中文说明为原创概述，不是词典逐段译文；其他义项只作边界提示，不算已教。",
+      "wordbook": "D:/dc-coca-bnc/data/wordbooks/coca-heads-band-04-25/groups/group-020.json"
+    },
+    "sources": [
+      {
+        "label": "Cambridge · landlord",
+        "url": "https://dictionary.cambridge.org/dictionary/english/landlord"
+      },
+      {
+        "label": "Collins · landlord",
+        "url": "https://www.collinsdictionary.com/dictionary/english/landlord"
+      }
+    ],
+    "teaching": {
+      "contrast": "landlord 是出租房产、收租的一方，tenant 是租住、付租的一方。房东可以是个人或机构，关键看租赁角色。",
+      "sentence": "Our landlord is a housing company, and we pay it rent every month.",
+      "source": "https://dictionary.cambridge.org/dictionary/english/landlord",
+      "translation": "我们的房东是一家住房公司，我们每月向它付租金。房东不一定是一个自然人。"
+    },
+    "translation": "房东修好了厨房坏掉的水龙头。",
+    "usage_note": "租房语境的中性用语，指收取租金、供他人使用房产的业主一方，可以是个人或机构。contact / pay the landlord；tenant 是付租使用房屋的一方。维修行为本身不定义谁是房东。",
+    "word": "landlord",
+    "english_definition": "A landlord is a person or company that owns a building or land and allows someone else to use it in return for rent.",
+    "synonyms_and_nuances": "owner, property owner, lessor：owner 泛指所有者，property owner 明确指房产所有者，但两者都不一定出租房产；lessor 是合同中的正式用语，指租赁关系中的出租方。",
+    "exam_tags": [
+      "CET4",
+      "考研",
+      "IELTS",
+      "CEFR-B2"
+    ],
+    "mnemonic_anchor": "把 land（土地）与 lord（主人）连成“出租房产的主人”：现代指收取租金的房东，可以是个人或公司，不需要有贵族身份。"
+  },
+  {
+    "aliases": [
+      "收据",
+      "小票",
+      "购物小票"
+    ],
+    "alternatives": {},
+    "cloze": "Keep the _____ in case you need a refund.",
+    "collocation": "keep the receipt 保留收据",
+    "comprehension_check": {
+      "answers": [
+        "证明已经付钱，不是催她付款",
+        "是已付款的凭证，不是未付款通知",
+        "证明Ella已经支付了18英镑，不是欠款提醒",
+        "它记录 Ella 已经支付灯的钱，不是提醒她尚未付款。"
+      ],
+      "fields": [
+        {
+          "answers": [
+            "已付款",
+            "已经付款",
+            "已付钱",
+            "已经付钱",
+            "已支付",
+            "paid",
+            "payment made"
+          ],
+          "id": "payment",
+          "label": "receipt 记录的付款状态",
+          "wrong_reason": "句子说明 Ella 已经付款，收据记录的是已支付的款项。"
+        },
+        {
+          "answers": [
+            "否",
+            "不是",
+            "不",
+            "no",
+            "不是催款"
+          ],
+          "id": "notice",
+          "label": "它是在催 Ella 付款吗",
+          "wrong_reason": "receipt 在此是已付款凭证，不是催款通知。"
+        }
+      ],
+      "known_wrong": [
+        "证明Ella还没有付钱",
+        "收据就是商店退给她的钱"
+      ],
+      "question": "填写两格。第1格写“已付款”或“尚未付款”；第2格写“是”或“否”。",
+      "reference": "它记录 Ella 已经支付灯的钱，不是提醒她尚未付款。",
+      "sentence": "Ella paid £18 for a lamp. The shop emailed her a receipt showing the payment and the date.",
+      "version": "B15",
+      "wrong_reason": "句子先说明 Ella 已付款，receipt 记录这笔付款；它既不是欠款通知，也不是退款。"
+    },
+    "context_hint": "留意 keep 和 in case：购物后为什么要保留这件东西？",
+    "etymology": {
+      "source": "https://www.merriam-webster.com/dictionary/receipt",
+      "text": "经中古英语 receite 与盎格鲁法语形式，追溯到中世纪拉丁语 recepta；词典认为可能与 recipere“接收”的分词形式有关，保留“可能”这一限度。"
+    },
+    "family": "proof of purchase 购买凭证",
+    "forms": "复数 receipts。表示单张收据用 a receipt；本课不教另一个“收到”义，如 on receipt of。",
+    "hint": "keep the receipt 保留收据",
+    "id": "receipt.n.1",
+    "meaning": "收据；小票",
+    "morphology": {
+      "category": "现代构词说明",
+      "source": "https://www.merriam-webster.com/dictionary/receipt",
+      "text": "receipt 的拼写中有不发音的 p；不要把 re- 加上不存在的日常独立词 ceipt 来猜义。与 receive 的历史联系不等于它是 receive 的屈折形式。"
+    },
+    "needs_context": false,
+    "phonetic": "rɪˈsiːt",
+    "pos": "n. 名词（收据义可数）",
+    "pronunciation": {
+      "dialect": "en-GB",
+      "ipa": "rɪˈsiːt",
+      "label": "英式",
+      "note": "英美主要读音均为 /rɪˈsiːt/；p 不发音，重音在第二音节。",
+      "source": "https://dictionary.cambridge.org/dictionary/english/receipt"
+    },
+    "question": "这个句子中，receipt 是什么意思？用一句简短中文说明。",
+    "relations": [
+      {
+        "meaning": "购买凭证；收据可用作这类凭证",
+        "type": "相关词",
+        "word": "proof of purchase"
+      },
+      {
+        "meaning": "多张收据",
+        "type": "屈折形式",
+        "word": "receipts"
+      }
+    ],
+    "scenario": "买完东西后，你保留了商店发来的付款记录。以后核对支出或办理退货时，可以用它证明这笔钱已经付过；这个记录可以是电子版。",
+    "sentence": "Keep the receipt in case you need a refund.",
+    "source": {
+      "entryId": "coca-heads-band-04-25-w00047",
+      "location": "coca_heads(04).txt line 47",
+      "originalPos": "n/v/vt",
+      "teaching": "B09 场景、对比例句、问题、参考及错例为本项目原创编写。词典仅用于核实指定词义、用法、发音及构词/词源；中文说明为原创概述，不是词典逐段译文；其他义项只作边界提示，不算已教。",
+      "wordbook": "D:/dc-coca-bnc/data/wordbooks/coca-heads-band-04-25/groups/group-001.json"
+    },
+    "sources": [
+      {
+        "label": "Cambridge · receipt",
+        "url": "https://dictionary.cambridge.org/dictionary/english/receipt"
+      },
+      {
+        "label": "Merriam-Webster · receipt",
+        "url": "https://www.merriam-webster.com/dictionary/receipt"
+      }
+    ],
+    "teaching": {
+      "contrast": "receipt 是收到付款的凭证，不是要求你付款的通知，也不是退给你的钱。纸质小票和电子收据都可以是 receipt。",
+      "sentence": "After I paid for the notebook, the shop sent me an email receipt.",
+      "source": "https://dictionary.cambridge.org/dictionary/english/receipt",
+      "translation": "我付了笔记本的钱后，商店通过邮件给我发了收据；电子形式也可以作付款凭证。"
+    },
+    "translation": "保留收据，以防你需要退款。",
+    "usage_note": "购物、报销等场景的中性用语。keep / ask for a receipt；a receipt for a purchase。收据记录已收款，可以是纸质小票或电子消息；不等于要求日后付款的账单。",
+    "word": "receipt",
+    "english_definition": "A receipt is a piece of paper or an electronic record that shows that you have paid for something.",
+    "synonyms_and_nuances": "sales slip, till receipt, proof of purchase：sales slip 和 till receipt 通常指商店购物小票，proof of purchase 泛指能够证明购买行为的凭证，范围比 receipt 更广。",
+    "exam_tags": [
+      "高考",
+      "CET4",
+      "考研",
+      "IELTS",
+      "CEFR-B1"
+    ],
+    "mnemonic_anchor": "把 receipt 与 receive 联系起来记：商家“收到”你的钱，就给你“收据”；二者有历史联系，但不是同一个词的不同形式。拼写中的 p 不发音。"
+  },
+  {
+    "aliases": [
+      "退款",
+      "退回的钱",
+      "退还的钱",
+      "退还的款项"
+    ],
+    "alternatives": {},
+    "cloze": "The shop offered me a full _____.",
+    "collocation": "a full refund 全额退款",
+    "comprehension_check": {
+      "answers": [
+        "退回的15英镑，是部分退款",
+        "15英镑是退款，只退了一部分",
+        "商店还给他的十五英镑，属于部分退款",
+        "商店退给 Sam 的十五英镑是 refund；只退了原价的一部分，所以是部分退款。"
+      ],
+      "fields": [
+        {
+          "answers": [
+            "15",
+            "£15",
+            "15英镑",
+            "十五",
+            "十五英镑",
+            "15.00",
+            "£15.00",
+            "15镑"
+          ],
+          "id": "amount",
+          "label": "退款金额（英镑）",
+          "wrong_reason": "退回的款项是 £15，£50 是原付款。"
+        },
+        {
+          "answers": [
+            "部分",
+            "部分退款",
+            "partial",
+            "partial refund"
+          ],
+          "id": "extent",
+          "label": "退款范围",
+          "wrong_reason": "退回金额小于原付款，所以是部分退款。"
+        }
+      ],
+      "known_wrong": [
+        "50英镑是这次退款",
+        "这是全额退款",
+        "Sam又付了15英镑给商店"
+      ],
+      "question": "填写两格：写出退回的金额，再写“全额”或“部分”。金额可用数字；不要填写原付款金额。",
+      "reference": "商店退给 Sam 的十五英镑是 refund；只退了原价的一部分，所以是部分退款。",
+      "sentence": "Sam paid £50 for a jacket. The shop later returned £15 to him as a refund, and he kept the jacket.",
+      "version": "B15",
+      "wrong_reason": "付款是 £50，退回的是 £15；refund 的钱从商店回到 Sam，且不是原价全额。"
+    },
+    "context_hint": "留意 full：商店提供的东西和顾客之前的付款有关。",
+    "etymology": {
+      "source": "https://www.merriam-webster.com/dictionary/refund",
+      "text": "中古英语 refounden 经法语关联拉丁语 refundere“倒回”。Merriam-Webster 另列 re- + fund 的“重新筹资”动词来源，须与本课退款义分开。"
+    },
+    "family": "refundable 可退款的",
+    "forms": "复数 refunds。本课是名词；动词 refund 的 refunded / refunding 不作为本课名词答案。",
+    "hint": "a full refund 全额退款",
+    "id": "refund.n.1",
+    "meaning": "退款；退还的款项",
+    "morphology": {
+      "category": "历史词源提示",
+      "source": "https://www.merriam-webster.com/dictionary/refund",
+      "text": "退款义的 refund 历史上关联 re- 与拉丁语 fundere“倒出”，不是把现代 fund“资助”加 re- 就推出退款。refundable 表示可退款的。"
+    },
+    "needs_context": false,
+    "phonetic": "ˈriːfʌnd",
+    "pos": "n. 名词（可数）",
+    "pronunciation": {
+      "dialect": "en-GB",
+      "ipa": "ˈriːfʌnd",
+      "label": "英式",
+      "note": "本课名词重音在前。Cambridge 动词主读音为 /ˌriːˈfʌnd/，重音在后；不要把词性差异当作拼写差异。",
+      "source": "https://dictionary.cambridge.org/dictionary/english/refund"
+    },
+    "question": "这个句子中，refund 是什么意思？用一句简短中文说明。",
+    "relations": [
+      {
+        "meaning": "可退款的",
+        "type": "派生词",
+        "word": "refundable"
+      },
+      {
+        "meaning": "多笔退款",
+        "type": "屈折形式",
+        "word": "refunds"
+      }
+    ],
+    "scenario": "商品有问题，你与店家商量退钱。退回全部货款叫 full refund，只退一部分叫 partial refund；店家提出可以退，还要与实际到账区分。",
+    "sentence": "The shop offered me a full refund.",
+    "source": {
+      "entryId": "coca-heads-band-06-25-w00763",
+      "location": "coca_heads(06).txt line 763",
+      "originalPos": "n/v/vt/vi",
+      "teaching": "B09 场景、对比例句、问题、参考及错例为本项目原创编写。词典仅用于核实指定词义、用法、发音及构词/词源；中文说明为原创概述，不是词典逐段译文；其他义项只作边界提示，不算已教。",
+      "wordbook": "D:/dc-coca-bnc/data/wordbooks/coca-heads-band-06-25/groups/group-016.json"
+    },
+    "sources": [
+      {
+        "label": "Cambridge · refund",
+        "url": "https://dictionary.cambridge.org/dictionary/english/refund"
+      },
+      {
+        "label": "Merriam-Webster · refund",
+        "url": "https://www.merriam-webster.com/dictionary/refund"
+      }
+    ],
+    "teaching": {
+      "contrast": "名词 refund 是退给顾客的款项。full / partial 限定退多少；offer a refund 只表示提出退款方案，不等于已经收到钱。",
+      "sentence": "The shop offered a £6 refund on a £24 bag, but the money has not arrived yet.",
+      "source": "https://dictionary.cambridge.org/dictionary/english/refund",
+      "translation": "商店提出为这个二十四英镑的包退六英镑，但钱还没到账。这是提出部分退款。"
+    },
+    "translation": "商店表示可以把货款全额退给我。",
+    "usage_note": "购物、票务等场景常用。get / receive / ask for a refund；a full / partial refund 是全额／部分退款。offer a refund 是提出可退款，不能直接推断钱已到账。",
+    "word": "refund",
+    "english_definition": "A refund is money that is given back to you, for example because you return something you bought or cancel a service.",
+    "synonyms_and_nuances": "reimbursement, repayment：refund 通常是退回已付的购物或服务费用，reimbursement 侧重报销或补偿已经支出的费用，repayment 则常指偿还借款或欠款。",
+    "exam_tags": [
+      "CET4",
+      "考研",
+      "IELTS",
+      "CEFR-B1"
+    ],
+    "mnemonic_anchor": "退款义的 refund 可借历史上的 re-（回）与拉丁语 fundere（倒出）记成“把收进去的钱倒回来”；不要拆成现代 fund（资助）再猜义。"
+  },
+  {
+    "aliases": [
+      "租金",
+      "房租"
+    ],
+    "alternatives": {},
+    "cloze": "The monthly _____ includes electricity.",
+    "collocation": "monthly rent 月租金",
+    "comprehension_check": {
+      "answers": [
+        "每月650英镑租金，不含电费",
+        "650英镑的月租，电费另付",
+        "每月六百五十的房租，没包括电费",
+        "rent 指每月六百五十英镑的租金，不包含电费；三百英镑是另付的押金。"
+      ],
+      "known_wrong": [
+        "300英镑押金就是rent",
+        "650英镑包含电费",
+        "rent是买下房子的价钱"
+      ],
+      "question": "这里 rent 指哪笔钱？电费是否已经包含在里面？",
+      "reference": "rent 指每月六百五十英镑的租金，不包含电费；三百英镑是另付的押金。",
+      "sentence": "Ben pays £650 in rent each month and a separate refundable security deposit of £300. Electricity is not included in the rent.",
+      "version": "B09",
+      "wrong_reason": "£650 是每月使用房屋的租金；句子明确说电费不在租金内，£300 则是押金。"
+    },
+    "context_hint": "留意 monthly 和 includes electricity：这是居住期间定期发生的支出。",
+    "etymology": {
+      "source": "https://www.merriam-webster.com/dictionary/rent",
+      "text": "租金名词经中古英语、盎格鲁法语 rente“支付、收入”而来。词典将它与“撕裂”相关的同形词分列词源。"
+    },
+    "family": "rental 租赁；rent a flat 租公寓（动词用法）",
+    "forms": "泛指租金可不加冠词，如 pay rent；比较多处租金可用复数 rents。rented / renting 属于动词用法。",
+    "hint": "monthly rent 月租金",
+    "id": "rent.n.1",
+    "meaning": "租金",
+    "morphology": {
+      "category": "现代构词说明",
+      "source": "https://www.merriam-webster.com/dictionary/rent",
+      "text": "租金义的 rent 是完整词基，名词与动词同形。它与 rend“撕裂”的过去式 rent 是同形的不同词义来源，不能混教。"
+    },
+    "needs_context": true,
+    "phonetic": "rent",
+    "pos": "n. 名词（可数或不可数）",
+    "pronunciation": {
+      "dialect": "en-GB",
+      "ipa": "rent",
+      "label": "英式",
+      "note": "所查英美主要标音均为 /rent/；统一用 e，不把旧字段 ɛ 当作明确发音错误。",
+      "source": "https://dictionary.cambridge.org/dictionary/english/rent"
+    },
+    "question": "这个句子中，rent 是什么意思？用一句简短中文说明。",
+    "relations": [
+      {
+        "meaning": "每月租金",
+        "type": "搭配",
+        "word": "monthly rent"
+      },
+      {
+        "meaning": "租一套公寓；动词用法",
+        "type": "另一义项",
+        "word": "rent a flat"
+      }
+    ],
+    "scenario": "看租房广告时，你先找每月房租，再看水电是否另付。rent 说明使用房屋的租金，不会自动告诉你是否包含所有账单。",
+    "sentence": "The monthly rent includes electricity.",
+    "source": {
+      "entryId": "coca-heads-band-01-25-w00971",
+      "location": "coca_heads(01).txt line 971",
+      "originalPos": "n/v/vt/vi",
+      "teaching": "B09 场景、对比例句、问题、参考及错例为本项目原创编写。词典仅用于核实指定词义、用法、发音及构词/词源；中文说明为原创概述，不是词典逐段译文；其他义项只作边界提示，不算已教。",
+      "wordbook": "D:/dc-coca-bnc/data/wordbooks/coca-heads-band-01-25/groups/group-020.json"
+    },
+    "sources": [
+      {
+        "label": "Cambridge · rent",
+        "url": "https://dictionary.cambridge.org/dictionary/english/rent"
+      },
+      {
+        "label": "Merriam-Webster · rent",
+        "url": "https://www.merriam-webster.com/dictionary/rent"
+      }
+    ],
+    "teaching": {
+      "contrast": "rent 是使用房产等的费用；security deposit 是保障款。租金包含哪些项目必须看说明，不能由 rent 这个词单独推断。",
+      "sentence": "I pay £480 a month in rent, and water costs extra.",
+      "source": "https://dictionary.cambridge.org/dictionary/english/rent",
+      "translation": "我每月付四百八十英镑租金，水费另付。租金不必包含水电费。"
+    },
+    "translation": "每月租金包含电费。",
+    "usage_note": "日常租赁用语。pay rent、monthly rent、rent for a flat。租金是使用他人物品或房产的费用；是否包括电费要看句子或约定，rent 本身不包含“含水电”的意思。",
+    "word": "rent",
+    "english_definition": "Rent is the money you pay regularly to use a building, land, or something else that belongs to another person or company.",
+    "synonyms_and_nuances": "rental payment, rental charge：rental payment 侧重实际支付的一笔租金，rental charge 侧重出租方收取或规定的费用，rent 是表达租金最直接、常用的词。",
+    "exam_tags": [
+      "中考",
+      "高考",
+      "CET4",
+      "考研",
+      "IELTS",
+      "CEFR-A2"
+    ],
+    "mnemonic_anchor": "把 rent 当作完整词基，连记 pay rent（付租金）和 rent a flat（租公寓）：同形词分别表示付的钱和租用的动作。不要与 rend（撕裂）的过去式 rent 混记。"
+  },
+  {
+    "aliases": [
+      "预订",
+      "预定",
+      "预留",
+      "提前订好"
+    ],
+    "alternatives": {
+      "cloze": [
+        "book"
+      ],
+      "spelling": [
+        "book"
+      ]
+    },
+    "cloze": "You can _____ a study room online.",
+    "collocation": "reserve a room 预订房间",
+    "comprehension_check": {
+      "answers": [
+        "这些椅子已为志愿者预留；空着不等于向其他组开放。"
+      ],
+      "fields": [
+        {
+          "answers": [
+            "志愿者",
+            "volunteers",
+            "the volunteers",
+            "志愿者们"
+          ],
+          "id": "group",
+          "label": "椅子预留给 ___",
+          "wrong_reason": "椅子是为志愿者预留的。"
+        },
+        {
+          "answers": [
+            "不能",
+            "不可以",
+            "不",
+            "否",
+            "no",
+            "cannot",
+            "can not",
+            "不行"
+          ],
+          "id": "take",
+          "label": "另一组能仅因椅子空着就拿走吗",
+          "wrong_reason": "空着不等于没有被预留，须尊重已有使用安排。"
+        }
+      ],
+      "known_wrong": [
+        "空着的椅子可以随便拿走"
+      ],
+      "question": "填两格：第1格填 volunteers 或“志愿者”，说明椅子为谁预留；第2格填“能”或“不能”，判断另一组能否因为椅子空着就拿走。",
+      "reference": "这些椅子已为志愿者预留；空着不等于向其他组开放。",
+      "sentence": "At a community event, the organiser reserves ten chairs for the volunteers. A visitor sees that the chairs are empty and wants to take two for another group.",
+      "version": "B15",
+      "wrong_reason": "reserve 在这里表示为特定一组人留作使用，不能只凭空着就认定没有安排。"
+    },
+    "context_hint": "想想尚未到达自习室时，可以先在网上做哪一步。",
+    "etymology": {
+      "source": "https://www.merriam-webster.com/dictionary/reserve",
+      "text": "经法语 reserver，追溯到拉丁语 reservare；其历史结构为 re- + servare“保留”。"
+    },
+    "family": "reservation 预订",
+    "forms": "第三人称单数 reserves；过去式、过去分词 reserved；现在分词 reserving（去 e 加 -ing）。",
+    "hint": "reserve a room 预订房间",
+    "id": "reserve.v.1",
+    "meaning": "预订；预留",
+    "morphology": {
+      "category": "历史词源提示",
+      "source": "https://www.merriam-webster.com/dictionary/reserve",
+      "text": "历史 re- + servare 与“保留下来”有关；不是现代 re- + serve“再服务一次”。预订用法要与 reserve a room 一起记。"
+    },
+    "needs_context": true,
+    "phonetic": "rɪˈzɜːv",
+    "pos": "v. 动词（本义及物）",
+    "pronunciation": {
+      "dialect": "en-GB",
+      "ipa": "rɪˈzɜːv",
+      "label": "英式",
+      "note": "英式 /ɜː/，所查美式卷舌元音为 /ɝː/：/rɪˈzɝːv/。",
+      "source": "https://dictionary.cambridge.org/dictionary/english/reserve"
+    },
+    "question": "这个句子中，reserve 是什么意思？用一句简短中文说明。",
+    "relations": [
+      {
+        "meaning": "预订；reserve 的相应名词表达",
+        "type": "相关词",
+        "word": "reservation"
+      },
+      {
+        "meaning": "预留／预订座位",
+        "type": "搭配",
+        "word": "reserve a seat"
+      }
+    ],
+    "scenario": "你想周四使用自习室，于是提前安排学校把房间留给你。预订成功说明有了使用安排，不表示你此刻已经在房间里。",
+    "sentence": "You can reserve a study room online.",
+    "source": {
+      "entryId": "coca-heads-band-02-25-w00304",
+      "location": "coca_heads(02).txt line 304",
+      "originalPos": "n/v/vt",
+      "teaching": "B09 场景、对比例句、问题、参考及错例为本项目原创编写。词典仅用于核实指定词义、用法、发音及构词/词源；中文说明为原创概述，不是词典逐段译文；其他义项只作边界提示，不算已教。",
+      "wordbook": "D:/dc-coca-bnc/data/wordbooks/coca-heads-band-02-25/groups/group-007.json"
+    },
+    "sources": [
+      {
+        "label": "Cambridge · reserve",
+        "url": "https://dictionary.cambridge.org/dictionary/english/reserve"
+      },
+      {
+        "label": "Merriam-Webster · reserve",
+        "url": "https://www.merriam-webster.com/dictionary/reserve"
+      },
+      {
+        "label": "Cambridge · reservation",
+        "url": "https://dictionary.cambridge.org/us/dictionary/english/reservation"
+      }
+    ],
+    "teaching": {
+      "contrast": "reserve 表示预先安排把房间、座位等留作使用。有没有付款、何时使用，需要另看句子。",
+      "sentence": "We reserved a table for Saturday and will pay after the meal.",
+      "source": "https://dictionary.cambridge.org/dictionary/english/reserve",
+      "translation": "我们预订了周六的餐桌，饭后才付款。预订和付钱不是同一个动作。"
+    },
+    "translation": "你可以在网上预订一间自习室。",
+    "usage_note": "中性常用语。reserve a room / a seat / a table；reserve something for someone。表示安排把东西留给某人使用，不自动表示已经付款或已经使用。名词“储备”等不是本课义项。",
+    "word": "reserve",
+    "english_definition": "If you reserve something, you arrange for it to be kept for you or for a particular person or purpose.",
+    "synonyms_and_nuances": "book, hold, set aside：book 侧重预订房间、座位或服务，hold 侧重暂时保留以免被别人取走，set aside 侧重留出供特定的人或用途使用。",
+    "exam_tags": [
+      "高考",
+      "CET4",
+      "考研",
+      "IELTS",
+      "CEFR-B1"
+    ],
+    "mnemonic_anchor": "reserve 的历史构词与“保留下来”有关：reserve a room，就是让酒店把房间留给你，从“预留”自然理解“预订”。不要按现代 serve 拆成“再服务一次”。"
+  },
+  {
+    "aliases": [
+      "时间表",
+      "日程",
+      "日程安排",
+      "课程表"
+    ],
+    "alternatives": {
+      "cloze": [
+        "timetable"
+      ],
+      "spelling": [
+        "timetable"
+      ]
+    },
+    "cloze": "Check your class _____ before booking a trip.",
+    "collocation": "on schedule 按计划；behind schedule 落后于计划",
+    "comprehension_check": {
+      "answers": [
+        "列活动和开始时间，不是收费表",
+        "告诉我们什么时候参加哪些活动，不是费用",
+        "是十点讲座十一点工作坊的时间安排，不是价目表",
+        "它列出讲座、工作坊及各自的开始时间，是活动时间表，不是收费表。"
+      ],
+      "known_wrong": [
+        "它列的是两场活动的收费",
+        "schedule在这里表示一张收据"
+      ],
+      "question": "这里的 schedule 提供什么信息？它是一张收费表吗？",
+      "reference": "它列出讲座、工作坊及各自的开始时间，是活动时间表，不是收费表。",
+      "sentence": "The schedule lists a talk at 10 a.m. and a workshop at 11 a.m. No prices are shown.",
+      "version": "B09",
+      "wrong_reason": "10 a.m. 和 11 a.m. 对应活动时间；题面没有提供收费。"
+    },
+    "context_hint": "想想出行日期是否会与你的课发生冲突。",
+    "etymology": {
+      "source": "https://www.merriam-webster.com/dictionary/schedule",
+      "text": "经中古英语，关联拉丁语 scedula / schedula“纸页、小纸片”；这属于历史来源，不是今天的日程表必须用纸的限制。"
+    },
+    "family": "reschedule 重新安排",
+    "forms": "复数 schedules。scheduled / scheduling 属于动词“安排日程”，不是名词复数。",
+    "hint": "on schedule 按计划；behind schedule 落后于计划",
+    "id": "schedule.n.1",
+    "meaning": "时间表；日程安排",
+    "morphology": {
+      "category": "现代构词提示",
+      "source": "https://dictionary.cambridge.org/dictionary/english/reschedule",
+      "text": "schedule 作为词基；re- + schedule → reschedule，表示重新安排。不要根据末尾字母自行造出能解释“时间表”的小词。"
+    },
+    "needs_context": false,
+    "phonetic": "ˈʃedjuːl",
+    "pos": "n. 名词（可数）",
+    "pronunciation": {
+      "dialect": "en-GB",
+      "ipa": "ˈʃedjuːl",
+      "label": "英式",
+      "note": "本课采用 Cambridge Learner 的英式 /ˈʃedjuːl/；该条列美式 /ˈskedʒuːl/。不能把 d+j 与 dʒ 的标音选择一律判错。",
+      "source": "https://dictionary.cambridge.org/dictionary/learner-english/schedule"
+    },
+    "question": "这个句子中，schedule 是什么意思？用一句简短中文说明。",
+    "relations": [
+      {
+        "meaning": "重新安排日期或时间",
+        "type": "派生词",
+        "word": "reschedule"
+      },
+      {
+        "meaning": "时间表；英式课程表常用词，不是异拼",
+        "type": "相关词",
+        "word": "timetable"
+      }
+    ],
+    "scenario": "准备订旅行时，你查看接下来哪些时段有课。schedule 把活动与时间安排放在一起，帮助你避开冲突。",
+    "sentence": "Check your class schedule before booking a trip.",
+    "source": {
+      "entryId": "coca-heads-band-02-25-w00443",
+      "location": "coca_heads(02).txt line 443",
+      "originalPos": "n/v/vt",
+      "teaching": "B09 场景、对比例句、问题、参考及错例为本项目原创编写。词典仅用于核实指定词义、用法、发音及构词/词源；中文说明为原创概述，不是词典逐段译文；其他义项只作边界提示，不算已教。",
+      "wordbook": "D:/dc-coca-bnc/data/wordbooks/coca-heads-band-02-25/groups/group-009.json"
+    },
+    "sources": [
+      {
+        "label": "Cambridge · schedule",
+        "url": "https://dictionary.cambridge.org/dictionary/english/schedule"
+      },
+      {
+        "label": "Cambridge · schedule",
+        "url": "https://dictionary.cambridge.org/dictionary/learner-english/schedule"
+      },
+      {
+        "label": "Cambridge · reschedule",
+        "url": "https://dictionary.cambridge.org/dictionary/english/reschedule"
+      },
+      {
+        "label": "Merriam-Webster · schedule",
+        "url": "https://www.merriam-webster.com/dictionary/schedule"
+      }
+    ],
+    "teaching": {
+      "contrast": "schedule 告诉你活动如何按时间安排；它不是费用清单。class schedule 常见于美式，英式课程表常用 timetable。",
+      "sentence": "My schedule has a lab at eleven and a tutorial at two.",
+      "source": "https://dictionary.cambridge.org/dictionary/english/schedule",
+      "translation": "我的日程里，十一点有实验课，两点有辅导课。重点是活动及其时间。"
+    },
+    "translation": "预订旅行前先检查你的课程表。",
+    "usage_note": "中性常用语。a schedule of events、on schedule（按计划）、behind schedule（晚于计划）。课程表的 class schedule 常见于美式英语，英式常用 timetable；这是词汇选择，不是 schedule 的异拼。",
+    "word": "schedule",
+    "english_definition": "A schedule is a plan that shows what activities will happen and when they will happen.",
+    "synonyms_and_nuances": "timetable, agenda, itinerary：timetable 侧重明确的时间安排，agenda 侧重会议或活动中待处理的事项，itinerary 侧重旅行路线与行程；schedule 可泛指各类日程安排。",
+    "exam_tags": [
+      "高考",
+      "CET4",
+      "考研",
+      "IELTS",
+      "TOEFL",
+      "CEFR-A2"
+    ],
+    "mnemonic_anchor": "把 schedule 整体记作一张“日程表”：on schedule 是进度与表上的安排一致，behind schedule 是进度落在安排后面。加上表示“重新”的 re-，reschedule 就是重新安排时间。"
+  },
+  {
+    "aliases": [
+      "交通",
+      "运输",
+      "交通运输",
+      "交通工具",
+      "公共交通",
+      "公共交通系统",
+      "公共出行方式"
+    ],
+    "alternatives": {
+      "cloze": [
+        "transportation"
+      ],
+      "spelling": [
+        "transportation"
+      ]
+    },
+    "cloze": "Public _____ is cheaper than taking a taxi.",
+    "collocation": "public transport 公共交通",
+    "comprehension_check": {
+      "answers": [
+        "公交和火车等公共交通，不是私家车",
+        "指乘公交再乘火车的公共出行方式",
+        "这里的公共交通是公交车和火车",
+        "指她使用的公共交通服务，这里包括公交车和火车，不是她的私家车。"
+      ],
+      "known_wrong": [
+        "只指Rina的私家车",
+        "这里指她开车去学校"
+      ],
+      "question": "public transport 在这里指什么？请指出句中的两种方式，别把它理解成 Rina 的私家车。",
+      "reference": "指她使用的公共交通服务，这里包括公交车和火车，不是她的私家车。",
+      "sentence": "Rina uses public transport to reach college: a bus to the station and then a train. She does not drive a car.",
+      "version": "B09",
+      "wrong_reason": "题面列出 bus 和 train，并明确说她不开车；public transport 是这里的公共交通服务。"
+    },
+    "context_hint": "留意 public，以及它与 taking a taxi 的对比。",
+    "etymology": {
+      "source": "https://www.merriam-webster.com/dictionary/transport",
+      "text": "Merriam-Webster 将词源追溯到拉丁语 transportare（trans- + portare）。本课教交通名词，历史动词线索不等于已教全部运输用法。"
+    },
+    "family": "transportation 运输",
+    "forms": "本课交通系统／交通方式义通常不加 -s，不说 a transport 来表示一辆公交车。transported / transporting 是动词的形式。",
+    "hint": "public transport 公共交通",
+    "id": "transport.n.1",
+    "meaning": "交通运输；交通方式（此处指公共交通）",
+    "morphology": {
+      "category": "历史词源提示",
+      "source": "https://www.merriam-webster.com/dictionary/transport",
+      "text": "拉丁语 trans- 表示跨越，portare 表示携带，形成 transportare；这只是历史线索，不是用现代 port“港口”作机械拆义。"
+    },
+    "needs_context": false,
+    "phonetic": "ˈtrænspɔːt",
+    "pos": "n. 名词（本义不可数）",
+    "pronunciation": {
+      "dialect": "en-GB",
+      "ipa": "ˈtrænspɔːt",
+      "label": "英式",
+      "note": "名词重音在首音节；英式动词通常重读第二音节 /trænˈspɔːt/。所查美式名词 /ˈtrænspɔːrt/ 读出 r。",
+      "source": "https://dictionary.cambridge.org/dictionary/english/transport"
+    },
+    "question": "这个句子中，transport 是什么意思？用一句简短中文说明。",
+    "relations": [
+      {
+        "meaning": "交通运输；美式公共交通表达常用",
+        "type": "相关词",
+        "word": "transportation"
+      },
+      {
+        "meaning": "公共交通",
+        "type": "搭配",
+        "word": "public transport"
+      }
+    ],
+    "scenario": "你不自己开车，而是组合使用公交和火车去学校。public transport 指供公众使用的交通服务，不是一辆指定的私人汽车。",
+    "sentence": "Public transport is cheaper than taking a taxi.",
+    "source": {
+      "entryId": "coca-heads-band-03-25-w00123",
+      "location": "coca_heads(03).txt line 123",
+      "originalPos": "n/v/vt",
+      "teaching": "B09 场景、对比例句、问题、参考及错例为本项目原创编写。词典仅用于核实指定词义、用法、发音及构词/词源；中文说明为原创概述，不是词典逐段译文；其他义项只作边界提示，不算已教。",
+      "wordbook": "D:/dc-coca-bnc/data/wordbooks/coca-heads-band-03-25/groups/group-003.json"
+    },
+    "sources": [
+      {
+        "label": "Cambridge · transport",
+        "url": "https://dictionary.cambridge.org/dictionary/english/transport"
+      },
+      {
+        "label": "Merriam-Webster · transport",
+        "url": "https://www.merriam-webster.com/dictionary/transport"
+      }
+    ],
+    "teaching": {
+      "contrast": "本课的 public transport 包括公交、火车等公共出行方式。英式常用 transport，美式常用 transportation；这个名词义通常不可数。",
+      "sentence": "There is no bus service on Sunday, so public transport is limited then.",
+      "source": "https://dictionary.cambridge.org/dictionary/english/transport",
+      "translation": "周日没有公交服务，因此那天公共交通选择有限。这里谈的是交通服务。"
+    },
+    "translation": "公共交通比乘出租车便宜。",
+    "usage_note": "public transport 指公众可用的交通服务，如公交和火车。此用法主要为英式，美式常说 public transportation；transportation 是相关名词，不是 transport 的拼写变体。",
+    "word": "transport",
+    "english_definition": "Transport is the system of buses, trains, and other vehicles that people use to travel from one place to another.",
+    "synonyms_and_nuances": "public transportation, public transit：在公共交通语境中，public transportation 是美式英语的常用表达，public transit 尤其侧重公交、地铁等公共客运系统；英式英语通常用 public transport。",
+    "exam_tags": [
+      "高考",
+      "CET4",
+      "考研",
+      "IELTS",
+      "TOEFL",
+      "CEFR-A2"
+    ],
+    "mnemonic_anchor": "历史上的 trans- 表示“跨越”，portare 表示“携带”，合起来可联想为“把人或物从一处运到另一处”。public transport 就是供公众出行使用的交通系统；这里的历史词根不能直接当成现代 port“港口”。"
+  },
+  {
+    "aliases": [
+      "紧急",
+      "紧急的",
+      "急迫",
+      "迫切的"
+    ],
+    "alternatives": {},
+    "cloze": "Please call me if the matter is _____.",
+    "collocation": "an urgent matter 紧急事项",
+    "comprehension_check": {
+      "answers": [
+        "需要马上处理，不能等下个月",
+        "维修有紧迫性，现在就得开始",
+        "这里要求立即修理，不是可以慢慢等",
+        "urgent 表示维修需要立即处理，句子也说现在就要开始，不能拖到下个月。"
+      ],
+      "known_wrong": [
+        "下个月处理也完全可以",
+        "urgent只说明重要，完全没有时间要求"
+      ],
+      "question": "为什么不能把 urgent 理解为“下个月再慢慢处理也行”？请说出这里的时间要求。",
+      "reference": "urgent 表示维修需要立即处理，句子也说现在就要开始，不能拖到下个月。",
+      "sentence": "Water is leaking onto the classroom floor. The caretaker says the repairs are urgent and must start now.",
+      "version": "B09",
+      "wrong_reason": "urgent 与 must start now 一起表明需要立即处理，不能仅译成不带时间要求的“重要”。"
+    },
+    "context_hint": "想想说话者在什么情况下希望对方立即打电话。",
+    "etymology": {
+      "source": "https://www.merriam-webster.com/dictionary/urgent",
+      "text": "经法语，追溯到拉丁语 urgent- / urgens（urgēre 的现在分词形式）。这是历史词源，现代形容词不按 ur + gent 拆义。"
+    },
+    "family": "urgently 紧急地；urgency 紧迫性",
+    "forms": "比较级 more urgent；最高级 most urgent。urgently 是副词、urgency 是名词，均不是形容词的时态变化。",
+    "hint": "an urgent matter 紧急事项",
+    "id": "urgent.adj.1",
+    "meaning": "紧急的；迫切的",
+    "morphology": {
+      "category": "现代构词提示",
+      "source": "https://www.merriam-webster.com/dictionary/urgent",
+      "text": "urgent + -ly → urgently（紧急地）。urgency 是相关名词，有词形变化，不是直接在 urgent 后面加 cy。"
+    },
+    "needs_context": false,
+    "phonetic": "ˈɜːdʒənt",
+    "pos": "adj. 形容词",
+    "pronunciation": {
+      "dialect": "en-GB",
+      "ipa": "ˈɜːdʒənt",
+      "label": "英式",
+      "note": "英式 /ɜː/；所查美式为卷舌 /ɝː/，即 /ˈɝːdʒənt/。",
+      "source": "https://dictionary.cambridge.org/dictionary/english/urgent"
+    },
+    "question": "这个句子中，urgent 是什么意思？用一句简短中文说明。",
+    "relations": [
+      {
+        "meaning": "紧急地",
+        "type": "派生词",
+        "word": "urgently"
+      },
+      {
+        "meaning": "紧迫性",
+        "type": "相关词",
+        "word": "urgency"
+      }
+    ],
+    "scenario": "同一份待办清单上，有的事影响很大但可以以后处理，有的事拖一会儿就不行。urgent 强调需要马上关注或处理。",
+    "sentence": "Please call me if the matter is urgent.",
+    "source": {
+      "entryId": "coca-heads-band-03-25-w00797",
+      "location": "coca_heads(03).txt line 797",
+      "originalPos": "unknown",
+      "teaching": "B09 场景、对比例句、问题、参考及错例为本项目原创编写。词典仅用于核实指定词义、用法、发音及构词/词源；中文说明为原创概述，不是词典逐段译文；其他义项只作边界提示，不算已教。",
+      "wordbook": "D:/dc-coca-bnc/data/wordbooks/coca-heads-band-03-25/groups/group-016.json"
+    },
+    "sources": [
+      {
+        "label": "Cambridge · urgent",
+        "url": "https://dictionary.cambridge.org/dictionary/english/urgent"
+      },
+      {
+        "label": "Merriam-Webster · urgent",
+        "url": "https://www.merriam-webster.com/dictionary/urgent"
+      }
+    ],
+    "teaching": {
+      "contrast": "urgent 不只表示重要，还包含时间上的紧迫。一个重要的长期计划未必 urgent。",
+      "sentence": "Fixing the burst pipe is urgent; choosing next year’s wall colour can wait.",
+      "source": "https://dictionary.cambridge.org/dictionary/english/urgent",
+      "translation": "修好爆裂的水管很紧急；选择明年的墙面颜色可以等。区别在于是否需要立即处理。"
+    },
+    "translation": "如果事情紧急，请给我打电话。",
+    "usage_note": "中性用语，常见于通知和请求。an urgent matter / request、urgent repairs、be urgent。强调重要且需要立即处理；“重要”本身不保证时间紧迫。",
+    "word": "urgent",
+    "english_definition": "Something that is urgent needs attention or action immediately.",
+    "synonyms_and_nuances": "pressing, critical：pressing 强调问题迫切、不能久拖，critical 强调情况严重或处于关键关头；urgent 直接强调必须马上关注或处理。",
+    "exam_tags": [
+      "高考",
+      "CET4",
+      "考研",
+      "IELTS",
+      "TOEFL",
+      "CEFR-B1"
+    ],
+    "mnemonic_anchor": "把 an urgent matter 记成一件“等不得、得马上处理”的事。urgent 加 -ly 成为 urgently“紧急地”，相关名词 urgency 表示“紧迫性”，需整体记住词尾变化。"
+  },
+  {
+    "aliases": [
+      "签证",
+      "签证许可",
+      "入境签证"
+    ],
+    "alternatives": {},
+    "cloze": "You need a student _____ to study there.",
+    "collocation": "apply for a visa 申请签证",
+    "comprehension_check": {
+      "answers": [
+        "是签证不是护照，visa不限学生签证",
+        "另一项签证许可，学生签证只是visa的一种",
+        "签证和护照不同，visa单独不只表示学生签证",
+        "visa 是另一项签证许可，不是护照；它本身不限学生类别，student visa 才是学生签证。"
+      ],
+      "known_wrong": [
+        "visa就是护照",
+        "visa无论什么语境都只指学生签证"
+      ],
+      "question": "这里 visa 是护照还是另一项签证许可？visa 单独使用是否只指学生签证？",
+      "reference": "visa 是另一项签证许可，不是护照；它本身不限学生类别，student visa 才是学生签证。",
+      "sentence": "Nadia has a passport. Her university asks her to check whether she also needs a student visa.",
+      "version": "B09",
+      "wrong_reason": "题面把 passport 与 student visa 分开；student 才限定学习用途，visa 的通义是签证。"
+    },
+    "context_hint": "留意 student，以及去另一个国家学习之前的手续。",
+    "etymology": {
+      "source": "https://www.merriam-webster.com/dictionary/visa",
+      "text": "经法语进入英语，词典追溯到拉丁语 visus 的中性复数形式；现代 visa 是英语单数，复数按英语用 visas。"
+    },
+    "family": "passport 护照（相关词）",
+    "forms": "复数 visas。student visa 的复数为 student visas；student 是用途修饰语，visa 本身不专指学生类别。",
+    "hint": "apply for a visa 申请签证",
+    "id": "visa.n.1",
+    "meaning": "签证",
+    "morphology": {
+      "category": "现代构词说明",
+      "source": "https://www.merriam-webster.com/dictionary/visa",
+      "text": "visa 是本课的完整词基，不把 vis + a 当作现代英语自由组合。student visa 是名词修饰的短语，passport 只属于相关证件。"
+    },
+    "needs_context": false,
+    "phonetic": "ˈviːzə",
+    "pos": "n. 名词（可数）",
+    "pronunciation": {
+      "dialect": "en-GB",
+      "ipa": "ˈviːzə",
+      "label": "英式",
+      "note": "英式采用 /ˈviːzə/；Cambridge 也记录美式 /ˈviːsə/ 变体。不要把 s/z 的地区变体当作单词拼写变化。",
+      "source": "https://dictionary.cambridge.org/dictionary/english/visa"
+    },
+    "question": "这个句子中，visa 是什么意思？用一句简短中文说明。",
+    "relations": [
+      {
+        "meaning": "护照；不是签证",
+        "type": "相关词",
+        "word": "passport"
+      },
+      {
+        "meaning": "学生签证；签证的一种",
+        "type": "搭配",
+        "word": "student visa"
+      }
+    ],
+    "scenario": "准备出国学习时，表格把护照信息与签证类别分开填写。visa 是签证，student visa 只是其中与学习目的有关的一种。",
+    "sentence": "You need a student visa to study there.",
+    "source": {
+      "entryId": "coca-heads-band-05-25-w00411",
+      "location": "coca_heads(05).txt line 411",
+      "originalPos": "n/v/vt",
+      "teaching": "B09 场景、对比例句、问题、参考及错例为本项目原创编写。词典仅用于核实指定词义、用法、发音及构词/词源；中文说明为原创概述，不是词典逐段译文；其他义项只作边界提示，不算已教。",
+      "wordbook": "D:/dc-coca-bnc/data/wordbooks/coca-heads-band-05-25/groups/group-009.json"
+    },
+    "sources": [
+      {
+        "label": "Cambridge · visa",
+        "url": "https://dictionary.cambridge.org/dictionary/english/visa"
+      },
+      {
+        "label": "Merriam-Webster · visa",
+        "url": "https://www.merriam-webster.com/dictionary/visa"
+      }
+    ],
+    "teaching": {
+      "contrast": "passport 是护照，visa 是另一项签证许可；二者不是同义词。student、tourist 等修饰语才限定签证类别，裸词 visa 不只指学生签证。",
+      "sentence": "The form has separate boxes for a passport number and a visa type.",
+      "source": "https://dictionary.cambridge.org/dictionary/english/visa",
+      "translation": "表格分别设置了护照号码栏和签证类别栏，两个概念分开填写。"
+    },
+    "translation": "你需要学生签证才能在那里学习。",
+    "usage_note": "旅行与留学手续用语。apply for / obtain a visa；student / tourist visa。visa 指签证许可，passport 是护照，不能互换。具体签证的适用目的和条件须由相关说明决定，本词义本身不保证任何实际入境结果。",
+    "word": "visa",
+    "english_definition": "A visa is an official document or mark in your passport that shows permission to enter or stay in a foreign country.",
+    "synonyms_and_nuances": "entry permit, travel authorization：两者都是近义表达而非严格同义词，entry permit 侧重入境许可，travel authorization 侧重旅行前取得的授权；visa 是特定类型的签证，具体制度中不能随意替换。",
+    "exam_tags": [
+      "高考",
+      "CET4",
+      "考研",
+      "IELTS",
+      "TOEFL",
+      "CEFR-B1"
+    ],
+    "mnemonic_anchor": "把 visa 作为完整词基，连着 apply for a visa“申请签证”一起记。student visa 中 student 说明签证用途；passport 是护照，visa 是签证，两者是相关但不同的证件概念。"
+  },
+  {
+    "aliases": [
+      "确认",
+      "核实"
+    ],
+    "alternatives": {},
+    "cloze": "Please _____ your arrival date by email.",
+    "collocation": "confirm a booking 确认预订",
+    "comprehension_check": {
+      "answers": [
+        "确认能按已提时间出席，不是改期",
+        "确认周二两点能来，不是换时间",
+        "要回复这个出席安排是否确定，不是重新选时间",
+        "它要求确认能否按已提出的周二两点出席，并不是要求改期。"
+      ],
+      "known_wrong": [
+        "要求把面试改到周三",
+        "confirm在这里就是取消面试"
+      ],
+      "question": "邮件要求你确认什么？它是在要求你改到另一个时间吗？",
+      "reference": "它要求确认能否按已提出的周二两点出席，并不是要求改期。",
+      "sentence": "An interview is proposed for Tuesday at 2 p.m. The email says, “Please confirm that you can attend at this time.”",
+      "version": "B09",
+      "wrong_reason": "confirm that you can attend 要确认能否按这个时间参加；没有要求改变或取消面试。"
+    },
+    "context_hint": "到达日期已经提出；留意发邮件这一步的目的。",
+    "etymology": {
+      "source": "https://www.merriam-webster.com/dictionary/confirm",
+      "text": "拉丁语 confirmare 由 com- 与 firmare 构成，后者关联 firmus“坚固的”。这是历史词根联系。"
+    },
+    "family": "confirmation 确认",
+    "forms": "第三人称单数 confirms；过去式、过去分词 confirmed；现在分词 confirming。",
+    "hint": "confirm a booking 确认预订",
+    "id": "confirm.v.1",
+    "meaning": "确认",
+    "morphology": {
+      "category": "历史词源提示",
+      "source": "https://www.merriam-webster.com/dictionary/confirm",
+      "text": "历史 firm- 与“坚固、确定”有关，可帮助记“确认”。confirmation 是相应名词，但不要把 con 和现代 firm 的各个义项相加来猜全部用法。"
+    },
+    "needs_context": false,
+    "phonetic": "kənˈfɜːm",
+    "pos": "v. 动词（可及物或不及物）",
+    "pronunciation": {
+      "dialect": "en-GB",
+      "ipa": "kənˈfɜːm",
+      "label": "英式",
+      "note": "英式 /kənˈfɜːm/；所查美式为 /kənˈfɝːm/。",
+      "source": "https://dictionary.cambridge.org/dictionary/english/confirm"
+    },
+    "question": "这个句子中，confirm 是什么意思？用一句简短中文说明。",
+    "relations": [
+      {
+        "meaning": "确认；确认函等名词表达",
+        "type": "相关词",
+        "word": "confirmation"
+      },
+      {
+        "meaning": "确认预订",
+        "type": "搭配",
+        "word": "confirm a booking"
+      }
+    ],
+    "scenario": "对方已经提出一个到达日期，希望你回复这个安排是否确定。你发邮件确认，并不意味着另外挑了一个日期。",
+    "sentence": "Please confirm your arrival date by email.",
+    "source": {
+      "entryId": "coca-heads-band-03-25-w00167",
+      "location": "coca_heads(03).txt line 167",
+      "originalPos": "v/vt",
+      "teaching": "B09 场景、对比例句、问题、参考及错例为本项目原创编写。词典仅用于核实指定词义、用法、发音及构词/词源；中文说明为原创概述，不是词典逐段译文；其他义项只作边界提示，不算已教。",
+      "wordbook": "D:/dc-coca-bnc/data/wordbooks/coca-heads-band-03-25/groups/group-004.json"
+    },
+    "sources": [
+      {
+        "label": "Cambridge · confirm",
+        "url": "https://dictionary.cambridge.org/dictionary/english/confirm"
+      },
+      {
+        "label": "Merriam-Webster · confirm",
+        "url": "https://www.merriam-webster.com/dictionary/confirm"
+      },
+      {
+        "label": "Cambridge · confirmation",
+        "url": "https://dictionary.cambridge.org/dictionary/english/confirmation"
+      }
+    ],
+    "teaching": {
+      "contrast": "confirm an arrangement 是把已提出的安排确认下来；改期要看 change / reschedule 等信息，不能由 confirm 自行推出。",
+      "sentence": "The hotel emailed to confirm our booking for 6 May.",
+      "source": "https://dictionary.cambridge.org/dictionary/english/confirm",
+      "translation": "酒店发邮件确认了我们五月六日的预订。这里是在确认已有安排。"
+    },
+    "translation": "请通过邮件确认你的到达日期。",
+    "usage_note": "中性用语，常用于邮件、预约和安排。confirm a booking / an arrival date；confirm that you can attend。此处是把已提出的安排确认下来，不能自动理解为改期或首次申请。",
+    "word": "confirm",
+    "english_definition": "If you confirm something, you say or show that it is true, correct, or definitely arranged.",
+    "synonyms_and_nuances": "verify, affirm：verify 强调通过检查或证据核实，affirm 强调明确肯定或郑重声明；confirm 强调使原先的信息、判断或安排得到确定。",
+    "exam_tags": [
+      "高考",
+      "CET4",
+      "考研",
+      "IELTS",
+      "TOEFL",
+      "CEFR-B1"
+    ],
+    "mnemonic_anchor": "历史上的 firm- 与“坚固、确定”有关，可联想为把尚未确定的事情“定下来”：confirm a booking 就是确认预订。相关名词 confirmation 表示“确认”或“确认凭证”。"
+  }
+]
