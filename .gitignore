@@ -5,3 +5,6 @@ __pycache__/
 node_modules/
 .tmp/
 *.log
+data/exports/
+验收工作台.html
+
