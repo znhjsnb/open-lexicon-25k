@@ -18,3 +18,4 @@
 {"batch_name": "batch_17000_18000", "start_idx": 17000, "end_idx": 18000, "count": 1000, "elapsed_sec": 1488.0, "rate_words_per_sec": 0.67, "timestamp": "2026-11-01 02:16:06"}
 {"batch_name": "batch_18000_19000", "start_idx": 18000, "end_idx": 19000, "count": 1000, "elapsed_sec": 1387.9, "rate_words_per_sec": 0.72, "timestamp": "2026-11-01 02:39:15"}
 {"batch_name": "batch_19000_20000", "start_idx": 19000, "end_idx": 20000, "count": 1000, "elapsed_sec": 1441.7, "rate_words_per_sec": 0.69, "timestamp": "2026-11-01 03:03:18"}
+{"batch_name": "batch_20000_21000", "start_idx": 20000, "end_idx": 21000, "count": 1000, "elapsed_sec": 1408.3, "rate_words_per_sec": 0.71, "timestamp": "2026-11-01 03:26:49"}
