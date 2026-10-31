@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Open-Lexicon 25K - batch_10000_11000</title>
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 24px; }
+    h1 { color: #38bdf8; font-size: 22px; margin-bottom: 8px; }
+    .meta { color: #94a3b8; font-size: 13px; margin-bottom: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(540px, 1fr)); gap: 18px; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 18px; }
+    .card-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; border-bottom: 1px dashed #334155; padding-bottom: 8px; }
+    .word { font-size: 22px; font-weight: bold; color: #38bdf8; }
+    .pos-badge { background: #0284c7; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
+    .badge { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 11px; background: #0369a1; color: #fff; margin-left: 4px; }
+    .senses-container { margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .sense-block { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 10px; font-size: 12px; }
+    .sense-header { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; flex-wrap: wrap; }
+    .sense-pos { color: #fbbf24; font-weight: bold; }
+    .sense-meaning-zh { color: #f1f5f9; font-weight: 600; }
+    .sense-meaning-en { color: #94a3b8; font-style: italic; }
+    .en-def { color: #38bdf8; margin-bottom: 4px; font-style: italic; }
+    .colloc, .sentence { color: #cbd5e1; margin-bottom: 3px; line-height: 1.4; }
+    .trans { color: #94a3b8; font-size: 11px; }
+    .en-sub { color: #94a3b8; font-style: italic; font-size: 11px; display: block; margin-top: 2px; }
+    .etym, .morph, .synonym, .mnemonic { font-size: 12px; padding: 8px 10px; border-radius: 6px; margin-bottom: 6px; line-height: 1.4; }
+    .etym { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); }
+    .morph { background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.2); }
+    .synonym { background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.2); }
+    .mnemonic { background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.2); }
+    code { background: #0f172a; padding: 2px 4px; border-radius: 4px; color: #f472b6; }
+</style>
+</head>
+<body>
+    <h1>🚀 Open-Lexicon 25K - 批次抽检 (batch_10000_11000)</h1>
+    <div class="meta">已完成 <strong>1000 词</strong> | 规格：全词性覆盖 + 全维度中英双语对齐</div>
+    <div class="grid">
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">opioid</span>
+                    <span class="pos-badge">2 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈəʊpiɔɪd//</span>
+                    <span class="sense-meaning-zh">阿片类物质；作用于阿片受体的天然、半合成或合成物质</span>
+                    <span class="sense-meaning-en">(A natural, semisynthetic, or synthetic substance that acts on opioid receptors.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> An opioid is a substance that acts on particular receptors in the body and can produce effects such as pain relief.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>prescription opioids; opioid dependence</code> <span class="trans">处方阿片类药物；阿片类物质依赖</span></div>
+                <div class="sentence"><strong>例句:</strong> Morphine is an opioid used to relieve severe pain.<br><span class="trans">吗啡是一种用于缓解剧烈疼痛的阿片类药物。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">adj. 形容词</span>
+                    <span class="sense-phonetic">//ˈəʊpiɔɪd//</span>
+                    <span class="sense-meaning-zh">阿片类的；具有阿片样作用的</span>
+                    <span class="sense-meaning-en">(Relating to opioids or producing effects like those of opium.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> An opioid substance or effect acts in a way associated with opium and related substances.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>opioid analgesics; opioid receptors</code> <span class="trans">阿片类镇痛药；阿片受体</span></div>
+                <div class="sentence"><strong>例句:</strong> The researchers studied how opioid receptors respond to the substance.<br><span class="trans">研究人员考察了阿片受体对这种物质的反应。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>opioid 是20世纪由 opium（鸦片）的词干 opi- 与表示“类似……的”的 -oid 构成的词。它从“具有阿片样作用的”发展为一类作用于阿片受体的物质的名称，范围不限于直接来自鸦片的成分。<br><span class="en-sub">Opioid was formed in the twentieth century from opi-, based on opium, and -oid, meaning 'resembling.' The idea of having opium-like effects developed into a name for substances acting on opioid receptors, including substances not directly derived from opium.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>构词：opi-（来自 opium，鸦片）+ -oid（类似……的）→ opioid；名词与形容词同形。主要词族及相关形式：opioids（复数）、non-opioid（非阿片类的；非阿片类药物）、opioid-like（阿片样的）、opioidergic（涉及阿片类物质或其受体活动的，专业用语）。opium（鸦片）与 opiate（阿片制剂；阿片类的）是相关词，不是由 opioid 派生而来。<br><span class="en-sub">Formation: opi- (from opium) + -oid ('resembling') → opioid, used as both a noun and an adjective. Principal family members and related formations include opioids, non-opioid, opioid-like, and the specialist adjective opioidergic. Opium and opiate are related words, rather than derivatives of opioid.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>opiate（阿片制剂）传统上主要指直接源于鸦片的物质，通常比 opioid 范围窄；analgesic（镇痛药）按缓解疼痛的功能分类，包含许多非阿片类药物；narcotic（麻醉性药物、受管制毒品）在医学、法律和日常用语中的范围不同，不能与 opioid 始终互换。<br><span class="en-sub">Opiate traditionally refers mainly to substances directly derived from opium and is usually narrower than opioid. Analgesic classifies a drug by its pain-relieving function and includes many non-opioid drugs. Narcotic varies in meaning across medical, legal, and everyday contexts and is not consistently interchangeable with opioid.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>opi- 联想到 opium，-oid 表示“类似”：先记“阿片样作用”，再记“具有这种作用的物质”。<br><span class="en-sub">Connect opi- with opium and -oid with resemblance: an opium-like action gives the name to the substances producing it.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">potty</span>
+                    <span class="pos-badge">4 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C1</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈpɒti//</span>
+                    <span class="sense-meaning-zh">幼儿便盆</span>
+                    <span class="sense-meaning-en">(A small toilet or chamber pot used by a young child.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A potty is a small container or toilet that a young child uses before learning to use an ordinary toilet.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>use the potty; sit on the potty</code> <span class="trans">用幼儿便盆；坐在幼儿便盆上</span></div>
+                <div class="sentence"><strong>例句:</strong> She is learning to use the potty by herself.<br><span class="trans">她正在学习自己用便盆。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">adj. 形容词</span>
+                    <span class="sense-phonetic">//ˈpɒti//</span>
+                    <span class="sense-meaning-zh">〈英，非正式〉傻乎乎的；古怪的；发疯的</span>
+                    <span class="sense-meaning-en">(Silly, eccentric, or behaving irrationally, in informal British English.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If you describe someone as potty, you mean that they seem silly, eccentric, or slightly mad.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>go potty; drive someone potty</code> <span class="trans">发疯；把某人逼疯</span></div>
+                <div class="sentence"><strong>例句:</strong> That constant noise is driving me potty.<br><span class="trans">那持续不断的噪声快把我逼疯了。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">adj. 形容词</span>
+                    <span class="sense-phonetic">//ˈpɒti//</span>
+                    <span class="sense-meaning-zh">〈英，非正式〉痴迷的；非常喜爱的，常接 about</span>
+                    <span class="sense-meaning-en">(Extremely enthusiastic about or fond of someone or something.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If you are potty about someone or something, you like them very much.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>potty about dogs; absolutely potty about someone</code> <span class="trans">特别喜欢狗；对某人极其着迷</span></div>
+                <div class="sentence"><strong>例句:</strong> My aunt is potty about dogs and has adopted three.<br><span class="trans">我姑妈特别喜欢狗，已经收养了三只。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 动词</span>
+                    <span class="sense-phonetic">//ˈpɒti//</span>
+                    <span class="sense-meaning-zh">〈美，非正式，尤用于儿童或宠物〉大小便</span>
+                    <span class="sense-meaning-en">(To urinate or defecate, especially when speaking about children or pets.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> When a child or pet potties, they pass urine or solid waste.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>potty outside; potty before bedtime</code> <span class="trans">在户外大小便；睡前大小便</span></div>
+                <div class="sentence"><strong>例句:</strong> The puppy has learned to potty outside.<br><span class="trans">这只小狗已经学会在户外大小便。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>表示幼儿便盆的 potty 来自 pot（容器、便壶）加小称后缀 -y，动词用法由便盆及如厕的意思发展而来。形容词也与 pot 有关，但有独立的发展历史，较早有“微不足道的”之义，后来产生“傻的、古怪的”等含义。<br><span class="en-sub">The noun potty comes from pot, meaning a container or chamber pot, with the diminutive suffix -y; the toileting verb developed from this use. The adjective is also associated with pot but has a separate history, with earlier senses of insignificance followed by meanings such as foolish or eccentric.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>名词构词：pot + -y（小称后缀）→ potty，添加后缀时双写 t；动词由名词转类而来。形容词可分析为 pot + -y，但不宜把“古怪的”解释成“幼儿便盆”的直接派生义。主要词族及变化：potties（名词复数或动词第三人称单数）、pottied（过去式、过去分词）、pottying（现在分词）、pottier、pottiest（形容词比较级、最高级）、pottiness（古怪、傻气）、potty-training（如厕训练）、potty-trained（已学会如厕的）。<br><span class="en-sub">Noun formation: pot + diminutive -y → potty, with doubling of t; the verb is formed by conversion from the noun. The adjective can also be analyzed as pot + -y, but its eccentricity sense should not be treated as a direct development from the child's toilet. Principal family members and inflections include potties, pottied, pottying, pottier, pottiest, pottiness, potty-training, and potty-trained.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>名词近义词 chamber pot（便壶）通常指放在卧室里的便器，不专指幼儿用品。形容词近义词 eccentric（古怪的）侧重异于常人的习惯；crazy（疯狂的、痴迷的）语气和适用范围更广，而 potty 通常带有英式口语中的轻松或戏谑色彩。<br><span class="en-sub">For the noun, chamber pot usually means a bedroom receptacle and is not specifically for children. For the adjective, eccentric emphasizes unusual habits, while crazy has a broader range and can express stronger judgments or enthusiasm. Potty usually sounds informal, British, and often playful.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>便盆义记“小 pot”；形容词另记两个短语：go potty＝发疯，potty about＝迷得发狂。<br><span class="en-sub">Remember the toilet sense as a little pot. Keep two separate adjective phrases in mind: go potty means become irrational, and potty about means wildly fond of.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">tilled</span>
+                    <span class="pos-badge">2 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">adj. 形容词（分词形容词）</span>
+                    <span class="sense-phonetic">//tɪld//</span>
+                    <span class="sense-meaning-zh">已耕作的；已翻耕的</span>
+                    <span class="sense-meaning-en">(Having had the soil turned and prepared for growing crops.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Tilled land has been dug or turned over so that crops can be grown in it.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>freshly tilled soil; tilled fields</code> <span class="trans">刚翻耕过的土壤；已耕作的田地</span></div>
+                <div class="sentence"><strong>例句:</strong> Birds searched for worms in the freshly tilled soil.<br><span class="trans">鸟儿在刚翻耕过的土壤里寻找蚯蚓。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 动词（till 的过去式和过去分词）</span>
+                    <span class="sense-phonetic">//tɪld//</span>
+                    <span class="sense-meaning-zh">耕作了；翻耕了</span>
+                    <span class="sense-meaning-en">(Dug or turned over soil to prepare it for growing crops.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If someone tilled the land, they dug or turned over its soil to prepare it for crops.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>tilled the land; tilled the soil</code> <span class="trans">耕作了土地；翻耕了土壤</span></div>
+                <div class="sentence"><strong>例句:</strong> The farmers tilled the land before planting wheat.<br><span class="trans">农民们在种小麦前翻耕了土地。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>tilled 是 till 的过去式和过去分词形式；till 源自古英语 tilian，早期含有“努力、劳作、耕作”等意思。其意义逐渐集中到为种植作物而耕作土地。<br><span class="en-sub">Tilled is the past tense and past participle of till, which comes from Old English tilian, with meanings including striving, working, and cultivating. Its meaning became concentrated on working the soil to grow crops.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>构词：till（耕作）+ -ed → tilled；两个 l 原本就存在于 till 中，并非添加 -ed 时才双写；-ed 在此读 /d/。tilled 本身是屈折形式，也可作分词形容词。主要词族：till、tills、tilling、tilled、tillage（耕作）、tiller（耕作者；耕耘机）、tillable（可耕作的）、untilled（未耕作的）、retill（重新翻耕）。<br><span class="en-sub">Formation: till ('cultivate') + -ed → tilled; the double l is already present in till, and -ed is pronounced /d/. Tilled is an inflected form that also functions as a participial adjective. Principal family members include till, tills, tilling, tilled, tillage, tiller, tillable, untilled, and retill.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>cultivated（已耕作的）范围较广，也可涉及土地管理和作物照料；ploughed（已犁过的）明确指用犁翻土；dug（已挖过的）仅说明挖掘或翻动，并不一定为了种植。tilled 强调为种植而整备土壤。<br><span class="en-sub">Cultivated is broader and can include managing land and tending crops. Ploughed specifically indicates turning soil with a plough. Dug describes excavation or soil disturbance without necessarily implying crop preparation. Tilled emphasizes working soil for planting.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>till 是“翻土”，-ed 标记已经完成：tilled soil＝已经翻好、准备种植的土。<br><span class="en-sub">Till means work the soil; -ed marks the completed action: tilled soil is soil already prepared for planting.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">guillotine</span>
+                    <span class="pos-badge">6 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈɡɪlətiːn//</span>
+                    <span class="sense-meaning-zh">断头台</span>
+                    <span class="sense-meaning-en">(A device that executes a person by dropping a heavy blade onto the neck.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A guillotine is a machine with a heavy falling blade that was used to execute people by cutting off their heads.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>the blade of a guillotine; send someone to the guillotine</code> <span class="trans">断头台的刀刃；将某人送上断头台</span></div>
+                <div class="sentence"><strong>例句:</strong> The museum displays a model of a guillotine used during the French Revolution.<br><span class="trans">博物馆里陈列着法国大革命时期所用断头台的模型。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈɡɪlətiːn//</span>
+                    <span class="sense-meaning-zh">〈尤英〉切纸机；闸刀式切割机</span>
+                    <span class="sense-meaning-en">(A cutting machine with a blade that moves down through paper or another material.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A guillotine is a machine that cuts paper or other material with a blade that comes down across it.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a paper guillotine; cut paper with a guillotine</code> <span class="trans">切纸机；用切纸机裁纸</span></div>
+                <div class="sentence"><strong>例句:</strong> Use the guillotine to trim the printed sheets.<br><span class="trans">用切纸机把印好的纸张裁齐。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈɡɪlətiːn//</span>
+                    <span class="sense-meaning-zh">〈英国议会用语〉限制或终止辩论的程序</span>
+                    <span class="sense-meaning-en">(A parliamentary procedure that limits the time allowed for debate.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> In parliamentary procedure, a guillotine sets a time limit after which debate on specified business must end.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a guillotine motion; impose a guillotine on debate</code> <span class="trans">限时辩论动议；对辩论施加时间限制</span></div>
+                <div class="sentence"><strong>例句:</strong> The government proposed a guillotine motion to limit debate on the bill.<br><span class="trans">政府提出了限时辩论动议，以限制对该法案的辩论时间。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 动词</span>
+                    <span class="sense-phonetic">//ˈɡɪlətiːn//</span>
+                    <span class="sense-meaning-zh">用断头台处死</span>
+                    <span class="sense-meaning-en">(To execute someone using a guillotine.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If someone is guillotined, they are executed by having their head cut off with a guillotine.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>be guillotined; guillotine a prisoner</code> <span class="trans">被送上断头台处死；用断头台处决囚犯</span></div>
+                <div class="sentence"><strong>例句:</strong> Louis XVI was guillotined in 1793.<br><span class="trans">路易十六于1793年被送上断头台处死。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 动词</span>
+                    <span class="sense-phonetic">//ˈɡɪlətiːn//</span>
+                    <span class="sense-meaning-zh">用闸刀式切割机裁切</span>
+                    <span class="sense-meaning-en">(To cut or trim material with a guillotine.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If you guillotine paper or another material, you cut it with a machine that has a descending blade.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>guillotine paper; guillotine the edges</code> <span class="trans">用切纸机裁纸；用闸刀式切割机修齐边缘</span></div>
+                <div class="sentence"><strong>例句:</strong> The printer guillotined the sheets to the required size.<br><span class="trans">印刷工用切纸机把纸张裁成了所需的尺寸。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 动词</span>
+                    <span class="sense-phonetic">//ˈɡɪlətiːn//</span>
+                    <span class="sense-meaning-zh">〈英国议会用语〉限制或强制结束辩论</span>
+                    <span class="sense-meaning-en">(To restrict or end parliamentary debate by imposing a time limit.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If parliamentary debate is guillotined, it is restricted or brought to an end under a fixed timetable.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>guillotine debate; guillotine discussion of a bill</code> <span class="trans">限制辩论时间；限时结束对法案的讨论</span></div>
+                <div class="sentence"><strong>例句:</strong> Opposition members objected to the decision to guillotine debate.<br><span class="trans">反对党议员反对限时结束辩论的决定。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>guillotine 借自法语，以法国医生 Joseph-Ignace Guillotin 的姓氏命名；他倡议采用机械斩首方式，但并非该装置的发明者。“落刀切断”的形象后来延伸到切割机械，以及强制截断议会辩论的程序。<br><span class="en-sub">Guillotine was borrowed from French and named after the physician Joseph-Ignace Guillotin, who advocated mechanical execution by beheading but did not invent the device. The image of a descending blade later extended to cutting machines and procedures that cut parliamentary debate short.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语中宜把 guillotine 作为整体词干；它的历史人名来源是 Guillotin，不宜把词尾 -e 当作英语中的能产后缀。动词由名词转类而来。主要词族及变化：guillotines（名词复数或动词第三人称单数）、guillotined（过去式、过去分词）、guillotining（现在分词或动名词）；相关复合词有 paper guillotine（切纸机）和 guillotine motion（限时辩论动议）。<br><span class="en-sub">In modern English, guillotine is best treated as a whole stem; its historical basis is the surname Guillotin, and final -e is not a productive English suffix here. The verb is formed by conversion from the noun. Principal inflections are guillotines, guillotined, and guillotining; related compounds include paper guillotine and guillotine motion.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>behead（斩首）只说明使头身分离，不限定工具；execute（处决）范围更广，不限定处决方式；curtail（缩短、限制）可对应其议会引申义，但本身不表示使用正式的限时辩论程序。<br><span class="en-sub">Behead specifies removal of the head without identifying the instrument. Execute is broader and does not specify the method. Curtail overlaps with the parliamentary sense of restricting debate but does not itself imply a formal guillotine procedure.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>抓住“落刀截断”这一形象：截断生命、裁断纸张，也能比喻截断辩论。<br><span class="en-sub">Picture a blade dropping to cut something off: a life, a sheet of paper, or, figuratively, a parliamentary debate.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">disburse</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 动词</span>
+                    <span class="sense-phonetic">//dɪsˈbɜːs//</span>
+                    <span class="sense-meaning-zh">支付；拨付，尤指从所管理的资金中付出款项</span>
+                    <span class="sense-meaning-en">(To pay out money, especially from a fund that someone manages.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If an organization or person disburses money, they pay it out from funds they control.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>disburse funds; disburse a loan</code> <span class="trans">拨付资金；发放贷款</span></div>
+                <div class="sentence"><strong>例句:</strong> The agency will disburse the funds in three installments.<br><span class="trans">该机构将分三期拨付这笔资金。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>disburse 经法语 desbourser 一类形式进入英语，由表示“向外、移出”的前缀和 bourse（钱袋）构成。其字面形象是“从钱袋里取出钱”，后来用于支付、拨付所管理的资金。<br><span class="en-sub">Disburse entered English through French forms such as desbourser, combining a prefix meaning 'out' with bourse, meaning 'purse.' The literal image of taking money out of a purse developed into the payment of money from funds under someone's control.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代学习可分析为 dis-（在本词中表示“向外”）+ burse（历史上的“钱袋”词干）；burse 在当代普通英语中不是常用独立词。主要词族及变化：disburses、disbursed、disbursing、disbursement（支付、拨款；所付款项）、disbursal（支付、拨付）、disburser（付款者、拨款方）、disbursable（可拨付的）、undisbursed（尚未拨付的）。<br><span class="en-sub">For modern learning, analyze disburse as dis- ('out,' in this word) + burse, a historical stem meaning 'purse'; burse is not a common independent word in present-day general English. Principal family members and inflections include disburses, disbursed, disbursing, disbursement, disbursal, disburser, disbursable, and undisbursed.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>pay（支付）最通用，可用于各种付款；distribute（分发、分配）强调把钱或其他物品分给多个接收者；allocate（划拨、分配）强调决定资金的用途或归属，款项未必已经付出。disburse 强调实际将受管理的资金支付出去。<br><span class="en-sub">Pay is the general term for making a payment. Distribute emphasizes sharing money or other things among recipients. Allocate means assigning funds to a purpose or recipient and does not necessarily mean that payment has occurred. Disburse emphasizes actually paying money out of managed funds.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>dis-＝向外，burse＝钱袋：钱从袋里出去，就是“支付、拨付”。<br><span class="en-sub">Dis- means out and burse recalls a purse: money goes out of the purse when it is disbursed.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">Mach</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//mɑːk//</span>
+                    <span class="sense-meaning-zh">马赫数；物体速度与当地声速的比值</span>
+                    <span class="sense-meaning-en">(the ratio of an object's speed to the local speed of sound)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A Mach number expresses how fast something moves compared with the speed of sound in the surrounding medium.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>Mach number; fly at Mach 2</code> <span class="trans">马赫数；以二倍当地声速飞行</span></div>
+                <div class="sentence"><strong>例句:</strong> The aircraft can fly at Mach 2, twice the local speed of sound.<br><span class="trans">这架飞机能以马赫数2飞行，即达到当地声速的两倍。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>Mach 来自奥地利物理学家恩斯特·马赫的姓氏，用以纪念他对高速运动和激波的研究。这个名称后来用于表示速度与当地声速的比值，因此它不是一个处处对应相同实际速度的固定单位。<br><span class="en-sub">Mach comes from the surname of Austrian physicist Ernst Mach and honors his research into high-speed motion and shock waves. The name came to designate a ratio to the local speed of sound, so it does not represent one fixed physical speed under all conditions.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语中，Mach 是不可再作普通词根、词缀拆分的姓氏来源词。相关构词和组合有 Mach number（马赫数）、Mach + meter → machmeter（马赫表）、high-Mach（高马赫数的）和 low-Mach（低马赫数的）；Machian（马赫的；马赫学说的）由同一姓氏派生，但不是专指速度的词。<br><span class="en-sub">In modern English, Mach is a surname-based term with no ordinary root-and-affix breakdown. Related formations and combinations include Mach number, Mach + meter → machmeter, high-Mach, and low-Mach; Machian derives from the same surname but refers to Mach or his ideas rather than specifically to speed.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>Mach number（马赫数）是完整技术名称；speed（速度）表示运动快慢，本身不包含与声速的比较；airspeed（空速）表示相对于周围空气的速度，也不必以声速为基准。后两者都不是 Mach 的严格同义词。<br><span class="en-sub">Mach number is the full technical expression; speed describes how fast something moves without necessarily comparing it with sound; airspeed measures speed relative to the surrounding air. The latter two are related terms, not exact synonyms.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>把当地声速看作“1”：Mach 2 就是它的两倍。<br><span class="en-sub">Treat the local speed of sound as 1: Mach 2 means twice that speed.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">Walkman</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈwɔːkmən//</span>
+                    <span class="sense-meaning-zh">索尼 Walkman 随身听；尤指配耳机的便携式磁带播放器</span>
+                    <span class="sense-meaning-en">(a Sony personal audio player, especially a portable cassette player used with headphones)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A Walkman is a small personal audio player made by Sony that allows you to listen through headphones while carrying it around.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a Sony Walkman; listen to music on a Walkman</code> <span class="trans">一台索尼随身听；用随身听听音乐</span></div>
+                <div class="sentence"><strong>例句:</strong> She used to listen to tapes on her Walkman on the way to school.<br><span class="trans">她过去常在上学途中用随身听听磁带。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>Walkman 是索尼为1979年推出的便携式个人磁带播放器创造的商标名，由英语 walk 和 man 组合而成，呼应了早先的 Pressman 录音机名称。它后来也用于索尼其他个人音频播放器，并曾在日常语言中被泛用于同类便携设备。<br><span class="en-sub">Walkman was coined by Sony for its portable personal cassette player introduced in 1979, combining walk and man and echoing its earlier Pressman recorder name. It later covered other Sony personal audio players and was also used loosely in everyday speech for similar portable devices.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>walk（步行）+ man（人）→ Walkman，属于商标复合词。常用复数为 Walkmans，而不是按普通名词 man 的变化构成 Walkmen；没有常用的动词、形容词或其他词缀派生词族。<br><span class="en-sub">walk + man → Walkman, a compound trademark. The usual plural is Walkmans rather than Walkmen; there is no established common family of derived verbs, adjectives, or other affixed forms.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>personal stereo（个人立体声播放器）是传统的通用名称；portable cassette player（便携式磁带播放器）明确限定磁带介质；portable music player（便携式音乐播放器）范围更广，也包括数字设备。Walkman 本身是索尼商标。<br><span class="en-sub">Personal stereo is the traditional generic term; portable cassette player specifically identifies a tape-based device; portable music player is broader and includes digital devices. Walkman itself is a Sony trademark.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>walk + man：让音乐跟着人走。<br><span class="en-sub">walk + man: music that walks with you.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">hardcore</span>
+                    <span class="pos-badge">7 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">adj. 形容词</span>
+                    <span class="sense-phonetic">//ˈhɑːdkɔː//</span>
+                    <span class="sense-meaning-zh">铁杆的；坚定投入的；难以改变的</span>
+                    <span class="sense-meaning-en">(strongly committed, firmly established, or resistant to change)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Hardcore supporters or participants are extremely committed to an activity, belief, or group and are unlikely to change.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>hardcore fans; hardcore gamers</code> <span class="trans">铁杆粉丝；硬核游戏玩家</span></div>
+                <div class="sentence"><strong>例句:</strong> Hardcore fans queued overnight to get tickets.<br><span class="trans">铁杆粉丝们通宵排队买票。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">adj. 形容词</span>
+                    <span class="sense-phonetic">//ˈhɑːdkɔː//</span>
+                    <span class="sense-meaning-zh">高强度的；极端的；要求很高的</span>
+                    <span class="sense-meaning-en">(extremely intense, demanding, or uncompromising)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A hardcore activity or approach is unusually intense or demanding and requires serious effort or commitment.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>hardcore training; a hardcore workout</code> <span class="trans">高强度训练；一次高强度健身训练</span></div>
+                <div class="sentence"><strong>例句:</strong> The course includes some pretty hardcore training.<br><span class="trans">这门课程包含一些强度相当大的训练。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">adj. 形容词</span>
+                    <span class="sense-phonetic">//ˈhɑːdkɔː//</span>
+                    <span class="sense-meaning-zh">硬核音乐的；尤指硬核朋克或硬核电子舞曲的</span>
+                    <span class="sense-meaning-en">(relating to intense styles of punk music or electronic dance music)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Hardcore music belongs to an especially intense style of punk or electronic dance music, typically with aggressive sounds or forceful rhythms.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>hardcore punk; hardcore techno</code> <span class="trans">硬核朋克；硬核泰克诺音乐</span></div>
+                <div class="sentence"><strong>例句:</strong> The band started out playing hardcore punk.<br><span class="trans">这支乐队最初演奏硬核朋克。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">adj. 形容词</span>
+                    <span class="sense-phonetic">//ˈhɑːdkɔː//</span>
+                    <span class="sense-meaning-zh">露骨色情的</span>
+                    <span class="sense-meaning-en">(showing sexual activity explicitly)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Hardcore pornography shows sexual activity explicitly and in detail.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>hardcore pornography; hardcore material</code> <span class="trans">露骨色情作品；露骨色情材料</span></div>
+                <div class="sentence"><strong>例句:</strong> The platform prohibits hardcore pornography.<br><span class="trans">该平台禁止露骨色情内容。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈhɑːdkɔː//</span>
+                    <span class="sense-meaning-zh">硬核音乐；尤指硬核朋克或硬核电子舞曲</span>
+                    <span class="sense-meaning-en">(an intense style of punk music or electronic dance music)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Hardcore is a type of punk or electronic dance music known for its intense sound and forceful energy.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>listen to hardcore; UK hardcore</code> <span class="trans">听硬核音乐；英国硬核舞曲</span></div>
+                <div class="sentence"><strong>例句:</strong> The DJ played hardcore until the club closed.<br><span class="trans">那位DJ一直播放硬核舞曲，直到俱乐部打烊。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈhɑːdkɔː//</span>
+                    <span class="sense-meaning-zh">建筑填料；用于地基或路基的碎砖石等硬质材料，主要用于英式英语</span>
+                    <span class="sense-meaning-en">(broken stone, brick, or similar material used as a firm construction base, chiefly in British English)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Hardcore is broken stone, brick, or other hard material laid down to form a firm base for a floor, road, or other structure.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a layer of hardcore; compacted hardcore</code> <span class="trans">一层碎砖石填料；压实的硬质填料</span></div>
+                <div class="sentence"><strong>例句:</strong> The builders laid a layer of hardcore beneath the concrete floor.<br><span class="trans">建筑工人在混凝土地面下面铺了一层碎砖石填料。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈhɑːdkɔː//</span>
+                    <span class="sense-meaning-zh">露骨色情作品或材料</span>
+                    <span class="sense-meaning-en">(sexually explicit pornography)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Hardcore is pornography that shows sexual activity explicitly and in detail.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a ban on hardcore; access to hardcore</code> <span class="trans">对露骨色情内容的禁令；接触露骨色情内容的途径</span></div>
+                <div class="sentence"><strong>例句:</strong> The filter blocks access to hardcore.<br><span class="trans">该过滤器会阻止用户访问露骨色情内容。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>hardcore 源自 hard core“坚硬的核心”，其字面意象体现于建筑填料义，也引申为群体中坚定、难以改变的核心部分。后来形成“铁杆的、极端的”等形容词用法，并用于露骨色情内容及强烈的音乐风格；不同含义中也常见 hard-core 拼法。<br><span class="en-sub">Hardcore comes from hard core, literally a solid central mass, an image reflected in the construction-material sense and extended to an enduring or resistant nucleus within a group. It later developed adjectival meanings such as deeply committed or extreme and was applied to explicit pornography and intense musical styles; hard-core is also a common spelling in several senses.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>hard（坚硬的；强烈的）+ core（核心）→ hardcore，属于复合词，可作形容词和名词。相关形式有 hard-core（带连字符的拼写）、hard core（常表示坚定的核心群体）和 hardcoreness（硬核程度，非正式且较少见）；hardcore fan 等通常是词组，不是新的派生词。<br><span class="en-sub">hard + core → hardcore, a compound used as both an adjective and a noun. Related forms include the hyphenated spelling hard-core, the open expression hard core, often meaning a committed central group, and the uncommon informal noun hardcoreness; combinations such as hardcore fan are phrases rather than new derivatives.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>diehard（顽固坚持的；铁杆的）强调不肯改变或放弃；dedicated（专注投入的）强调持续付出，语气通常较中性；extreme（极端的）强调程度很高，不一定涉及忠诚。它们只对应部分形容词义，不能替代建筑或音乐名词义。<br><span class="en-sub">Diehard emphasizes refusing to change or give up; dedicated emphasizes sustained commitment and is usually more neutral; extreme emphasizes degree without necessarily implying loyalty. These overlap with particular adjectival senses and do not replace the construction or musical nouns.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>“坚硬的核心”不动摇：人很铁杆，活动或内容很强烈。<br><span class="en-sub">A hard core does not give way: people stay committed, while activities or content become intense.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">spinster</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈspɪnstə//</span>
+                    <span class="sense-meaning-zh">未婚女性，尤指被认为已过通常婚龄者；用法过时，常含贬义</span>
+                    <span class="sense-meaning-en">(an unmarried woman, especially an older one; an old-fashioned and often derogatory term)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A spinster is a woman who has never married, especially one considered past the usual age for marriage; the word is old-fashioned and often insulting.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>an elderly spinster; a spinster aunt</code> <span class="trans">一位年长的未婚女性；一位终身未婚的姑姨辈亲属</span></div>
+                <div class="sentence"><strong>例句:</strong> The novel describes her as a spinster, using the language of its time.<br><span class="trans">这部小说沿用当时的措辞，将她称作“老处女”。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>spinster 在中古英语中由 spin“纺纱”和表示从业者、历史上常用于女性的后缀 -ster 构成，最初指纺纱者。由于纺纱与未婚女性的生计密切相关，该词后来成为未婚女性的身份称谓，并逐渐带上针对年长未婚女性的贬义。<br><span class="en-sub">Spinster was formed in Middle English from spin and the occupational suffix -ster, historically often associated with women, and originally meant a person who spun thread. Its association with unmarried women's work helped it develop into a designation for an unmarried woman, later acquiring derogatory associations with older unmarried women.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>历史构词为 spin（纺纱）+ -ster（从业者）→ spinster；现代意义已词汇化，不能按字面理解为普通纺纱工。词族包括 spinsters（复数）、spinsterhood（未婚女性的状态或生活）、spinsterish（带有传统“老处女”刻板印象的）及较少见的 spinsterly（具有这种特征的）；相关形式也可能带贬义。<br><span class="en-sub">The historical formation is spin + -ster, an occupational suffix → spinster; its modern meaning is lexicalized rather than a literal name for an ordinary textile worker. The family includes spinsters, spinsterhood, spinsterish, and the less common spinsterly; related forms can also carry derogatory stereotypes.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>unmarried woman（未婚女性）是中性描述；single woman（单身女性）强调当前单身，不保证从未结婚；old maid（老处女）贬义更直接，也已过时。spinster 通常暗示从未结婚，并附带年龄和社会评价。<br><span class="en-sub">Unmarried woman is neutral; single woman describes current single status and does not necessarily mean never married; old maid is more directly derogatory and is also dated. Spinster usually implies never having married and often adds assumptions about age and social status.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>从“纺纱的女性”记到历史上的“未婚女性”称谓，并一起记住其过时、常含贬义的语气。<br><span class="en-sub">Follow the historical thread from a woman spinning yarn to an unmarried woman, and remember the dated, often derogatory tone.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">sundry</span>
+                    <span class="pos-badge">2 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">adj. 形容词</span>
+                    <span class="sense-phonetic">//ˈsʌndri//</span>
+                    <span class="sense-meaning-zh">各种各样的；杂项的，多用于名词前，语体较正式</span>
+                    <span class="sense-meaning-en">(various or miscellaneous, usually before a noun and somewhat formal)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Sundry things are several different things that are considered together without being listed individually.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>sundry expenses; sundry items</code> <span class="trans">杂项开支；各种杂物</span></div>
+                <div class="sentence"><strong>例句:</strong> The drawer contained keys, receipts, and sundry other items.<br><span class="trans">抽屉里放着钥匙、收据和其他各种杂物。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词（复数形式 sundries）</span>
+                    <span class="sense-phonetic">//ˈsʌndriz//</span>
+                    <span class="sense-meaning-zh">杂物；杂项小用品；杂项费用</span>
+                    <span class="sense-meaning-en">(miscellaneous small articles, supplies, or expenses)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Sundries are various small items or expenses that are grouped together because they do not need separate categories.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>toiletries and sundries; office sundries</code> <span class="trans">洗漱用品及杂项用品；办公杂项用品</span></div>
+                <div class="sentence"><strong>例句:</strong> The shop sells newspapers, toiletries, and other sundries.<br><span class="trans">这家商店出售报纸、洗漱用品和其他杂项小用品。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>sundry 源自古英语 syndrig“分开的、各自的”，与表示“分开”的 sundor 有关，经中古英语的相关形式演变为现代拼写。意义从“各自不同的”发展为“各种各样的”，复数名词 sundries 则表示归在一起的杂项物品。<br><span class="en-sub">Sundry descends from Old English syndrig, meaning separate or individual, related to sundor, meaning apart, through Middle English forms. Its meaning developed from individually distinct to various, while the plural noun sundries came to denote miscellaneous items grouped together.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语中，sundry 通常作为整体词干学习，不应拆成 sun + dry。常用词族为 sundry → sundries，名词化后以复数表示杂物，词尾 y 变为 ies；固定短语 all and sundry 意为“所有人；各色人等”。历史形式 sundriness 已废弃，不属于现代常用派生词。<br><span class="en-sub">In modern English, sundry is normally learned as a whole stem and should not be divided into sun + dry. Its common family includes sundry → sundries, a nominalized plural for miscellaneous items with y changing to ies; the fixed phrase all and sundry means everyone. The historical form sundriness is obsolete and is not a current common derivative.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>various（各种各样的）最通用，强调种类不同；miscellaneous（杂项的）强调项目不易归入一个明确类别；assorted（混合多样的）常指放在一起的一组选用品或物件。sundry 较正式，常用于零散物品或开支。<br><span class="en-sub">Various is the broadest term and emphasizes differences in kind; miscellaneous emphasizes items that do not fit one clear category; assorted often describes a mixed collection of goods or objects. Sundry is somewhat formal and commonly describes incidental items or expenses.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>各自不同的小项放到一起，就是“各种杂项”。<br><span class="en-sub">Separate little things gathered together become miscellaneous items.</span></div>
+        </div>
+        </div>
+</body>
+</html>
