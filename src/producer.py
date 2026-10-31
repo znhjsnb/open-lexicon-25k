@@ -40,38 +40,65 @@ def load_source_words():
 
 
 def build_prompt_for_packet(packet):
-    """Build a structured prompt for a packet of 5-10 words."""
+    """Build a structured prompt for a packet of words with full multi-POS support."""
     words_input = []
     for item in packet:
         words_input.append({
             "word": item.get("word"),
-            "pos": item.get("pos"),
-            "meaning": item.get("meaning"),
-            "morphology": item.get("morphology", {}).get("text") if isinstance(item.get("morphology"), dict) else item.get("morphology"),
-            "collocation": item.get("collocation"),
+            "existing_pos": item.get("pos"),
+            "existing_meaning": item.get("meaning"),
+            "raw_morphology": item.get("morphology", {}).get("text") if isinstance(item.get("morphology"), dict) else item.get("morphology"),
+            "raw_etymology": item.get("etymology", {}).get("text") if isinstance(item.get("etymology"), dict) else item.get("etymology"),
         })
 
-    prompt = f"""You are a master lexicographer and linguist enhancing the Open-Lexicon 25K open-source database.
-For each word below, provide four rigorous, high-value fields:
+    prompt = f"""You are a master lexicographer building the Open-Lexicon 25K database.
+For each word below, provide a comprehensive, multi-part-of-speech (Multi-POS) lexical profile.
 
-1. `english_definition`: A COBUILD-style simple, natural full English sentence defining the word clearly (using accessible ~3000 vocabulary).
-2. `synonyms_and_nuances`: 2-3 most common synonyms and a concise one-sentence Chinese explanation clarifying the subtle semantic nuance/difference between them.
-3. `exam_tags`: A JSON array of relevant exam and level tags chosen accurately from:
-   ["中考", "高考", "CET4", "CET6", "考研", "TEM4", "TEM8", "IELTS", "TOEFL", "GRE", "SAT"] and the exact CEFR level (e.g. "CEFR-A1", "CEFR-A2", "CEFR-B1", "CEFR-B2", "CEFR-C1", "CEFR-C2").
-4. `mnemonic_anchor`: A concise 1-2 sentence Chinese cognitive memory anchor connecting the morphology/root logic to the modern sense, making it effortless to remember without fake etymology.
+CRITICAL REQUIREMENT - MULTI-POS COMPLETION:
+Many English words have more than one common part of speech (e.g., 'book' is both noun and verb; 'record' is noun and verb with stress shift; 'close' is verb and adjective with pronunciation change; 'budget' is noun and verb; 'commute' is verb and noun; 'deposit' is noun and verb).
+You MUST identify and provide ALL common, widely-used parts of speech for each word. Do NOT restrict to just one POS.
+
+For each word, return a JSON object with:
+1. `senses`: Array of objects, one for each active common POS (e.g. n., v., adj., adv.):
+   - `pos`: e.g. "n. 名词", "v. 动词", "adj. 形容词"
+   - `phonetic`: Exact IPA for this specific POS (note stress/sound changes, e.g. /ˈrekɔːd/ vs /rɪˈkɔːd/)
+   - `meaning`: Clear Chinese core definition
+   - `english_definition`: COBUILD-style simple natural English sentence defining this sense
+   - `collocation`: 1-2 high-frequency authentic collocations for this POS
+   - `sentence`: Natural example sentence
+   - `translation`: Precise Chinese translation of the sentence
+2. `etymology_story`: A fascinating 1-2 sentence Chinese explanation of the authentic historical origin and semantic evolution connecting the senses (e.g. language of origin, historical root meaning, and how it naturally evolved into modern meanings).
+3. `morphology`: Modern morphological formula (root + affixes) and full word family derivatives.
+4. `synonyms_and_nuances`: 2-3 key synonyms and a concise one-sentence Chinese explanation clarifying the subtle semantic nuance.
+5. `exam_tags`: Array of applicable tags from:
+   ["中考", "高考", "CET4", "CET6", "考研", "TEM4", "TEM8", "IELTS", "TOEFL", "GRE", "SAT"] and the exact CEFR level (e.g. "CEFR-A1", "CEFR-B1", "CEFR-B2").
+6. `mnemonic_anchor`: Concise 1-2 sentence cognitive memory anchor connecting the root logic to all senses.
 
 INPUT WORDS:
 {json.dumps(words_input, ensure_ascii=False, indent=2)}
 
 OUTPUT FORMAT:
+Do not perform web searches or shell commands. Do not output any conversational preambles or postscripts.
 Return strictly a valid JSON array containing one object per input word in the exact same order:
 [
   {{
     "word": "<word>",
-    "english_definition": "<COBUILD style sentence>",
-    "synonyms_and_nuances": "<2-3 synonyms and nuance difference in Chinese>",
+    "senses": [
+      {{
+        "pos": "<pos>",
+        "phonetic": "<ipa>",
+        "meaning": "<chinese definition>",
+        "english_definition": "<cobuild sentence>",
+        "collocation": "<collocations>",
+        "sentence": "<example sentence>",
+        "translation": "<sentence translation>"
+      }}
+    ],
+    "etymology_story": "<historical origin and evolution story in Chinese>",
+    "morphology": "<modern morphological breakdown and derivatives>",
+    "synonyms_and_nuances": "<synonyms and nuances in Chinese>",
     "exam_tags": ["<tag1>", "<tag2>", ...],
-    "mnemonic_anchor": "<memory anchor explanation in Chinese>"
+    "mnemonic_anchor": "<memory anchor in Chinese>"
   }}
 ]
 No markdown fences, no conversational prose, only pure raw JSON array.
@@ -79,7 +106,7 @@ No markdown fences, no conversational prose, only pure raw JSON array.
     return prompt
 
 
-def call_codex_exec(prompt, timeout=120):
+def call_codex_exec(prompt, timeout=180):
     """Execute codex exec via stdin and capture response."""
     command = [
         str(NODE_EXE),
@@ -114,7 +141,7 @@ def call_codex_exec(prompt, timeout=120):
     if proc.returncode != 0:
         raise RuntimeError(f"Codex exec failed (code {proc.returncode}): {stderr.decode('utf-8', errors='ignore')}")
 
-    # Parse stdout event stream to find agent_message
+    # Parse stdout event stream to find the agent_message containing the JSON array
     agent_texts = []
     for line in stdout.decode("utf-8", errors="ignore").splitlines():
         try:
@@ -122,24 +149,35 @@ def call_codex_exec(prompt, timeout=120):
             if event.get("type") == "item.completed":
                 item = event.get("item", {})
                 if item.get("type") == "agent_message":
-                    agent_texts.append(item.get("text", ""))
+                    t = item.get("text", "")
+                    if t:
+                        agent_texts.append(t)
         except Exception:
             continue
 
     if not agent_texts:
         raise RuntimeError("No agent_message found in Codex exec output")
 
-    full_text = "\n".join(agent_texts).strip()
-    # Strip potential ```json fences if model wrapped them
-    if full_text.startswith("```"):
-        lines = full_text.splitlines()
-        if lines[0].startswith("```"):
-            lines = lines[1:]
-        if lines and lines[-1].startswith("```"):
-            lines = lines[:-1]
-        full_text = "\n".join(lines).strip()
+    # Look for valid JSON array in agent texts (from last to first)
+    for text in reversed(agent_texts):
+        start = text.find("[")
+        end = text.rfind("]")
+        if start != -1 and end != -1 and end > start:
+            try:
+                parsed = json.loads(text[start : end + 1])
+                if isinstance(parsed, list):
+                    return parsed
+            except Exception:
+                continue
 
-    return json.loads(full_text)
+    # Fallback: join all texts and search
+    full_text = "\n".join(agent_texts)
+    start = full_text.find("[")
+    end = full_text.rfind("]")
+    if start != -1 and end != -1 and end > start:
+        return json.loads(full_text[start : end + 1])
+
+    raise RuntimeError("Could not parse JSON array from Codex agent messages")
 
 
 def process_packet(packet, packet_id):
@@ -157,7 +195,9 @@ def process_packet(packet, packet_id):
                     enrichment = res_map.get(w, {})
                     merged = {
                         **original,
-                        "english_definition": enrichment.get("english_definition", ""),
+                        "senses": enrichment.get("senses", []),
+                        "etymology_story": enrichment.get("etymology_story", ""),
+                        "morphology_enriched": enrichment.get("morphology", ""),
                         "synonyms_and_nuances": enrichment.get("synonyms_and_nuances", ""),
                         "exam_tags": enrichment.get("exam_tags", []),
                         "mnemonic_anchor": enrichment.get("mnemonic_anchor", ""),
@@ -172,7 +212,7 @@ def process_packet(packet, packet_id):
     raise RuntimeError(f"Packet {packet_id} failed after 2 attempts")
 
 
-def run_batch(start_idx=0, count=50, max_workers=3, packet_size=5):
+def run_batch(start_idx=0, count=6, max_workers=2, packet_size=3):
     """Run a batch of words with multi-worker concurrency."""
     all_words = load_source_words()
     batch_words = all_words[start_idx : start_idx + count]
@@ -212,32 +252,51 @@ def run_batch(start_idx=0, count=50, max_workers=3, packet_size=5):
 
 
 def generate_inspection_card(batch_name, items):
-    """Generate a clean visual HTML inspection card for user review."""
+    """Generate a clean visual HTML inspection card displaying multi-POS senses."""
     html_file = REPORTS_DIR / f"{batch_name}_inspection.html"
-    sample_items = items[:12]  # Showcase first 12 items
+    sample_items = items[:12]
 
     cards_html = ""
     for item in sample_items:
         tags_badges = "".join([f'<span class="badge tag">{t}</span>' for t in item.get("exam_tags", [])])
-        morph = item.get("morphology", {})
+        morph = item.get("morphology_enriched") or item.get("morphology", {})
         morph_text = morph.get("text", "") if isinstance(morph, dict) else str(morph)
+
+        # Render each sense
+        senses = item.get("senses", [])
+        senses_html = ""
+        for s in senses:
+            senses_html += f"""
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">{s.get('pos', '')}</span>
+                    <span class="sense-phonetic">/{s.get('phonetic', '')}/</span>
+                    <span class="sense-meaning">{s.get('meaning', '')}</span>
+                </div>
+                <div class="en-def"><strong>English:</strong> {s.get('english_definition', '')}</div>
+                <div class="colloc"><strong>高频搭配：</strong> <code>{s.get('collocation', '')}</code></div>
+                <div class="sentence"><strong>经典语境：</strong> {s.get('sentence', '')}<br><span class="trans">{s.get('translation', '')}</span></div>
+            </div>
+            """
 
         cards_html += f"""
         <div class="card">
             <div class="card-header">
                 <div>
                     <span class="word">{item.get('word')}</span>
-                    <span class="pos">{item.get('pos')}</span>
-                    <span class="phonetic">/{item.get('phonetic', '')}/</span>
+                    <span class="pos-badge">{len(senses)} 个全覆盖词性</span>
                 </div>
                 <div class="tags">{tags_badges}</div>
             </div>
-            <div class="meaning"><strong>中文释义：</strong>{item.get('meaning')}</div>
-            <div class="en-def"><strong>English:</strong> {item.get('english_definition')}</div>
-            <div class="morph"><strong>构词公式：</strong> {morph_text}</div>
-            <div class="synonym"><strong>近义微雕：</strong> {item.get('synonyms_and_nuances')}</div>
-            <div class="colloc"><strong>高频搭配：</strong> <code>{item.get('collocation', '')}</code></div>
-            <div class="sentence"><strong>经典语境：</strong> {item.get('sentence', '')}<br><span class="trans">{item.get('translation', '')}</span></div>
+            
+            <!-- Multi-Senses Container -->
+            <div class="senses-container">
+                {senses_html}
+            </div>
+
+            <div class="etym"><strong>🏛️ 来源历史：</strong> {item.get('etymology_story')}</div>
+            <div class="morph"><strong>🧩 构词拆解：</strong> {morph_text}</div>
+            <div class="synonym"><strong>⚖️ 近义微雕：</strong> {item.get('synonyms_and_nuances')}</div>
             <div class="mnemonic"><strong>💡 秒记锚点：</strong> {item.get('mnemonic_anchor')}</div>
         </div>
         """
@@ -246,30 +305,36 @@ def generate_inspection_card(batch_name, items):
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>Open-Lexicon 25K - 批次抽检卡 ({batch_name})</title>
+<title>Open-Lexicon 25K - 多词性全覆盖抽检卡 ({batch_name})</title>
 <style>
     body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 24px; }}
     h1 {{ color: #38bdf8; font-size: 24px; border-bottom: 1px solid #334155; padding-bottom: 12px; }}
     .meta {{ color: #94a3b8; font-size: 14px; margin-bottom: 24px; }}
-    .grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr)); gap: 16px; }}
-    .card {{ background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 18px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.2); }}
-    .card-header {{ display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; border-bottom: 1px dashed #334155; padding-bottom: 8px; }}
-    .word {{ font-size: 22px; font-weight: bold; color: #38bdf8; margin-right: 8px; }}
-    .pos {{ color: #fbbf24; font-weight: 600; font-size: 14px; margin-right: 8px; }}
-    .phonetic {{ color: #94a3b8; font-family: monospace; font-size: 13px; }}
+    .grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(540px, 1fr)); gap: 20px; }}
+    .card {{ background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.2); }}
+    .card-header {{ display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; border-bottom: 1px dashed #334155; padding-bottom: 10px; }}
+    .word {{ font-size: 24px; font-weight: bold; color: #38bdf8; margin-right: 10px; }}
+    .pos-badge {{ background: #3b82f6; color: #fff; font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }}
     .badge {{ display: inline-block; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; margin-left: 4px; }}
     .tag {{ background: #0284c7; color: #fff; }}
-    .meaning {{ font-size: 15px; margin-bottom: 8px; color: #e2e8f0; }}
-    .en-def {{ font-size: 14px; color: #38bdf8; margin-bottom: 8px; background: rgba(56, 189, 248, 0.08); padding: 6px 10px; border-radius: 6px; }}
-    .morph, .synonym, .colloc, .sentence {{ font-size: 13px; color: #cbd5e1; margin-bottom: 6px; line-height: 1.5; }}
-    .trans {{ color: #94a3b8; font-size: 12px; }}
-    .mnemonic {{ font-size: 13px; color: #34d399; margin-top: 10px; background: rgba(52, 211, 153, 0.1); padding: 8px 10px; border-radius: 6px; }}
-    code {{ background: #0f172a; padding: 2px 6px; border-radius: 4px; color: #f472b6; }}
+    .senses-container {{ margin-bottom: 14px; display: flex; flex-direction: column; gap: 10px; }}
+    .sense-block {{ background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 12px; }}
+    .sense-header {{ display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }}
+    .sense-pos {{ color: #fbbf24; font-weight: bold; font-size: 13px; }}
+    .sense-phonetic {{ color: #94a3b8; font-family: monospace; font-size: 12px; }}
+    .sense-meaning {{ color: #f1f5f9; font-weight: 600; font-size: 14px; margin-left: 4px; }}
+    .en-def {{ font-size: 13px; color: #38bdf8; margin-bottom: 6px; font-style: italic; }}
+    .colloc, .sentence {{ font-size: 12px; color: #cbd5e1; margin-bottom: 4px; line-height: 1.4; }}
+    .trans {{ color: #94a3b8; font-size: 11px; }}
+    .etym {{ font-size: 12px; color: #f59e0b; background: rgba(245, 158, 11, 0.08); padding: 8px 10px; border-radius: 6px; margin-bottom: 6px; line-height: 1.5; }}
+    .morph, .synonym {{ font-size: 12px; color: #cbd5e1; margin-bottom: 6px; line-height: 1.5; }}
+    .mnemonic {{ font-size: 12px; color: #34d399; margin-top: 10px; background: rgba(52, 211, 153, 0.1); padding: 8px 10px; border-radius: 6px; }}
+    code {{ background: #1e293b; padding: 2px 6px; border-radius: 4px; color: #f472b6; }}
 </style>
 </head>
 <body>
-    <h1>🚀 Open-Lexicon 25K 批次质量抽检画廊</h1>
-    <div class="meta">批次：<strong>{batch_name}</strong> | 规模：<strong>{len(items)} 词</strong> | 模型：<strong>gpt-6.1-sol (high)</strong></div>
+    <h1>🚀 Open-Lexicon 25K 多词性全覆盖抽检画廊</h1>
+    <div class="meta">批次：<strong>{batch_name}</strong> | 规模：<strong>{len(items)} 词</strong> | 特性：<strong>全词性补齐 + 语源演变 + 柯林斯纯英 + 近义微雕</strong></div>
     <div class="grid">
         {cards_html}
     </div>
@@ -282,6 +347,6 @@ def generate_inspection_card(batch_name, items):
 
 
 if __name__ == "__main__":
-    count = int(sys.argv[1]) if len(sys.argv) > 1 else 30
-    workers = int(sys.argv[2]) if len(sys.argv) > 2 else 3
-    run_batch(start_idx=0, count=count, max_workers=workers, packet_size=5)
+    count = int(sys.argv[1]) if len(sys.argv) > 1 else 6
+    workers = int(sys.argv[2]) if len(sys.argv) > 2 else 2
+    run_batch(start_idx=0, count=count, max_workers=workers, packet_size=3)
