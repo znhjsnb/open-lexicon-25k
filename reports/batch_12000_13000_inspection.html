@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Open-Lexicon 25K - batch_12000_13000</title>
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 24px; }
+    h1 { color: #38bdf8; font-size: 22px; margin-bottom: 8px; }
+    .meta { color: #94a3b8; font-size: 13px; margin-bottom: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(540px, 1fr)); gap: 18px; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 18px; }
+    .card-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; border-bottom: 1px dashed #334155; padding-bottom: 8px; }
+    .word { font-size: 22px; font-weight: bold; color: #38bdf8; }
+    .pos-badge { background: #0284c7; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
+    .badge { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 11px; background: #0369a1; color: #fff; margin-left: 4px; }
+    .senses-container { margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .sense-block { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 10px; font-size: 12px; }
+    .sense-header { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; flex-wrap: wrap; }
+    .sense-pos { color: #fbbf24; font-weight: bold; }
+    .sense-meaning-zh { color: #f1f5f9; font-weight: 600; }
+    .sense-meaning-en { color: #94a3b8; font-style: italic; }
+    .en-def { color: #38bdf8; margin-bottom: 4px; font-style: italic; }
+    .colloc, .sentence { color: #cbd5e1; margin-bottom: 3px; line-height: 1.4; }
+    .trans { color: #94a3b8; font-size: 11px; }
+    .en-sub { color: #94a3b8; font-style: italic; font-size: 11px; display: block; margin-top: 2px; }
+    .etym, .morph, .synonym, .mnemonic { font-size: 12px; padding: 8px 10px; border-radius: 6px; margin-bottom: 6px; line-height: 1.4; }
+    .etym { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); }
+    .morph { background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.2); }
+    .synonym { background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.2); }
+    .mnemonic { background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.2); }
+    code { background: #0f172a; padding: 2px 4px; border-radius: 4px; color: #f472b6; }
+</style>
+</head>
+<body>
+    <h1>🚀 Open-Lexicon 25K - 批次抽检 (batch_12000_13000)</h1>
+    <div class="meta">已完成 <strong>1000 词</strong> | 规格：全词性覆盖 + 全维度中英双语对齐</div>
+    <div class="grid">
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">ripper</span>
+                    <span class="pos-badge">5 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈrɪpə//</span>
+                    <span class="sense-meaning-zh">用刀割伤、残害受害者的凶手</span>
+                    <span class="sense-meaning-en">(a murderer who cuts or mutilates victims with a knife)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A ripper is a murderer who attacks victims by cutting or mutilating their bodies with a knife.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a serial ripper; the notorious ripper</code> <span class="trans">连环割杀凶手；臭名昭著的割杀凶手</span></div>
+                <div class="sentence"><strong>例句:</strong> The newspapers called the unidentified killer the Ripper.<br><span class="trans">报纸把这名身份不明的凶手称为“开膛手”。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈrɪpə//</span>
+                    <span class="sense-meaning-zh">撕裂、拆开或松破材料的工具或机器</span>
+                    <span class="sense-meaning-en">(a tool or machine for ripping, opening, or breaking up material)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A ripper is a tool or machine that tears material apart or breaks up a hard surface.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a seam ripper; a hydraulic ripper</code> <span class="trans">拆线器；液压松土器</span></div>
+                <div class="sentence"><strong>例句:</strong> She used a seam ripper to remove the old stitches.<br><span class="trans">她用拆线器拆掉了原来的缝线。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈrɪpə//</span>
+                    <span class="sense-meaning-zh">提取或复制光盘等载体中音视频数据的软件</span>
+                    <span class="sense-meaning-en">(software that extracts or copies audio or video data from a disc or another source)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A ripper is a computer program that copies audio or video from a disc or another source into separate files.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a CD ripper; a DVD ripper</code> <span class="trans">CD音轨提取软件；DVD音视频提取软件</span></div>
+                <div class="sentence"><strong>例句:</strong> The CD ripper saved each track as a separate audio file.<br><span class="trans">这款CD音轨提取软件把每首曲目保存为一个单独的音频文件。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈrɪpə//</span>
+                    <span class="sense-meaning-zh">非常出色的人或事物〔澳大利亚、新西兰非正式用语〕</span>
+                    <span class="sense-meaning-en">(an excellent person or thing, in informal Australian and New Zealand English)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If you call someone or something a ripper, you mean that they are extremely good.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a real ripper; a ripper of a game</code> <span class="trans">非常出色的人或事物；一场精彩绝伦的比赛</span></div>
+                <div class="sentence"><strong>例句:</strong> That last goal was a ripper!<br><span class="trans">最后那个进球太精彩了！</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">adj. 形容词</span>
+                    <span class="sense-phonetic">//ˈrɪpə//</span>
+                    <span class="sense-meaning-zh">极好的；精彩的〔澳大利亚、新西兰非正式用语，通常用于名词前〕</span>
+                    <span class="sense-meaning-en">(excellent or very enjoyable, usually before a noun in informal Australian and New Zealand English)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A ripper event or experience is extremely good or enjoyable.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a ripper day; a ripper game</code> <span class="trans">美好的一天；一场精彩的比赛</span></div>
+                <div class="sentence"><strong>例句:</strong> We had a ripper day at the beach.<br><span class="trans">我们在海滩度过了非常愉快的一天。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>ripper 由 rip（撕裂）加施事或工具后缀 -er 构成，基本义为“撕裂者或撕裂工具”；“开膛手杰克”这一称号使其凶手义广为人知。计算机义把提取数据比作从原载体中“撕取”内容，澳大利亚和新西兰英语则另有表示“极好”的口语用法。<br><span class="en-sub">Ripper was formed from rip and the agent or instrument suffix -er, meaning someone or something that rips; the name Jack the Ripper made its murderer sense widely familiar. The computing sense treats extraction as ripping content from its source, while Australian and New Zealand English also use the word informally for excellence.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>构词：rip（撕裂）+ -er（实施动作的人或工具）→ ripper；rip 以重读短元音加单个辅音结尾，接元音开头的后缀时双写 p。核心词族：rip、rips、ripped、ripping、ripper、rippers；ripped 还可表示“肌肉线条分明的”，ripping 在英式旧式口语中可表示“极好的”；常见复合词有 seam ripper（拆线器）和 CD ripper（CD音轨提取软件）。<br><span class="en-sub">Formation: rip + -er, meaning a person or instrument that performs the action, produces ripper; the final p doubles because rip ends in a stressed short vowel followed by one consonant. The core family is rip, rips, ripped, ripping, ripper, and rippers; ripped also means muscular and well defined, and ripping can mean excellent in old-fashioned British informal usage. Common compounds include seam ripper and CD ripper.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>murderer（谋杀者）泛指故意杀人的人，ripper 特别突出刀割和残害；extractor（提取器）强调取出内容，在计算机语境中可与 ripper 接近；excellent（极好的）是通用形容词，而形容词 ripper 带有鲜明的澳大利亚、新西兰口语色彩。<br><span class="en-sub">Murderer is the general term for someone who intentionally kills, while ripper emphasizes cutting and mutilation. Extractor emphasizes removing content and can overlap with ripper in computing. Excellent is a general adjective, whereas adjectival ripper has a distinctly informal Australian or New Zealand flavor.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>抓住 rip“撕开”：撕东西的是工具，撕取数据的是软件，残害人体的是凶手；澳新口语的“极好”义另作固定用法记忆。<br><span class="en-sub">Anchor the word in rip: a tool rips material, software rips data, and a murderer rips flesh; learn the Australian and New Zealand meaning excellent as a separate informal use.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">deuterium</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//djuːˈtɪəriəm//</span>
+                    <span class="sense-meaning-zh">氘；重氢，原子核含一个质子和一个中子的稳定氢同位素</span>
+                    <span class="sense-meaning-en">(a stable hydrogen isotope whose nucleus contains one proton and one neutron)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Deuterium is a stable form of hydrogen whose atoms have one proton and one neutron in the nucleus.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>deuterium oxide; deuterium fusion</code> <span class="trans">氧化氘；氘聚变</span></div>
+                <div class="sentence"><strong>例句:</strong> Heavy water contains deuterium in place of ordinary hydrogen.<br><span class="trans">重水中的普通氢被氘所替代。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>deuterium 是在20世纪30年代发现这种氢同位素后创造的名称，以希腊语 deuteros（第二）为基础，加上科学命名后缀 -ium。“第二”关联其质量数2，即原子核中共有两个核子。<br><span class="en-sub">Deuterium was coined after the discovery of this hydrogen isotope in the early 1930s, using Greek deuteros, meaning second, and the scientific naming suffix -ium. Second refers to its mass number of two, reflecting the two nucleons in its nucleus.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>构词：deuter-（第二）+ -ium（科学名称后缀）→ deuterium；它是氢的同位素名称，并非另一种化学元素。主要相关词族：deuteron（氘核）、deuterate（使氘化）、deuterated（氘化的）、deuteration（氘化）、deuteride（氘化物）；deuteriate、deuteriated、deuteriation 是相应的较少见变体。<br><span class="en-sub">Formation: deuter- meaning second + the scientific naming suffix -ium produces deuterium; it names an isotope of hydrogen, not a separate chemical element. Principal related forms include deuteron, deuterate, deuterated, deuteration, and deuteride; deuteriate, deuteriated, and deuteriation are less common variants.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>heavy hydrogen（重氢）是通俗同义名称，hydrogen-2（氢-2）是明确标示质量数的同位素名称，²H 则是核素符号；三者指向同一种氢同位素，区别主要在表达方式和使用场合。<br><span class="en-sub">Heavy hydrogen is a descriptive synonym, hydrogen-2 explicitly states the isotope's mass number, and ²H is its nuclide symbol. All refer to the same hydrogen isotope; the difference is chiefly in notation and context.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>deuter-＝第二：氢核里“一质子＋一中子＝两个核子”，所以是氢-2。<br><span class="en-sub">Deuter- means second: one proton plus one neutron makes two nucleons, so remember hydrogen-2.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">impregnable</span>
+                    <span class="pos-badge">2 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">GRE</span><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">adj. 形容词</span>
+                    <span class="sense-phonetic">//ɪmˈpreɡnəbl//</span>
+                    <span class="sense-meaning-zh">无法攻克的；防守严密的</span>
+                    <span class="sense-meaning-en">(so strongly defended that it cannot be captured)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> An impregnable place is so strongly defended that an enemy cannot capture it.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>an impregnable fortress; an impregnable stronghold</code> <span class="trans">坚不可摧的堡垒；无法攻克的据点</span></div>
+                <div class="sentence"><strong>例句:</strong> The castle was considered impregnable until its water supply was cut off.<br><span class="trans">这座城堡原本被认为无法攻克，直到它的供水被切断。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">adj. 形容词</span>
+                    <span class="sense-phonetic">//ɪmˈpreɡnəbl//</span>
+                    <span class="sense-meaning-zh">无法战胜的；难以动摇或推翻的</span>
+                    <span class="sense-meaning-en">(impossible to defeat, undermine, or successfully challenge)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> An impregnable position or argument is so strong that other people cannot successfully challenge or defeat it.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>an impregnable position; an impregnable defense</code> <span class="trans">不可动摇的地位；无懈可击的防守或辩护</span></div>
+                <div class="sentence"><strong>例句:</strong> The company's position in the market once seemed impregnable.<br><span class="trans">这家公司在市场中的地位一度似乎不可动摇。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>impregnable 经法语 imprenable（不可攻取的）进入英语，其中否定成分 im- 与 prenable（可拿下的）结合，后者来自 prendre（拿取）。它先描述敌军攻不下的防御工事，后来扩展到不可动摇的地位和难以驳倒的论点。<br><span class="en-sub">Impregnable entered English through French imprenable, meaning impossible to capture, combining a negative prefix with prenable, from prendre, to take. It described defenses that an enemy could not capture before extending to unassailable positions and arguments.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代分析：im-（不）+ pregnable（可攻取的，罕用）→ impregnable；不要把中间部分拆成与 pregnant（怀孕的）有关的词根。主要派生词：impregnability（不可攻克性；不可动摇性）、impregnably（以不可攻克或不可动摇的方式）；impregnableness 是较少见的名词形式。<br><span class="en-sub">Modern analysis: im- meaning not + pregnable, a rare adjective meaning capable of being captured, produces impregnable; its middle portion should not be analyzed as a root related to pregnant. Principal derivatives are impregnability and impregnably; impregnableness is a less common noun.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>invincible（不可战胜的）强调在战斗或竞争中不会被击败；unassailable（无懈可击的）尤其适合地位、证据或论点；impenetrable（无法穿透的）强调不能进入或穿过，而 impregnable 的核心是“拿不下、攻不破”。<br><span class="en-sub">Invincible emphasizes being unbeatable in combat or competition. Unassailable is especially suitable for positions, evidence, or arguments. Impenetrable emphasizes resistance to entry or passage, while impregnable centers on resistance to capture or defeat.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>把它记成“不＋可攻取”：敌人拿不下的堡垒，也就是别人动摇不了的优势。<br><span class="en-sub">Think not + capturable: a fortress the enemy cannot take becomes an advantage nobody can overturn.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">monosyllable</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈmɒnəʊˌsɪləbl//</span>
+                    <span class="sense-meaning-zh">单音节词；复数形式也常指简短的单音节回答</span>
+                    <span class="sense-meaning-en">(a word of one syllable; in the plural, often very brief replies)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A monosyllable is a word that has only one syllable; if someone answers in monosyllables, they give very short replies.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a stressed monosyllable; answer in monosyllables</code> <span class="trans">重读的单音节词；用简短的单音节词回答</span></div>
+                <div class="sentence"><strong>例句:</strong> He answered in monosyllables, usually just yes or no.<br><span class="trans">他回答得很简短，通常只说“是”或“不”。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>monosyllable 经法语及拉丁语形式追溯到希腊语 monosyllabos，由 monos（单一的）与 syllabē（音节）组成。它原本是描述词语音节数量的术语，复数形式后来也用于描写简短寡言的回答方式。<br><span class="en-sub">Monosyllable comes through French and Latin forms from Greek monosyllabos, combining monos, single, with syllabē, syllable. Originally a term for a word's syllable count, its plural also came to describe very brief, uncommunicative replies.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>构词：mono-（单一）+ syllable（音节）→ monosyllable（单音节词）；复数为 monosyllables。主要派生词：monosyllabic（单音节的；说话简短的）、monosyllabically（用单音节词；简短地）、monosyllabism（单音节性；使用单音节词）；同一构词系列还有 disyllable（双音节词）、trisyllable（三音节词）和 polysyllable（多音节词）。<br><span class="en-sub">Formation: mono- meaning one + syllable produces monosyllable; the plural is monosyllables. Principal derivatives are monosyllabic, monosyllabically, and monosyllabism. Parallel formations include disyllable, trisyllable, and polysyllable.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>one-syllable word（单音节词）是最直白的同义表达；single-syllable word（单音节词）意义相同，也常用于解释性文字；terse reply（简短的回答）仅接近 answer in monosyllables 的语用含义，并不要求回答只有一个音节。<br><span class="en-sub">One-syllable word is the plainest equivalent, and single-syllable word has the same meaning and is also common in explanations. Terse reply overlaps only with the conversational implication of answering in monosyllables and does not require a one-syllable answer.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>mono-＝一个：读 cat 只打一拍，cat 就是一个 monosyllable。<br><span class="en-sub">Mono- means one: cat takes one syllabic beat, so cat is a monosyllable.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">rococo</span>
+                    <span class="pos-badge">3 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">GRE</span><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//rəˈkəʊkəʊ//</span>
+                    <span class="sense-meaning-zh">洛可可风格，18世纪欧洲以轻巧曲线、不对称构图和繁复装饰为特点的艺术与建筑风格</span>
+                    <span class="sense-meaning-en">(an eighteenth-century European artistic and architectural style featuring delicate curves, asymmetry, and elaborate ornament)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Rococo is a style of art, architecture, and decoration that developed in eighteenth-century Europe and uses delicate curves and elaborate ornament.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>French rococo; the elegance of rococo</code> <span class="trans">法国洛可可艺术；洛可可风格的雅致</span></div>
+                <div class="sentence"><strong>例句:</strong> The exhibition explores the influence of French rococo on European interiors.<br><span class="trans">这场展览探讨了法国洛可可艺术对欧洲室内设计的影响。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">adj. 形容词</span>
+                    <span class="sense-phonetic">//rəˈkəʊkəʊ//</span>
+                    <span class="sense-meaning-zh">洛可可风格的；具有轻巧曲线和繁复装饰的</span>
+                    <span class="sense-meaning-en">(relating to or designed in the rococo style)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Rococo art, furniture, or decoration has the delicate curves and elaborate ornament typical of this eighteenth-century style.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>rococo furniture; rococo decoration</code> <span class="trans">洛可可式家具；洛可可式装饰</span></div>
+                <div class="sentence"><strong>例句:</strong> The room contains rococo furniture with curved legs and gilded details.<br><span class="trans">房间里摆放着带有弯曲椅腿和镀金细节的洛可可式家具。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">adj. 形容词</span>
+                    <span class="sense-phonetic">//rəˈkəʊkəʊ//</span>
+                    <span class="sense-meaning-zh">过分繁复华丽的；雕琢过度的〔常含贬义〕</span>
+                    <span class="sense-meaning-en">(excessively elaborate or ornate, often with a disapproving implication)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If you describe writing or another form of expression as rococo, you mean that it is extremely elaborate and may contain too much decoration or detail.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>rococo prose; a rococo style</code> <span class="trans">过分雕琢的散文；繁复华丽的风格</span></div>
+                <div class="sentence"><strong>例句:</strong> The review criticized the novel's rococo prose.<br><span class="trans">这篇评论批评了小说过分雕琢的文风。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>rococo 在19世纪初借自法语，通常被解释为 rocaille（岩石和贝壳式装饰）的戏谑改造。它用于命名18世纪盛行的装饰风格，后来又引申为文风或表达方式的过度华丽繁复。<br><span class="en-sub">Rococo was borrowed from French in the early nineteenth century and is generally explained as a playful alteration of rocaille, rock-and-shell ornament. It named an eighteenth-century decorative style and later extended to excessively elaborate writing or expression.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语中将 rococo 视为不可再分的法语借词；名词和形容词同形，不宜强行拆成英语词根与后缀。该词没有常用的屈折变化或丰富的派生词族；相关构词包括 neo-rococo（新洛可可风格；新洛可可式的）及复合短语 rococo revival（洛可可风格复兴）。<br><span class="en-sub">In modern English, rococo is an unanalyzed French borrowing used as both a noun and an adjective; it should not be forced into an English root-and-suffix analysis. It has no common inflectional paradigm or extensive derivative family; related formations include neo-rococo and the compound phrase rococo revival.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>ornate（装饰繁复的）是最宽泛的描述，不限定历史时期；baroque（巴洛克式的）指另一种艺术风格，常强调宏大、戏剧性和力量感，不能与 rococo 直接互换；florid（过分华丽的）常用于批评辞藻堆砌，与 rococo 的比喻义接近。<br><span class="en-sub">Ornate broadly describes elaborate decoration without identifying a historical period. Baroque names a distinct style often associated with grandeur, drama, and force, so it is not interchangeable with rococo. Florid often criticizes excessively ornamental language and closely overlaps with the figurative sense of rococo.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>从 rocaille“贝壳式装饰”联想：贝壳曲线、纤巧金饰、繁复花纹，就是 rococo 的视觉核心。<br><span class="en-sub">Use rocaille, shell ornament, as the anchor: shell-like curves, delicate gilding, and intricate patterns form the visual core of rococo.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">tungsten</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈtʌŋstən//</span>
+                    <span class="sense-meaning-zh">钨：一种密度大、熔点极高的金属元素，符号为 W</span>
+                    <span class="sense-meaning-en">(a dense metallic element with an extremely high melting point, symbol W)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Tungsten is a heavy, hard metal that melts at a very high temperature and is used in electrical components and alloys.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>tungsten filament; tungsten carbide</code> <span class="trans">钨丝；碳化钨</span></div>
+                <div class="sentence"><strong>例句:</strong> The bulb contains a thin tungsten filament.<br><span class="trans">这个灯泡里有一根细钨丝。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>借自瑞典语 tungsten，由 tung（重的）和 sten（石头）组成，原指一种沉重的矿物，后来名称转用于从矿物中提取的金属。其另一名称 wolfram 与元素符号 W 相对应。<br><span class="en-sub">Borrowed from Swedish tungsten, combining tung meaning 'heavy' and sten meaning 'stone', the name originally referred to a heavy mineral before being applied to the metal. Its alternative name wolfram accounts for the chemical symbol W.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语中 tungsten 是不可再作常规拆分的借词；tung + sten 属于瑞典语词源结构。相关技术词包括 tungstic（钨的，尤指六价钨的）和 tungstate（钨酸盐），使用词干变体 tungst-；常见复合词有 tungsten carbide（碳化钨）和 tungsten filament（钨丝）。<br><span class="en-sub">In modern English, tungsten is an unanalyzed loanword; tung + sten describes its Swedish origin. Related technical formations use the stem variant tungst-, including tungstic, especially referring to tungsten in oxidation state VI, and tungstate, a salt of tungstic acid; common compounds include tungsten carbide and tungsten filament.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>wolfram（钨）是同一元素的另一名称；W（钨的化学符号）和 element 74（第74号元素）是等指表达，但不是普通词汇层面的近义词。<br><span class="en-sub">Wolfram is an alternative name for exactly the same element. W, its chemical symbol, and element 74 identify the same substance but are not ordinary lexical synonyms.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>tung（重）+ sten（石头）：从“重石”联想到高密度金属钨。<br><span class="en-sub">Tung 'heavy' + sten 'stone': picture a heavy stone to recall this dense metal.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">turnpike</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈtɜːnpaɪk//</span>
+                    <span class="sense-meaning-zh">收费公路；尤指美国的收费高速公路</span>
+                    <span class="sense-meaning-en">(a toll road, especially a major highway in the United States)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A turnpike is a road that drivers must pay to use, especially a major highway in the United States.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>take the turnpike; turnpike tolls</code> <span class="trans">走收费公路；收费公路通行费</span></div>
+                <div class="sentence"><strong>例句:</strong> We took the turnpike to save time.<br><span class="trans">为了节省时间，我们走了收费公路。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>由 turn（转动）和 pike（尖杆）组成，最初指可以转动的尖杆路障，后来用于收费关卡的栅门。词义随后从收费栅门扩展为设有此类关卡的道路。<br><span class="en-sub">Formed from turn and pike, meaning a pointed pole, the word first named a revolving spiked barrier and later a gate at a toll collection point. Its meaning then extended from the toll gate to the road controlled by such gates.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>turn（转动）+ pike（尖杆）→ turnpike，是名词复合词；复数为 turnpikes，无常用的现代派生词。相关复合表达包括 turnpike road（收费道路）、turnpike gate（收费栅门）和 turnpike trust（英国历史上的收费道路管理机构）。<br><span class="en-sub">Turn + pike forms the compound noun turnpike; its plural is turnpikes, and it has no common modern derivatives. Related compounds include turnpike road, turnpike gate, and turnpike trust, a historical British body responsible for managing toll roads.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>toll road（收费公路）是最通用的表达；tollway（收费公路）常见于美国英语；motorway（高速公路）强调道路等级，并不表示一定收费。<br><span class="en-sub">Toll road is the most general term; tollway is another term used especially in American English; motorway describes a major high-speed road and does not necessarily imply a toll.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>付费后，尖杆栅门才“转开”：从转动的收费路障记住收费公路。<br><span class="en-sub">Pay the toll, then the barrier turns: connect the turning gate with the toll road.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">urea</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//jʊəˈriːə//</span>
+                    <span class="sense-meaning-zh">尿素；脲：存在于尿液中、也用于肥料及工业生产的含氮化合物</span>
+                    <span class="sense-meaning-en">(a nitrogen-containing compound found in urine and used in fertilizers and industry)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Urea is a substance that the body produces when it breaks down proteins and removes in urine, and that is also manufactured for use in fertilizers and other products.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>urea fertilizer; urea production</code> <span class="trans">尿素肥料；尿素生产</span></div>
+                <div class="sentence"><strong>例句:</strong> The factory produces urea for use in agricultural fertilizers.<br><span class="trans">这家工厂生产用于农业肥料的尿素。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>来自新拉丁语 urea，经由法语 urée 最终追溯至希腊语 ouron（尿），名称反映了这种物质最初从尿液中分离出来的背景。后来它也能通过人工合成获得，并成为重要的化肥原料。<br><span class="en-sub">The word comes from New Latin urea through French urée, ultimately from Greek ouron meaning 'urine', reflecting the substance's original isolation from urine. It later became a manufactured chemical and an important fertilizer material.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语中 urea 是完整的科学借词。相关词族包括 urease（脲酶，构词时以 -ase 替换末尾 -a）、ureic（尿素的，使用词干 ure-）和 ureide（酰脲）；复合词有 polyurea（聚脲）。uremia/uraemia（尿毒症）与其共享表示尿的历史词根，但不是由 urea 直接派生。<br><span class="en-sub">In modern English, urea is a complete scientific loanword. Related formations include urease, formed by replacing final -a with -ase; ureic, meaning relating to urea and using the stem ure-; ureide, a class of urea derivatives; and polyurea. Uremia or uraemia shares the historical root referring to urine but is not directly derived from urea.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>carbamide（尿素；脲）是同一化合物的技术名称；carbonyl diamide（碳酰二胺）突出其化学结构；urea 是生理学、农业和一般说明中最常用的名称。<br><span class="en-sub">Carbamide is a technical name for the same compound; carbonyl diamide emphasizes its chemical structure; urea is the usual name in physiology, agriculture, and general descriptions.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>名称连着“尿”，用途连着“肥”：尿液中的含氮物，也是含氮肥料。<br><span class="en-sub">Link the name to urine and the use to fertilizer: the same nitrogen-containing compound connects both.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">artiste</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ɑːˈtiːst//</span>
+                    <span class="sense-meaning-zh">专业表演艺人，尤指歌手、舞者等</span>
+                    <span class="sense-meaning-en">(a professional entertainer, especially a singer or dancer)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> An artiste is a professional entertainer, such as a singer or dancer, especially one who performs on stage.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>cabaret artiste; recording artiste</code> <span class="trans">歌舞表演艺人；录音歌手</span></div>
+                <div class="sentence"><strong>例句:</strong> She began her career as a cabaret artiste.<br><span class="trans">她以歌舞表演艺人的身份开始了自己的职业生涯。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>直接借自法语 artiste，与英语 artist 同源，最终都与拉丁语 ars（艺术、技艺）有关。英语中的法语形式逐渐专用于表演艺人，常带有正式或略显老派的语气。<br><span class="en-sub">Borrowed directly from French artiste, it shares its ancestry with English artist and ultimately relates to Latin ars, meaning 'art' or 'skill'. In English, the French form became associated particularly with entertainers and often has a formal or slightly old-fashioned tone.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>artiste 在现代英语中作为完整借词使用；art + -iste 是对其法语结构的分析，-iste 表示从事某种活动的人。复数为 artistes；相关词族有 art（艺术）、artist（艺术家）、artistic（艺术的）、artistically（艺术地）和 artistry（艺术技巧），但这些词并非由英语 artiste 逐一派生。<br><span class="en-sub">Artiste functions as a complete loanword in modern English; art + -iste describes its French structure, with -iste identifying someone engaged in an activity. Its plural is artistes; the related family includes art, artist, artistic, artistically, and artistry, though these are not successive English derivatives of artiste.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>performer（表演者）范围最广，不一定是职业人士；entertainer（演艺人员）强调给观众带来娱乐；artist（艺术家）范围更广，可指视觉艺术家，也可指音乐家或其他表演艺术家。<br><span class="en-sub">Performer is broad and does not necessarily imply professional status; entertainer emphasizes providing enjoyment for an audience; artist has a wider artistic range, covering visual artists as well as musicians and other performing artists.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>把 artist 后的法语式词尾 -e 当作提示：聚光灯下的表演艺人。<br><span class="en-sub">Use the French-looking final -e as a cue: picture an artist performing under stage lights.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">convivial</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">GRE</span><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">adj. 形容词</span>
+                    <span class="sense-phonetic">//kənˈvɪviəl//</span>
+                    <span class="sense-meaning-zh">欢乐友好的；气氛融洽的；好交际的</span>
+                    <span class="sense-meaning-en">(friendly and cheerful, especially in social company; enjoying social gatherings)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A convivial person enjoys spending time with other people, and a convivial occasion or atmosphere is friendly, relaxed, and cheerful.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a convivial atmosphere; a convivial evening</code> <span class="trans">欢乐融洽的气氛；欢乐愉快的夜晚</span></div>
+                <div class="sentence"><strong>例句:</strong> The shared meal created a convivial atmosphere.<br><span class="trans">大家一起用餐，营造出了欢乐融洽的气氛。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>来自拉丁语 convivialis（宴饮的），源于 convivium（宴会），其更深层来源与 con-（共同）和 vivere（生活）有关。词义由共同宴饮扩展为聚会中的欢乐友好，也用于形容喜欢交际的人。<br><span class="en-sub">It comes from Latin convivialis, meaning 'relating to a feast', from convivium, a banquet, ultimately associated with con- meaning 'together' and vivere meaning 'to live'. Its meaning broadened from feasting together to cheerful sociability and to people who enjoy it.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语通常把 convivial 作为整体形容词使用；从历史结构看可分析为 convivi-（宴饮）+ -al（形容词后缀），不宜把 vivial 当作独立英语词。主要派生词为 convivial + -ity → conviviality（欢乐友好的气氛；好交际）和 convivial + -ly → convivially（欢乐友好地）。<br><span class="en-sub">Modern English normally treats convivial as a whole adjective; historically, it can be analyzed as convivi-, referring to feasting, + adjectival -al, but vivial is not an independent English word. Its principal derivatives are convivial + -ity → conviviality, meaning cheerful sociability, and convivial + -ly → convivially.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>sociable（好交际的）强调愿意与人来往；jovial（快活友善的）强调外露的愉快性情；festive（喜庆的）强调庆祝氛围，而 convivial 特别突出相聚时的友好欢乐。<br><span class="en-sub">Sociable emphasizes willingness to mix with others; jovial emphasizes an openly cheerful temperament; festive emphasizes celebration, while convivial particularly suggests friendly enjoyment in company.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>从“共同生活”想到“同桌宴饮”：大家相聚，自然欢乐融洽。<br><span class="en-sub">Move from 'living together' to 'feasting together': shared company suggests friendly, cheerful enjoyment.</span></div>
+        </div>
+        </div>
+</body>
+</html>
