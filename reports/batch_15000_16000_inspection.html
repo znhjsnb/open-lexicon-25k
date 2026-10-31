@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Open-Lexicon 25K - batch_15000_16000</title>
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 24px; }
+    h1 { color: #38bdf8; font-size: 22px; margin-bottom: 8px; }
+    .meta { color: #94a3b8; font-size: 13px; margin-bottom: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(540px, 1fr)); gap: 18px; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 18px; }
+    .card-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; border-bottom: 1px dashed #334155; padding-bottom: 8px; }
+    .word { font-size: 22px; font-weight: bold; color: #38bdf8; }
+    .pos-badge { background: #0284c7; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
+    .badge { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 11px; background: #0369a1; color: #fff; margin-left: 4px; }
+    .senses-container { margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .sense-block { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 10px; font-size: 12px; }
+    .sense-header { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; flex-wrap: wrap; }
+    .sense-pos { color: #fbbf24; font-weight: bold; }
+    .sense-meaning-zh { color: #f1f5f9; font-weight: 600; }
+    .sense-meaning-en { color: #94a3b8; font-style: italic; }
+    .en-def { color: #38bdf8; margin-bottom: 4px; font-style: italic; }
+    .colloc, .sentence { color: #cbd5e1; margin-bottom: 3px; line-height: 1.4; }
+    .trans { color: #94a3b8; font-size: 11px; }
+    .en-sub { color: #94a3b8; font-style: italic; font-size: 11px; display: block; margin-top: 2px; }
+    .etym, .morph, .synonym, .mnemonic { font-size: 12px; padding: 8px 10px; border-radius: 6px; margin-bottom: 6px; line-height: 1.4; }
+    .etym { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); }
+    .morph { background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.2); }
+    .synonym { background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.2); }
+    .mnemonic { background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.2); }
+    code { background: #0f172a; padding: 2px 4px; border-radius: 4px; color: #f472b6; }
+</style>
+</head>
+<body>
+    <h1>🚀 Open-Lexicon 25K - 批次抽检 (batch_15000_16000)</h1>
+    <div class="meta">已完成 <strong>1000 词</strong> | 规格：全词性覆盖 + 全维度中英双语对齐</div>
+    <div class="grid">
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">quartermaster</span>
+                    <span class="pos-badge">2 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈkwɔːtəˌmɑːstə//</span>
+                    <span class="sense-meaning-zh">军需官；负责部队物资、给养及驻地安排的人员</span>
+                    <span class="sense-meaning-en">(a military officer responsible for supplies and accommodation)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A quartermaster is a military officer who arranges supplies, equipment, and accommodation for troops.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>regimental quartermaster; quartermaster general</code> <span class="trans">团军需官；军需总监</span></div>
+                <div class="sentence"><strong>例句:</strong> The quartermaster arranged fresh supplies for the troops.<br><span class="trans">军需官为部队安排了新一批补给。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈkwɔːtəˌmɑːstə//</span>
+                    <span class="sense-meaning-zh">海军舵手；负责操舵、航海值勤等工作的海军士官</span>
+                    <span class="sense-meaning-en">(a naval rating responsible for steering or navigational duties)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A quartermaster is a member of a navy whose duties include steering a ship or assisting with navigation.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>naval quartermaster; quartermaster of the watch</code> <span class="trans">海军航海士官；当值舵手</span></div>
+                <div class="sentence"><strong>例句:</strong> The quartermaster held the ship on its assigned course.<br><span class="trans">舵手使舰船保持在指定航向上。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>这个职称由 quarter 和 master 组成，其中 quarter 与部队的驻地、营舍有关；荷兰语 kwartiermeester 等欧洲语言职称也有相同的构词思路。它在陆军中发展为管理给养和驻地的职务，在海军中则形成了操舵、航海值勤等专门含义。<br><span class="en-sub">The title combines quarter, associated with military lodgings, and master; continental titles such as Dutch kwartiermeester follow the same pattern. In armies it developed a supply-and-accommodation meaning, while naval usage acquired specialized steering and navigation duties.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代构词：quarter（驻地、营舍）+ master（主管）→ quartermaster。词族及相关形式：quartermasters（复数）、quartermastership（军需官职务或任期）、quartermaster general（军需总监；复数 quartermasters general）。本词条的 CEFR-C2 为学习难度估计，并非官方词表认定。<br><span class="en-sub">Modern formation: quarter, meaning military lodgings, + master, meaning a person in charge, → quartermaster. Family and related forms: quartermasters; quartermastership, the office or tenure of a quartermaster; and quartermaster general, plural quartermasters general. CEFR-C2 is an estimated learning level here, not an official vocabulary-list designation.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>supply officer（补给官）最接近陆军义，突出物资供应；logistics officer（后勤军官）涵盖运输、部署等更广泛的后勤事务；helmsman（舵手）只接近海军义中的操舵职责，不一定具有相同军衔或其他职责。<br><span class="en-sub">Supply officer is closest to the army sense and emphasizes provisioning; logistics officer covers broader support functions, including transport and deployment; helmsman overlaps only with the naval steering function and does not imply the same rank or wider duties.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>quarter 联想到营舍，master 联想到主管：陆军里管驻地和补给；海军里另记操舵、航海职责。<br><span class="en-sub">Think of quarters plus the person in charge: army supplies and accommodation; separately attach steering and navigation to the naval sense.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">wain</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//weɪn//</span>
+                    <span class="sense-meaning-zh">大车；尤指运送干草或农产品的旧式四轮货车，现多用于文学或历史语境</span>
+                    <span class="sense-meaning-en">(an old-fashioned farm wagon, especially one used for hay or crops)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A wain is a large farm wagon used for carrying things such as hay, especially in old or literary descriptions.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>hay wain; loaded wain</code> <span class="trans">运干草的大车；满载的大车</span></div>
+                <div class="sentence"><strong>例句:</strong> A horse pulled the loaded wain slowly along the muddy lane.<br><span class="trans">一匹马拉着满载的大车，沿着泥泞的小路缓缓前行。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>wain 来自古英语 wægn，原指运输用的车，与 wagon 属于同源词。随着 wagon 等词成为日常用语，wain 逐渐保留在诗歌、历史描写及传统名称中。<br><span class="en-sub">Wain descends from Old English wægn, a word for a wheeled vehicle, and is cognate with wagon. As wagon and other terms became standard in everyday speech, wain survived mainly in poetry, historical descriptions, and traditional names.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语中 wain 是不可再分析的单纯词，不宜拆成词根和词缀。相关形式：wains（复数）；wain + wright（工匠）→ wainwright（造车匠），复数 wainwrights；wagon 是同源词，并非由现代英语 wain 派生。本词条的 CEFR-C2 为学习难度估计，并非官方词表认定。<br><span class="en-sub">In modern English, wain is a simple word with no productive internal root-and-affix division. Related forms: wains; wain + wright, meaning a craftsperson, → wainwright, a wagon maker, plural wainwrights. Wagon is a cognate, not a modern derivative of wain. CEFR-C2 is an estimated learning level here, not an official vocabulary-list designation.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>wagon（四轮货车）是更普通、现代的对应词；cart（运货车）范围较宽，传统上常指两轮车；dray（平板载重马车）突出运送沉重货物。wain 带有明显的古旧、乡村或诗意色彩。<br><span class="en-sub">Wagon is the usual modern equivalent; cart is broader and traditionally often refers to a two-wheeled vehicle; dray emphasizes a heavy goods vehicle, often with a flat platform. Wain has a distinctly old-fashioned, rural, or poetic tone.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>把 wain 与同源词 wagon 连起来：一辆装满干草的古老农车。<br><span class="en-sub">Link wain with its cousin wagon: picture an old farm wagon piled with hay.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">Wehrmacht</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈveəmɑːkt//</span>
+                    <span class="sense-meaning-zh">德国国防军；1935—1945年纳粹德国的陆、海、空三军</span>
+                    <span class="sense-meaning-en">(the unified armed forces of Nazi Germany from 1935 to 1945)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> The Wehrmacht was the organization comprising Nazi Germany's army, navy, and air force between 1935 and 1945.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>Wehrmacht soldiers; Wehrmacht units</code> <span class="trans">德国国防军士兵；德国国防军部队</span></div>
+                <div class="sentence"><strong>例句:</strong> The museum documents the Wehrmacht's role in the invasion.<br><span class="trans">这家博物馆记录了德国国防军在此次入侵中所起的作用。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>英语直接借用德语 Wehrmacht，其中 Wehr 表示防御、武装防卫，Macht 表示力量。这个德语词原本可以泛指军事力量，但在英语历史叙述中通常专指1935—1945年的纳粹德国武装力量。<br><span class="en-sub">English borrowed German Wehrmacht, combining Wehr, meaning defense or armed protection, with Macht, meaning power. Although the German word could historically refer more generally to military power, English historical usage normally identifies Nazi Germany's armed forces of 1935–1945.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>这是整体借入英语的德语复合名称：Wehr（防御）+ Macht（力量）→ Wehrmacht；不是由英语词缀构成。英语通常保留大写，常与 the 连用；一般没有通行的英语派生词或普通复数，作前置定语时仍是名词，如 Wehrmacht units。本词条的 CEFR-C2 为学习难度估计，并非官方词表认定。<br><span class="en-sub">This is a German compound borrowed as a whole: Wehr, defense, + Macht, power, → Wehrmacht; it is not built from English affixes. English normally retains the capital letter and often uses the. There are no established everyday English derivatives or ordinary plural forms; attributive use, as in Wehrmacht units, remains nominal. CEFR-C2 is an estimated learning level here, not an official vocabulary-list designation.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>German armed forces（德国武装力量）在明确的1935—1945年语境中可作释义；Nazi Germany's armed forces（纳粹德国武装力量）能更清楚地限定政权和年代；German army（德国陆军）范围更窄，只指陆军，不能准确替代整个 Wehrmacht。<br><span class="en-sub">German armed forces is an equivalent description when the 1935–1945 context is explicit; Nazi Germany's armed forces specifies the regime and period more clearly; German army is narrower because it denotes the land forces, not the whole Wehrmacht.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>Wehr＝防御，Macht＝力量；英语中把这个名称固定对应到1935—1945年的纳粹德国三军。<br><span class="en-sub">Wehr means defense and Macht means power; anchor the English name to Nazi Germany's three armed services in 1935–1945.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">altimeter</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C1</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ælˈtɪmɪtə//</span>
+                    <span class="sense-meaning-zh">高度计；测量相对于海平面、地面等参照面的高度的仪器</span>
+                    <span class="sense-meaning-en">(an instrument that measures height above a reference level)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> An altimeter is an instrument that shows how high an aircraft or a place is above a reference level, such as sea level or the ground.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>barometric altimeter; radar altimeter</code> <span class="trans">气压高度计；雷达高度计</span></div>
+                <div class="sentence"><strong>例句:</strong> The pilot checked the altimeter before beginning the descent.<br><span class="trans">飞行员在开始下降前查看了高度计。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>altimeter 是由古典语成分组成的科技词：alti- 源自拉丁语 altus，意为“高”，-meter 最终源自希腊语 metron，意为“度量”。这个名称的字面构想就是“测量高度的仪器”。<br><span class="en-sub">Altimeter is a scientific formation using classical elements: alti- comes from Latin altus, meaning high, and -meter ultimately comes from Greek metron, meaning measure. Its literal idea is an instrument for measuring height.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代构词：alti-（高度）+ -meter（测量仪器）→ altimeter。词族及相关形式：altimeters（复数）、altimetry（测高术）、altimetric／altimetrical（测高的）、altimetrically（以测高方式）；常见复合词有 radio altimeter（无线电高度计）和 radar altimeter（雷达高度计）。本词条的 CEFR-C1 为学习难度估计，并非官方词表认定。<br><span class="en-sub">Modern formation: alti-, height, + -meter, a measuring instrument, → altimeter. Family and related forms: altimeters; altimetry, the measurement of altitude; altimetric and altimetrical; and altimetrically. Common compounds include radio altimeter and radar altimeter. CEFR-C1 is an estimated learning level here, not an official vocabulary-list designation.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>altitude meter（高度测量仪）是解释性近义表达；height gauge（高度规）通常用于测量物体尺寸或加工高度；hypsometer（测高仪）也测高度，但常指测量树高等用途的仪器，或利用沸点测定海拔的装置，不能在所有语境中互换。<br><span class="en-sub">Altitude meter is an explanatory equivalent; height gauge usually measures an object's dimensions or a machining height; hypsometer also measures height but often denotes a surveying instrument, such as one used for trees, or a device that derives elevation from boiling point. These terms are not interchangeable in every context.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>alti- 联想到 altitude（高度），-meter 表示测量仪：测高度的仪器。<br><span class="en-sub">Connect alti- with altitude and -meter with measuring: an instrument that measures height.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">bilirubin</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˌbɪlɪˈruːbɪn//</span>
+                    <span class="sense-meaning-zh">胆红素；血红素分解产生的黄橙色色素，经肝脏处理后随胆汁排出</span>
+                    <span class="sense-meaning-en">(a yellow-orange pigment formed from the breakdown of heme and excreted in bile)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Bilirubin is a yellow-orange substance that forms when the body breaks down heme, especially from old red blood cells, and that the liver processes for removal in bile.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>serum bilirubin; elevated bilirubin levels</code> <span class="trans">血清胆红素；胆红素水平升高</span></div>
+                <div class="sentence"><strong>例句:</strong> The blood test showed an elevated bilirubin level.<br><span class="trans">血液检查显示胆红素水平升高。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>英语 bilirubin 借自德语 Bilirubin，其名称结合了拉丁语 bilis（胆汁）和 ruber（红色）相关成分，并带有物质名称词尾 -in。名称保留了早期对胆汁色素颜色的命名线索，而现代通常将胆红素描述为黄橙色色素。<br><span class="en-sub">English bilirubin was borrowed from German Bilirubin, a name combining elements related to Latin bilis, bile, and ruber, red, with the substance suffix -in. The name preserves an early color-based description of a bile pigment, although bilirubin is now generally described as yellow-orange.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>科技词构词：bili-（胆汁）+ rub-（红）+ -in（物质名称词尾）→ bilirubin；通常为不可数名词。常见医学词族：bilirubinemia／bilirubinaemia（胆红素血症）、hyperbilirubinemia／hyperbilirubinaemia（高胆红素血症）、hypobilirubinemia／hypobilirubinaemia（低胆红素血症）、bilirubinuria（胆红素尿）、bilirubinometer（胆红素测定仪）、bilirubinometry（胆红素测定法）。本词条的 CEFR-C2 为学习难度估计，并非官方词表认定。<br><span class="en-sub">Scientific formation: bili-, bile, + rub-, red, + -in, a substance suffix, → bilirubin; the noun is normally uncountable. Established medical relatives include bilirubinemia/bilirubinaemia, bilirubin in the blood; hyperbilirubinemia/hyperbilirubinaemia, an elevated blood bilirubin concentration; hypobilirubinemia/hypobilirubinaemia, a low concentration; bilirubinuria, bilirubin in urine; bilirubinometer; and bilirubinometry. CEFR-C2 is an estimated learning level here, not an official vocabulary-list designation.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>没有适合所有语境的常用严格近义词。bile pigment（胆色素）是包含胆红素在内的上位词；unconjugated bilirubin（未结合胆红素）指尚未与葡萄糖醛酸结合的形式；conjugated bilirubin（结合胆红素）指已与葡萄糖醛酸结合、较易溶于水的形式，后两者是类别名称。<br><span class="en-sub">There is no common exact synonym suitable for every context. Bile pigment is a broader category that includes bilirubin; unconjugated bilirubin is the form not yet conjugated with glucuronic acid; conjugated bilirubin is the more water-soluble form produced by that conjugation. The latter two name forms of bilirubin rather than interchangeable synonyms.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>bili- 提示胆汁，rub- 提示历史命名中的“红”：记住它是血红素分解后进入胆汁排泄途径的色素，实际呈黄橙色。<br><span class="en-sub">Bili- points to bile and rub- to the historical red-color name: remember a yellow-orange pigment formed from heme and removed through bile.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">Cyclops</span>
+                    <span class="pos-badge">2 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈsaɪklɒps//</span>
+                    <span class="sense-meaning-zh">独眼巨人，希腊神话中额头中央长着一只眼睛的巨人</span>
+                    <span class="sense-meaning-en">(A one-eyed giant in Greek mythology)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A Cyclops is a giant in Greek mythology who has one eye in the middle of his forehead.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>the Cyclops Polyphemus; a one-eyed Cyclops</code> <span class="trans">独眼巨人波吕斐摩斯；一只眼睛的独眼巨人</span></div>
+                <div class="sentence"><strong>例句:</strong> Odysseus escaped from the cave of the Cyclops.<br><span class="trans">奥德修斯逃出了独眼巨人的洞穴。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词（动物学属名）</span>
+                    <span class="sense-phonetic">//ˈsaɪklɒps//</span>
+                    <span class="sense-meaning-zh">剑水蚤属，具有单个中央眼点的小型淡水桡足类动物的一属</span>
+                    <span class="sense-meaning-en">(A genus of small freshwater copepods with a single central eye)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Cyclops is a genus of tiny freshwater animals that have a single eye and belong to the group called copepods.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>Cyclops species; the genus Cyclops</code> <span class="trans">剑水蚤属的物种；剑水蚤属</span></div>
+                <div class="sentence"><strong>例句:</strong> The students identified Cyclops in a sample of pond water.<br><span class="trans">学生们在一份池塘水样中辨认出了剑水蚤属动物。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>经拉丁语 Cyclops 源自希腊语 Kyklōps，传统上解释为由 kyklos“圆、圆环”和 ōps“眼”组成，意为“圆眼者”。这个神话名称后来也被用于命名具有单个中央眼点的剑水蚤属。<br><span class="en-sub">Cyclops came through Latin from Greek Kyklōps, traditionally explained as kyklos, meaning “circle,” plus ōps, meaning “eye”: “round-eyed.” The mythological name was later applied to a genus of copepods with a single central eye.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语中 Cyclops 通常作为完整的借入词使用；历史词素为 cycl-（圆）+ -ops（眼），并非可自由套用的现代构词公式。复数有 Cyclopes 和 Cyclops；相关形容词有 Cyclopean（独眼巨人的；巨石砌成的；巨大的）和 cyclopic（独眼的；独眼巨人般的）。<br><span class="en-sub">In modern English, Cyclops is normally treated as a whole borrowed word; its historical elements are cycl- “circle” and -ops “eye,” rather than freely productive modern affixes. Plurals include Cyclopes and Cyclops; related adjectives include Cyclopean, meaning relating to the giants, built of massive stones, or enormous, and cyclopic, meaning one-eyed or resembling a Cyclops.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>giant 泛指巨人，不限定眼睛数量；ogre 指民间故事中凶恶、常吃人的怪物，不专指独眼巨人；copepod“桡足类动物”是动物学中更宽泛的类别，剑水蚤属只是其中一属。<br><span class="en-sub">Giant is a broad term that does not specify the number of eyes; ogre suggests a frightening, often man-eating creature from folklore. In zoology, copepod names the broader group to which the genus Cyclops belongs.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>cycl- 圆 + -ops 眼：先想额头上的一只圆眼，再联想到独眼巨人和单眼的剑水蚤。<br><span class="en-sub">Circle + eye: picture one round eye in the forehead, then connect the giant with the single-eyed copepod.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">necropsy</span>
+                    <span class="pos-badge">2 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈnekrɒpsi//</span>
+                    <span class="sense-meaning-zh">尸体剖检；尤指动物死后的病理解剖检查</span>
+                    <span class="sense-meaning-en">(A postmortem examination, especially of an animal)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A necropsy is an examination of a dead body, especially an animal's body, to discover the cause of death or signs of disease.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>perform a necropsy; necropsy findings</code> <span class="trans">进行尸体剖检；尸体剖检结果</span></div>
+                <div class="sentence"><strong>例句:</strong> The veterinarian performed a necropsy to determine why the calf had died.<br><span class="trans">兽医进行了尸体剖检，以确定这头小牛的死因。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 动词（兽医学及病理学用语）</span>
+                    <span class="sense-phonetic">//ˈnekrɒpsi//</span>
+                    <span class="sense-meaning-zh">对尸体进行剖检，尤指动物尸体</span>
+                    <span class="sense-meaning-en">(To perform a postmortem examination on a body, especially an animal's)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If a veterinarian or researcher necropsies an animal, they examine its body after death to investigate disease or the cause of death.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>necropsy an animal; necropsy a carcass</code> <span class="trans">对动物进行尸体剖检；剖检一具动物尸体</span></div>
+                <div class="sentence"><strong>例句:</strong> The researchers necropsied the birds to look for signs of infection.<br><span class="trans">研究人员对这些鸟进行了尸体剖检，以寻找感染迹象。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>necropsy 是以希腊语来源的成分构成的近代医学词：nekr- 表示“死、尸体”，-opsy 表示“察看、检查”。它字面上就是“检查尸体”，如今尤其常用于兽医学。<br><span class="en-sub">Necropsy is a modern medical formation using Greek-derived elements: nekr- “dead; corpse” and -opsy “viewing; examination.” Its literal sense is examining a dead body, and it is now especially associated with veterinary medicine.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>构词为 necr-（死、尸体）+ -opsy（观察、检查）；名词可直接转作及物动词。常用变化形式有 necropsies（名词复数或动词第三人称单数）、necropsied（过去式及过去分词）和 necropsying（现在分词）；相关技术形容词 necropsic 表示“尸体剖检的”，但较少见。<br><span class="en-sub">The formation is necr- “dead; corpse” + -opsy “viewing; examination”; the noun also becomes a transitive verb by conversion. Inflected forms include necropsies, necropsied, and necropsying; the related technical adjective necropsic means relating to a necropsy but is uncommon.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>autopsy 通常指人的尸检，但也可用于动物；postmortem examination 是较中性的“死后检查”；dissection 指为研究结构而进行的解剖，不一定用于查明死因。<br><span class="en-sub">Autopsy usually refers to a human examination, though it can also describe an animal examination; postmortem examination is a neutral alternative. Dissection emphasizes cutting apart a body to study its structure and need not investigate the cause of death.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>necr- 死亡 + -opsy 检查：对死亡后的身体做检查。<br><span class="en-sub">Dead body + examination: investigate the body after death.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">oversubscribe</span>
+                    <span class="pos-badge">2 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C1</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 动词</span>
+                    <span class="sense-phonetic">//ˌəʊvəsəbˈskraɪb//</span>
+                    <span class="sense-meaning-zh">超额认购或认捐，使认购量或认捐额超过供应量或目标</span>
+                    <span class="sense-meaning-en">(To subscribe for more than is available or pledge more than a target amount)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If investors oversubscribe a share offer, they apply to buy more shares than are available.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>oversubscribe a share issue; a heavily oversubscribed offering</code> <span class="trans">超额认购一次股票发行；获大幅超额认购的发行</span></div>
+                <div class="sentence"><strong>例句:</strong> Investors oversubscribed the share issue within hours.<br><span class="trans">投资者在几小时内就使此次股票发行获得了超额认购。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 动词（通常用于被动语态）</span>
+                    <span class="sense-phonetic">//ˌəʊvəsəbˈskraɪb//</span>
+                    <span class="sense-meaning-zh">使报名人数超过名额；使申请需求超过可用容量</span>
+                    <span class="sense-meaning-en">(To attract more applications or requests than available places or capacity)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If a course or service is oversubscribed, more people want to use it than it can accommodate.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>an oversubscribed course; be heavily oversubscribed</code> <span class="trans">报名人数超过名额的课程；申请人数远超可容纳人数</span></div>
+                <div class="sentence"><strong>例句:</strong> The course was oversubscribed, so the college opened another class.<br><span class="trans">这门课程的报名人数超过了名额，因此学院又开设了一个班。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>oversubscribe 由 over-“超过”与 subscribe 构成；subscribe 源自拉丁语 subscribere，原义为“在下面书写、署名”。从署名承诺认购或捐款，发展出认购超过发行量或筹款目标的意思，后来也用于报名和服务需求超过容量的情形。<br><span class="en-sub">Oversubscribe combines over- “beyond” with subscribe, from Latin subscribere, originally “write underneath; sign.” Signing a commitment to buy or contribute developed into subscriptions exceeding an available amount or target, and the word later extended to applications exceeding capacity.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代构词为 over-（超过）+ subscribe（认购、认捐、报名）。直接词族包括 oversubscribes、oversubscribed、oversubscribing 和 oversubscription（超额认购；报名超额）；基础词族包括 subscribe、subscriber（订阅者、认购者）和 subscription（订阅、认购）。oversubscribed 也常作分词形容词，表示“供不应求的、报名超额的”。<br><span class="en-sub">The modern formation is over- “beyond the limit” + subscribe. Its direct family includes oversubscribes, oversubscribed, oversubscribing, and oversubscription; the base family includes subscribe, subscriber, and subscription. Oversubscribed also commonly functions as a participial adjective meaning that demand exceeds availability.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>overbook 指接受的预订超过座位、房间或时段容量；overfill 指把容器或空间装得过满；overpledge 指承诺捐献或投入的数量过多。oversubscribe 特别强调认购、认捐或申请的总需求超过可供应量或目标。<br><span class="en-sub">Overbook concerns reservations exceeding available seats, rooms, or appointments; overfill concerns filling a container or space beyond capacity; overpledge concerns excessive commitments of money or resources. Oversubscribe specifically emphasizes subscriptions, pledges, or applications exceeding supply or a target.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>over- 超过 + subscribe 认购或报名：想要的份数超过现有份数。<br><span class="en-sub">Over + subscribe: more people sign up than the supply can serve.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">shew</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 动词（show 的旧拼写，现已罕用）</span>
+                    <span class="sense-phonetic">//ʃəʊ//</span>
+                    <span class="sense-meaning-zh">显示；出示；表明；展示，现代通常拼作 show</span>
+                    <span class="sense-meaning-en">(To show, display, present, or demonstrate; an old spelling of show)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> In older writing, shew means to let someone see something or to make something clear.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>shew cause; shew mercy</code> <span class="trans">说明理由；施以怜悯</span></div>
+                <div class="sentence"><strong>例句:</strong> The old notice required the tenant to shew cause for remaining in the house.<br><span class="trans">那份旧告示要求租户说明继续住在该房屋中的理由。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>shew 是 show 的历史拼写形式，可追溯至中古英语及古英语 scēawian“观看、察看”。这个动词的意义从“看、察看”发展到“使别人看见、展示”；shew 在旧文献和部分沿用旧式措辞的文本中保存下来。<br><span class="en-sub">Shew is a historical spelling of show, traceable through Middle English to Old English scēawian, meaning “look at; inspect.” The verb developed from looking to making something visible, while the spelling shew survived in older documents and some traditional wording.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代分析中 shew 是不可再分的历史词干，不应拆成有独立意义的前后缀。旧式变化形式包括 shews、shewing、shewed 和 shewn；对应的现代词族为 show、shows、showing、showed 和 shown。历史复合词 shewbread 对应现代拼写 showbread，指《圣经》中的陈设饼。<br><span class="en-sub">For modern analysis, shew is an indivisible historical stem, without meaningful internal prefixes or suffixes. Historical forms include shews, shewing, shewed, and shewn; their modern counterparts belong to the show family: show, shows, showing, showed, and shown. The historical compound shewbread, now also spelled showbread, refers to the biblical bread of the Presence.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>show 是与 shew 对应的现代标准拼写；display 强调把东西展示出来供人观看；demonstrate 强调通过证据、实例或操作把事情说明白。<br><span class="en-sub">Show is the modern standard spelling corresponding to shew; display emphasizes presenting something for people to see; demonstrate emphasizes making something clear through evidence, examples, or practical action.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>看到 shew，直接还原成 show：旧拼写，仍读 /ʃəʊ/。<br><span class="en-sub">Read shew as show: an old spelling with the familiar pronunciation.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">whist</span>
+                    <span class="pos-badge">2 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//wɪst//</span>
+                    <span class="sense-meaning-zh">惠斯特牌戏，通常由四人分成两队进行的吃墩纸牌游戏</span>
+                    <span class="sense-meaning-en">(A trick-taking card game usually played by four people in two partnerships)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Whist is a card game in which four players usually form two teams and try to win tricks by playing the strongest card.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>play whist; a game of whist</code> <span class="trans">玩惠斯特牌；一局惠斯特牌戏</span></div>
+                <div class="sentence"><strong>例句:</strong> After dinner, the four friends played whist.<br><span class="trans">晚饭后，四位朋友玩起了惠斯特牌。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">interj. 感叹词（古旧或方言用法）</span>
+                    <span class="sense-phonetic">//wɪst//</span>
+                    <span class="sense-meaning-zh">嘘！安静！</span>
+                    <span class="sense-meaning-en">(Be quiet; hush)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> In old-fashioned or dialect speech, you can say whist to tell someone to be quiet.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>Whist!; Whist, now!</code> <span class="trans">嘘！；好了，安静！</span></div>
+                <div class="sentence"><strong>例句:</strong> “Whist!” she whispered. “Someone is coming.”<br><span class="trans">“嘘！”她低声说，“有人来了。”</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>牌戏名称 whist 在17世纪由较早的名称 whisk 演变而来，其更深层来源并不确定，可能受到表示“安静”的 whist 的影响。表示“嘘、安静”的感叹词更早就已存在，属于模仿制止说话声音的表达。<br><span class="en-sub">The card-game name whist developed in the seventeenth century from the earlier name whisk; its deeper origin is uncertain, and it may have been influenced by whist meaning “quiet.” The older interjection belongs to the family of imitative sounds used to silence someone.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>whist 是不可再分的简单词，没有常用的现代前后缀分析，也没有常见的派生词系列。实用复合表达包括 whist player（惠斯特牌玩家）、whist table（惠斯特牌桌）和 whist drive（玩家按轮次换桌的惠斯特牌比赛活动）；感叹词 whist 不发生词形变化。<br><span class="en-sub">Whist is a simple, indivisible word with no productive modern prefix–suffix analysis or common series of derivatives. Useful compounds include whist player, whist table, and whist drive, an organized event in which players move between tables; the interjection whist is invariable.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>bridge“桥牌”是与惠斯特牌有历史联系但规则不同的游戏，并非严格同义词；trick-taking game“吃墩类纸牌游戏”是包含惠斯特牌的上位类别；hush“嘘、安静”与 whist 的感叹词用法接近，在现代英语中更常见。<br><span class="en-sub">Bridge is historically related to whist but has different rules, so it is not an exact synonym; trick-taking game is the broader category containing whist. Hush closely matches the interjection and is more usual in modern English.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>想象安静的四人牌桌：whist 是牌戏，也可古旧地表示“嘘”；这是记忆联想，不是确定的词源解释。<br><span class="en-sub">Picture a quiet table of four: whist names the game and can also mean “hush.” This is a memory association, not a certain explanation of the game's name.</span></div>
+        </div>
+        </div>
+</body>
+</html>
