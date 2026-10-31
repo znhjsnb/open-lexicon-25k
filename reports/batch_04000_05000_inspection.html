@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Open-Lexicon 25K - batch_04000_05000</title>
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 24px; }
+    h1 { color: #38bdf8; font-size: 22px; margin-bottom: 8px; }
+    .meta { color: #94a3b8; font-size: 13px; margin-bottom: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(540px, 1fr)); gap: 18px; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 18px; }
+    .card-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; border-bottom: 1px dashed #334155; padding-bottom: 8px; }
+    .word { font-size: 22px; font-weight: bold; color: #38bdf8; }
+    .pos-badge { background: #0284c7; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
+    .badge { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 11px; background: #0369a1; color: #fff; margin-left: 4px; }
+    .senses-container { margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .sense-block { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 10px; font-size: 12px; }
+    .sense-header { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; flex-wrap: wrap; }
+    .sense-pos { color: #fbbf24; font-weight: bold; }
+    .sense-meaning-zh { color: #f1f5f9; font-weight: 600; }
+    .sense-meaning-en { color: #94a3b8; font-style: italic; }
+    .en-def { color: #38bdf8; margin-bottom: 4px; font-style: italic; }
+    .colloc, .sentence { color: #cbd5e1; margin-bottom: 3px; line-height: 1.4; }
+    .trans { color: #94a3b8; font-size: 11px; }
+    .en-sub { color: #94a3b8; font-style: italic; font-size: 11px; display: block; margin-top: 2px; }
+    .etym, .morph, .synonym, .mnemonic { font-size: 12px; padding: 8px 10px; border-radius: 6px; margin-bottom: 6px; line-height: 1.4; }
+    .etym { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); }
+    .morph { background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.2); }
+    .synonym { background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.2); }
+    .mnemonic { background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.2); }
+    code { background: #0f172a; padding: 2px 4px; border-radius: 4px; color: #f472b6; }
+</style>
+</head>
+<body>
+    <h1>🚀 Open-Lexicon 25K - 批次抽检 (batch_04000_05000)</h1>
+    <div class="meta">已完成 <strong>1000 词</strong> | 规格：全词性覆盖 + 全维度中英双语对齐</div>
+    <div class="grid">
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">biscuit</span>
+                    <span class="pos-badge">3 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">中考</span><span class="badge tag">高考</span><span class="badge tag">CET4</span><span class="badge tag">考研</span><span class="badge tag">IELTS</span><span class="badge tag">CEFR-A2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 可数名词</span>
+                    <span class="sense-phonetic">/英 /ˈbɪskɪt/；美 /ˈbɪskɪt//</span>
+                    <span class="sense-meaning-zh">（英式）饼干</span>
+                    <span class="sense-meaning-en">(a small, usually crisp, flat baked food)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A biscuit is a small, flat cake that is usually crisp and sweet, although some types are savoury.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>chocolate biscuits; a packet of biscuits</code> <span class="trans">巧克力饼干；一包饼干</span></div>
+                <div class="sentence"><strong>例句:</strong> She offered us tea and a plate of chocolate biscuits.<br><span class="trans">她给我们端来了茶和一盘巧克力饼干。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 可数名词</span>
+                    <span class="sense-phonetic">/英 /ˈbɪskɪt/；美 /ˈbɪskɪt//</span>
+                    <span class="sense-meaning-zh">（美式）松软小圆面包</span>
+                    <span class="sense-meaning-en">(a small, soft quick bread raised with baking powder or baking soda)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> In American English, a biscuit is a small, soft bread made without yeast and often served warm with a meal.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>buttermilk biscuits; biscuits and gravy</code> <span class="trans">酪乳小圆面包；配肉汁的小圆面包</span></div>
+                <div class="sentence"><strong>例句:</strong> He served the chicken with warm biscuits.<br><span class="trans">他把鸡肉和热乎乎的美式小圆面包一起端上桌。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">adj. 形容词</span>
+                    <span class="sense-phonetic">/英 /ˈbɪskɪt/；美 /ˈbɪskɪt//</span>
+                    <span class="sense-meaning-zh">浅黄褐色的；饼干色的</span>
+                    <span class="sense-meaning-en">(pale yellowish brown)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Something that is biscuit in colour is a pale yellowish brown.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>biscuit upholstery; biscuit tones</code> <span class="trans">浅黄褐色的家具面料；浅黄褐色色调</span></div>
+                <div class="sentence"><strong>例句:</strong> They chose biscuit upholstery for the sofa.<br><span class="trans">他们为沙发选了浅黄褐色的面料。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>经古法语 bescuit 传入英语，最终源于拉丁语 bis“两次”和 coctus“烤熟的”，原指经过两次烘烤、便于保存的干硬面饼。后来英式英语用它指饼干，美式英语则发展出松软小圆面包这一含义。<br><span class="en-sub">Biscuit entered English through Old French bescuit, ultimately from Latin bis, meaning 'twice', and coctus, meaning 'cooked', referring to hard bread baked twice for preservation. British English developed the crisp-snack meaning, while American English also developed the soft-quick-bread meaning.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语中 biscuit 通常作为完整词根使用，不按 bis + cuit 进行能产构词；复数为 biscuits。主要衍生词和复合词：biscuity（像饼干的；有饼干味的）、biscuit-coloured／biscuit-colored（饼干色的）、biscuit tin（饼干盒）、biscuit cutter（饼干或美式小圆面包切模）；bis“两次”与 coctus“烤熟的”属于历史词源分析。<br><span class="en-sub">In modern English, biscuit normally functions as a whole base rather than a productive combination of bis and cuit; its plural is biscuits. Principal derivatives and compounds include biscuity, biscuit-coloured/biscuit-colored, biscuit tin, and biscuit cutter; bis 'twice' and coctus 'cooked' belong to its historical analysis.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>cookie（曲奇；饼干）是美式英语中甜饼干的常用名称，英式英语中常指较厚、带巧克力豆等配料的饼干；cracker（薄脆饼干）通常较薄、较脆且偏咸；scone（司康饼）与美式 biscuit 相近，但常更甜，具体做法因地区而异。<br><span class="en-sub">Cookie is the usual American term for a sweet biscuit and often suggests a thicker biscuit with additions such as chocolate chips in British English; cracker usually means a thin, crisp, savoury biscuit; scone resembles an American biscuit but is often sweeter, with recipes varying by region.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>历史核心是“两次烤”：烤得干脆便于保存，记住英式饼干；另记美式 biscuit 是松软小面包。<br><span class="en-sub">Anchor the history in 'twice baked': dry and crisp for storage gives you the British biscuit; separately remember that an American biscuit is soft bread.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">oven</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">中考</span><span class="badge tag">高考</span><span class="badge tag">CET4</span><span class="badge tag">考研</span><span class="badge tag">IELTS</span><span class="badge tag">CEFR-B1</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 可数名词</span>
+                    <span class="sense-phonetic">/英 /ˈʌvən/；美 /ˈʌvən//</span>
+                    <span class="sense-meaning-zh">烤箱；烤炉</span>
+                    <span class="sense-meaning-en">(an enclosed heated space used for cooking or baking)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> An oven is a piece of cooking equipment with an enclosed space in which food is cooked using heat.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>preheat the oven; bake in the oven</code> <span class="trans">预热烤箱；放进烤箱烘烤</span></div>
+                <div class="sentence"><strong>例句:</strong> Preheat the oven to 180°C before you put the cake in.<br><span class="trans">放入蛋糕前，先把烤箱预热到180摄氏度。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>来自古英语 ofen，与德语 Ofen“炉；烤箱”等日耳曼语词同源。它一直指利用封闭空间蓄热、烘烤食物的炉具，后来也用于现代家用烤箱。<br><span class="en-sub">Oven comes from Old English ofen and is related to German Ofen and other Germanic words for a heated chamber. Its central meaning has remained an enclosed space for baking, extending naturally to modern domestic appliances.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>oven 是现代英语中的单纯词，复数为 ovens。主要复合词：ovenproof（耐烤箱高温的）、oven-safe（可安全放入烤箱的）、oven-ready（已备妥、可直接入炉的）、oven-baked（烤箱烤制的）、ovenware（烤箱用器皿）、oven glove／oven mitt（隔热烤箱手套）；ovenproof 中的 -proof 表示“能承受……的”。<br><span class="en-sub">Oven is a simple modern English base, with the plural ovens. Principal compounds include ovenproof, oven-safe, oven-ready, oven-baked, ovenware, and oven glove/oven mitt; -proof in ovenproof means 'able to withstand'.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>stove（炉灶）侧重提供烹饪热源的设备，在美式英语中也可指包含烤箱的整套炉具；cooker（炊具；炉灶）在英式英语中常指带灶台和烤箱的整机；kiln（窑）主要用于烧制陶器、砖等，而不是日常烹饪。<br><span class="en-sub">Stove emphasizes cooking equipment that supplies heat and, in American English, can include an oven; cooker commonly means the complete cooking appliance in British English; kiln is mainly used for firing pottery or bricks rather than everyday cooking.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>抓住“封闭热腔”：食物放进去，靠周围的热量慢慢烤熟。<br><span class="en-sub">Think 'enclosed heat chamber': food goes inside and cooks in the surrounding heat.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">fortnight</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">高考</span><span class="badge tag">CET4</span><span class="badge tag">考研</span><span class="badge tag">IELTS</span><span class="badge tag">CEFR-B1</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 可数名词</span>
+                    <span class="sense-phonetic">/英 /ˈfɔːtnaɪt/；美 /ˈfɔːrtnaɪt//</span>
+                    <span class="sense-meaning-zh">（主要用于英式英语）两周；十四天</span>
+                    <span class="sense-meaning-en">(a period of two weeks)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A fortnight is a period of fourteen days, or two weeks.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a fortnight ago; in a fortnight</code> <span class="trans">两周前；两周后</span></div>
+                <div class="sentence"><strong>例句:</strong> We're going away for a fortnight in July.<br><span class="trans">我们七月份要外出度假两周。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>由古英语 fēowertīene niht“十四个夜晚”逐渐缩合而来，反映了过去用夜晚计算时间段的习惯。因此 fortnight 就是十四天，词首 fort- 与 fort“堡垒”无关。<br><span class="en-sub">Fortnight developed through contraction of Old English fēowertīene niht, meaning 'fourteen nights', reflecting an older practice of counting periods by nights. It therefore means fourteen days, and its opening fort- is unrelated to fort meaning a stronghold.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语通常将 fortnight 视为完整词根，复数为 fortnights；它在历史上由“十四＋夜晚”缩合而成。fortnight + -ly → fortnightly，可作形容词“每两周一次的”和副词“每两周一次”，也可作可数名词表示“双周刊”，复数为 fortnightlies。<br><span class="en-sub">Modern English generally treats fortnight as a whole base, with the plural fortnights; historically, it is a contracted combination of 'fourteen' and 'night'. Fortnight + -ly forms fortnightly, an adjective and adverb meaning 'every two weeks', and also a countable noun meaning a publication issued every two weeks, with the plural fortnightlies.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>two weeks（两周）在各类英语中都通用，也是美式英语更常见的说法；fourteen days（十四天）更突出确切天数；a couple of weeks（两个星期左右）在口语中可能表示大约两周，而 fortnight 通常明确表示两周。<br><span class="en-sub">Two weeks is universal and is the more usual American expression; fourteen days emphasizes the exact number of days; a couple of weeks can be approximate in conversation, whereas a fortnight normally specifies two weeks.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>fourteen nights → fortnight：十四个夜晚，就是两周。<br><span class="en-sub">Fourteen nights → fortnight: fourteen nights make two weeks.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">fur</span>
+                    <span class="pos-badge">5 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">高考</span><span class="badge tag">CET4</span><span class="badge tag">考研</span><span class="badge tag">IELTS</span><span class="badge tag">TOEFL</span><span class="badge tag">CEFR-B1</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 不可数名词</span>
+                    <span class="sense-phonetic">/英 /fɜː/；美 /fɝː//</span>
+                    <span class="sense-meaning-zh">兽毛；动物身上浓密柔软的毛</span>
+                    <span class="sense-meaning-en">(the thick, soft hair covering an animal)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Fur is the thick, soft hair that covers the bodies of animals such as cats, rabbits, and bears.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>thick fur; soft fur</code> <span class="trans">浓密的兽毛；柔软的兽毛</span></div>
+                <div class="sentence"><strong>例句:</strong> The fox's thick fur keeps it warm in winter.<br><span class="trans">狐狸浓密的毛使它在冬天保持温暖。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 可数及不可数名词</span>
+                    <span class="sense-phonetic">/英 /fɜː/；美 /fɝː//</span>
+                    <span class="sense-meaning-zh">毛皮；裘皮；毛皮衣物</span>
+                    <span class="sense-meaning-en">(animal skin with its hair attached, or clothing made from it)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Fur is an animal's skin with the hair still on it, used to make clothing; a fur or furs can also mean garments made from this material.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a fur coat; faux fur</code> <span class="trans">一件裘皮大衣；人造毛皮</span></div>
+                <div class="sentence"><strong>例句:</strong> The hood is trimmed with faux fur.<br><span class="trans">风帽的边缘饰有人造毛皮。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 不可数名词</span>
+                    <span class="sense-phonetic">/英 /fɜː/；美 /fɝː//</span>
+                    <span class="sense-meaning-zh">（英式）水垢；壶或管道内壁的沉积物</span>
+                    <span class="sense-meaning-en">(a hard mineral deposit inside a kettle or pipe)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> In British English, fur is a hard layer of minerals that forms inside kettles or pipes, especially in areas with hard water.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a coating of fur; fur inside a kettle</code> <span class="trans">一层水垢；水壶内部的水垢</span></div>
+                <div class="sentence"><strong>例句:</strong> A thick coating of fur had formed inside the old kettle.<br><span class="trans">旧水壶的内壁已经结了一层厚厚的水垢。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 不及物及及物动词</span>
+                    <span class="sense-phonetic">/英 /fɜː/；美 /fɝː//</span>
+                    <span class="sense-meaning-zh">（英式，常与 up 连用）结水垢；使结水垢</span>
+                    <span class="sense-meaning-en">(to become coated with mineral deposits, or cause this to happen)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If a kettle or pipe furs up, or something furs it up, a layer of hard minerals forms inside it.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>pipes fur up; fur up a kettle</code> <span class="trans">管道结水垢；使水壶结水垢</span></div>
+                <div class="sentence"><strong>例句:</strong> Hard water can fur up the pipes over time.<br><span class="trans">硬水久而久之会使管道内壁结上水垢。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 及物动词</span>
+                    <span class="sense-phonetic">/英 /fɜː/；美 /fɝː//</span>
+                    <span class="sense-meaning-zh">给……衬毛皮或饰毛皮</span>
+                    <span class="sense-meaning-en">(to line, cover, or trim something with fur)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If a garment is furred, it is lined, covered, or trimmed with fur.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a furred hood; a furred robe</code> <span class="trans">衬有或饰有毛皮的风帽；衬有或饰有毛皮的长袍</span></div>
+                <div class="sentence"><strong>例句:</strong> The ceremonial robe was furred at the collar.<br><span class="trans">这件礼袍的领口饰有毛皮。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>中古英语通过古法语中表示“给衣服加衬里”的词语吸收了这个词，早期含义与衣物衬里有关，后来转指带毛的兽皮和动物身上的毛。表示水垢等附着层的含义，是从“覆盖在表面的一层东西”引申而来。<br><span class="en-sub">Fur entered Middle English through Old French vocabulary for lining garments, with early meanings connected to clothing linings before developing the senses of hairy animal skins and animal hair. The deposit meaning arose by extension to a layer coating a surface.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>fur 是现代词根；表示兽毛或材料时通常不可数，表示毛皮衣物或种类时可用 furs。动词变化为 furs、furred、furring；fur + -y → furry（毛茸茸的），双写 r，比较级和最高级为 furrier、furriest。其他主要词族成员及复合词：furless（无毛的）、fur-like／furlike（像毛皮的）、furrier（皮货商；毛皮服装制作商，与 furry 的比较级同形）、furriery（毛皮业；毛皮制品）、fur-lined（衬毛皮的）、fur-bearing（长有可用毛皮的）。<br><span class="en-sub">Fur is a modern base; animal hair and the material are normally uncountable, while garments or types can be called furs. Verb forms are furs, furred, and furring; fur + -y gives furry, with r doubled, and its comparative and superlative are furrier and furriest. Other principal family members and compounds include furless, fur-like/furlike, furrier meaning a fur trader or garment maker, furriery, fur-lined, and fur-bearing; the occupational noun furrier has the same spelling as the comparative of furry.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>hair（毛；头发）是更广泛的词，可指人或动物的毛；pelt（带毛兽皮）侧重整张带毛的动物皮；fleece（羊毛；绒毛）通常指羊等动物的整层毛，也可指仿羊毛绒面料。<br><span class="en-sub">Hair is the broader term for strands growing on humans or animals; pelt emphasizes an animal's whole skin with its hair attached; fleece usually means the woolly coat of a sheep or similar animal and can also name a soft synthetic fabric.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>核心是一层覆盖物：动物身上是兽毛，衣服上是毛皮，水壶内壁则引申为水垢。<br><span class="en-sub">Think 'a covering layer': hair on an animal, a fur lining on clothing, and, by extension, mineral coating inside a kettle.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">drawer</span>
+                    <span class="pos-badge">4 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">中考</span><span class="badge tag">高考</span><span class="badge tag">CET4</span><span class="badge tag">考研</span><span class="badge tag">IELTS</span><span class="badge tag">CEFR-B1</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 可数名词</span>
+                    <span class="sense-phonetic">/英 /drɔː/；美 /drɔːr//</span>
+                    <span class="sense-meaning-zh">抽屉</span>
+                    <span class="sense-meaning-en">(a sliding storage compartment in a piece of furniture)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A drawer is a box-shaped part of a desk, cupboard, or other piece of furniture that you pull out to put things in or take things out.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>the top drawer; a chest of drawers</code> <span class="trans">最上层抽屉；抽屉柜</span></div>
+                <div class="sentence"><strong>例句:</strong> I keep my passport in the top drawer of my desk.<br><span class="trans">我把护照放在书桌最上层的抽屉里。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 可数名词</span>
+                    <span class="sense-phonetic">/英 /ˈdrɔːə/；美 /ˈdrɔːər//</span>
+                    <span class="sense-meaning-zh">画画的人；绘图者</span>
+                    <span class="sense-meaning-en">(a person who draws pictures)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A drawer is someone who draws pictures, especially when you are describing their drawing ability.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a good drawer; a skilled drawer</code> <span class="trans">画画好的人；熟练的绘图者</span></div>
+                <div class="sentence"><strong>例句:</strong> She's a good drawer, especially when it comes to animals.<br><span class="trans">她很会画画，尤其擅长画动物。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 可数名词</span>
+                    <span class="sense-phonetic">/英 /ˈdrɔːə/；美 /ˈdrɔːər//</span>
+                    <span class="sense-meaning-zh">（金融）出票人；开票人</span>
+                    <span class="sense-meaning-en">(the person who writes a cheque or issues a bill of exchange)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> The drawer of a cheque or bill of exchange is the person who writes or issues it and orders payment to be made.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>the drawer of a cheque; the drawer's signature</code> <span class="trans">支票出票人；出票人的签名</span></div>
+                <div class="sentence"><strong>例句:</strong> The cheque was returned because the drawer's signature was missing.<br><span class="trans">这张支票因缺少出票人的签名而被退回。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 复数名词（drawers）</span>
+                    <span class="sense-phonetic">/英 /drɔːz/；美 /drɔːrz//</span>
+                    <span class="sense-meaning-zh">（旧式用语）内裤；衬裤</span>
+                    <span class="sense-meaning-en">(underpants or underwear covering the lower body and sometimes the legs)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Drawers are underpants or similar underwear worn over the lower part of the body; this is an old-fashioned use.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a pair of drawers; long drawers</code> <span class="trans">一条内裤；长衬裤</span></div>
+                <div class="sentence"><strong>例句:</strong> The museum displayed a pair of nineteenth-century cotton drawers.<br><span class="trans">博物馆展出了一条十九世纪的棉质衬裤。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>由 draw“拉；画；开立票据”加名词后缀 -er 构成：家具中的 drawer 是可以拉出的箱格，指人时则是执行绘画或开票动作的人。复数 drawers 表示衬裤，与把衣物拉上身的动作有关。<br><span class="en-sub">Drawer combines draw with the noun-forming suffix -er: the furniture sense names a compartment that is pulled out, while the personal senses name someone who draws pictures or issues payment instruments. The plural drawers for underwear relates to pulling the garment on.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>draw + -er → drawer，-er 在这里可构成工具或事物名称，也可构成施事者名称；普通复数为 drawers，表示内裤时则固定用复数。基础词族：draw（原形）、draws（第三人称单数）、drew（过去式）、drawn（过去分词）、drawing（绘画；图画）、drawable（可绘制的）、drawee（付款人；受票人）；相关构词包括 redraw（重画）、withdraw（撤回；取款）、withdrawal（撤回；取款）、overdraw（透支）、drawerful（一抽屉的量）、top-drawer（一流的）。<br><span class="en-sub">Draw + -er forms drawer; here -er can name an object or instrument as well as a person performing an action. Its regular plural is drawers, and the underwear sense occurs in the plural. The base family includes draw, draws, drew, drawn, drawing, drawable, and drawee; related formations include redraw, withdraw, withdrawal, overdraw, drawerful, and top-drawer.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>compartment（隔间；分格）泛指分隔出来的空间，不一定能拉出；artist（艺术家；画家）强调艺术创作身份，比“画画的人”范围更广；issuer（签发人；发行人）泛指签发票据、证券等的人或机构，drawer 特指开立支票或汇票的一方。<br><span class="en-sub">Compartment is a general word for a divided storage space and does not imply that it slides out; artist emphasizes an artistic role and is broader than someone who draws; issuer can refer to anyone issuing documents or securities, while drawer specifically identifies the party drawing a cheque or bill of exchange.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>draw 是“拉”也是“画”：拉出来的格子是抽屉，画图的人是绘图者；draw a cheque 则是开支票。<br><span class="en-sub">Draw means both 'pull' and 'make a picture': a pull-out box is a drawer, and a person who draws is a drawer; drawing a cheque gives the financial sense.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">elephant</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">中考</span><span class="badge tag">高考</span><span class="badge tag">CET4</span><span class="badge tag">IELTS</span><span class="badge tag">TOEFL</span><span class="badge tag">CEFR-A1</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 可数名词</span>
+                    <span class="sense-phonetic">//ˈelɪfənt//</span>
+                    <span class="sense-meaning-zh">象；大象</span>
+                    <span class="sense-meaning-en">(a very large mammal with a trunk and large ears)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> An elephant is a very large animal with thick skin, large ears, and a long trunk that it uses to pick things up.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a herd of elephants; an elephant's trunk</code> <span class="trans">一群象；象鼻</span></div>
+                <div class="sentence"><strong>例句:</strong> The elephant used its trunk to pull leaves from a tree.<br><span class="trans">大象用鼻子从树上扯下树叶。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>英语 elephant 经法语和拉丁语传入，最终可追溯到古希腊语 elephas，其属格为 elephantos，可指“象”或“象牙”。这个希腊语词更早的来源尚不确定。<br><span class="en-sub">Elephant entered English through French and Latin, ultimately from Greek elephas, with the genitive elephantos, meaning either an elephant or ivory. The Greek word's earlier origin is uncertain.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语中 elephant 是不可再按常用词缀拆分的基本词。屈折变化：elephant + -s → elephants（复数）；主要派生词：elephantine（像象的；庞大笨重的）。相关医学词 elephantiasis（象皮病）含希腊语来源的 elephant- 和表示病理状态的 -iasis。<br><span class="en-sub">In modern English, elephant is a base word without a productive internal breakdown. Inflection: elephant + -s → elephants. The main derivative is elephantine, meaning elephant-like or huge and unwieldy. The related medical term elephantiasis contains Greek-derived elephant- and -iasis, a suffix denoting a pathological condition.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>pachyderm（厚皮兽）是较旧的宽泛称呼，也可包括犀牛等动物；tusker（长有大牙的动物，尤指雄象）突出象牙；jumbo（大象；庞然大物）是非正式称呼，也可指其他巨大事物。这些词都不能在所有语境中替换 elephant。<br><span class="en-sub">Pachyderm is an older, broader label that can also include animals such as rhinoceroses; tusker emphasizes prominent tusks, especially those of a male elephant; jumbo is an informal term for an elephant or another very large thing. None replaces elephant in every context.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>整词联想：长鼻、大耳、庞大身体 → elephant；elephantine 把“大象般庞大”的形象变成形容词。<br><span class="en-sub">Picture a trunk, large ears, and a huge body: elephant. Elephantine turns that image into the adjective 'huge and elephant-like.'</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">nanny</span>
+                    <span class="pos-badge">4 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">IELTS</span><span class="badge tag">TOEFL</span><span class="badge tag">CEFR-B2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 可数名词</span>
+                    <span class="sense-phonetic">//ˈnæni//</span>
+                    <span class="sense-meaning-zh">受雇照看孩子的保姆</span>
+                    <span class="sense-meaning-en">(a person employed to care for children)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A nanny is someone who is paid to look after children, usually in the children's own home.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>hire a nanny; a live-in nanny</code> <span class="trans">雇用育儿保姆；住家育儿保姆</span></div>
+                <div class="sentence"><strong>例句:</strong> They hired a nanny to look after their two young children.<br><span class="trans">他们雇了一位保姆照看两个年幼的孩子。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 可数名词</span>
+                    <span class="sense-phonetic">//ˈnæni//</span>
+                    <span class="sense-meaning-zh">母山羊</span>
+                    <span class="sense-meaning-en">(a female goat)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A nanny, or nanny goat, is a female goat.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a nanny goat; a nanny with her kids</code> <span class="trans">一只母山羊；一只带着小羊的母山羊</span></div>
+                <div class="sentence"><strong>例句:</strong> The nanny goat stood beside her two kids.<br><span class="trans">那只母山羊站在它的两只小羊旁边。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 及物／不及物动词</span>
+                    <span class="sense-phonetic">//ˈnæni//</span>
+                    <span class="sense-meaning-zh">当育儿保姆；照看孩子</span>
+                    <span class="sense-meaning-en">(to work as a nanny or care for children as a nanny)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If you nanny for a family, you work for them looking after their children.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>nanny for a family; nanny part-time</code> <span class="trans">给一家人当育儿保姆；兼职当育儿保姆</span></div>
+                <div class="sentence"><strong>例句:</strong> She nannies for a local family three days a week.<br><span class="trans">她每周有三天给当地一户人家当育儿保姆。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 及物动词</span>
+                    <span class="sense-phonetic">//ˈnæni//</span>
+                    <span class="sense-meaning-zh">对……过度照管；把……当小孩管束</span>
+                    <span class="sense-meaning-en">(to protect or supervise someone excessively)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If you say someone is nannying adults, you mean they are protecting or controlling them more than you think is necessary.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>nanny the public; nanny people</code> <span class="trans">对公众实行保姆式管束；过度照管人们</span></div>
+                <div class="sentence"><strong>例句:</strong> Adults should be allowed to make decisions without being nannied.<br><span class="trans">应该允许成年人自己作决定，而不是像管小孩一样处处管着他们。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>nanny 的照料者义在18世纪已有记录，通常与幼儿对成年女性的亲昵称呼联系起来，但确切来源尚不确定。母山羊义则与女性昵称 Nanny 有关，这个昵称也可作为 Anne 的爱称。<br><span class="en-sub">Nanny is recorded for a female caregiver in the eighteenth century and is generally associated with children's familiar names for adult women, although its precise origin is uncertain. The female-goat sense is associated with the personal nickname Nanny, also used as a pet form of Anne.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语中 nanny 通常作为整词；名词直接转为动词，无需添加词缀。屈折变化：nanny → nannies（名词复数／动词第三人称单数）、nannied（过去式／过去分词）、nannying（现在分词／动名词）；辅音字母后的 y 在 -s、-ed 前变为 i，但在 -ing 前保留。常见组合：nanny goat（母山羊）、nanny state（保姆式国家，贬义）。<br><span class="en-sub">Nanny is normally treated as a whole base word; its verb is formed by conversion without an added affix. Inflections are nannies, nannied, and nannying. After a consonant, final y changes to i before -s or -ed, producing -ies or -ied, but remains before -ing. Common combinations include nanny goat and nanny state, a disapproving term for an excessively protective state.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>babysitter（临时照看孩子的人）通常只照看几个小时；childminder（托儿照看者，主要用于英式英语）通常在自己家中有偿照看孩子；au pair（互惠生）通常住在接待家庭，以照看孩子和少量家务换取食宿及零用钱。nanny 通常是较固定、持续受雇的育儿照料者。<br><span class="en-sub">A babysitter usually provides care for a few hours; a childminder, chiefly in British English, usually provides paid childcare in their own home; an au pair typically lives with a host family and provides childcare and light housework in exchange for accommodation and pocket money. A nanny usually has a more regular, ongoing childcare role.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>核心画面是“照看孩子的人”：nanny 作名词指照料者，作动词指照看；把成年人也当孩子照看，就引申为“过度管束”。<br><span class="en-sub">Start with someone caring for children: a nanny is the caregiver, and to nanny is to provide that care. Treat adults like children, and the verb becomes 'overprotect or overcontrol.'</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">shiver</span>
+                    <span class="pos-badge">2 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">高考</span><span class="badge tag">CET4</span><span class="badge tag">考研</span><span class="badge tag">IELTS</span><span class="badge tag">TOEFL</span><span class="badge tag">CEFR-B2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 不及物动词</span>
+                    <span class="sense-phonetic">//ˈʃɪvə//</span>
+                    <span class="sense-meaning-zh">因寒冷、恐惧或激动而发抖；打寒战</span>
+                    <span class="sense-meaning-en">(to shake slightly and involuntarily from cold, fear, or excitement)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If you shiver, your body shakes slightly because you are cold, frightened, or excited.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>shiver with cold; shiver at the thought of something</code> <span class="trans">冷得发抖；一想到某事就不寒而栗</span></div>
+                <div class="sentence"><strong>例句:</strong> She was shivering with cold after waiting outside for an hour.<br><span class="trans">她在外面等了一个小时，冷得直发抖。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 可数名词</span>
+                    <span class="sense-phonetic">//ˈʃɪvə//</span>
+                    <span class="sense-meaning-zh">一阵颤抖；寒战；因恐惧或激动产生的战栗</span>
+                    <span class="sense-meaning-en">(a brief involuntary shake or a sudden feeling of fear or excitement)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A shiver is a brief shaking movement of your body or a sudden feeling that makes you seem to shake.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a shiver down your spine; give someone the shivers</code> <span class="trans">沿着脊背窜过的一阵寒意；使某人不寒而栗</span></div>
+                <div class="sentence"><strong>例句:</strong> The strange sound sent a shiver down my spine.<br><span class="trans">那奇怪的声音让我脊背一阵发凉。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>表示“发抖”的 shiver 源自中古英语 chiveren，其更早来源尚不确定。这个词从身体因寒冷而颤动，扩展到因恐惧、期待或激动而战栗，并可作名词表示一次这样的反应。<br><span class="en-sub">Shiver, meaning 'tremble,' developed from Middle English chiveren, whose earlier origin is uncertain. Its use extends from bodily shaking caused by cold to trembling with fear, anticipation, or excitement, and the noun names such a reaction.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>shiver 是现代基本词，词尾 -er 在这里不是表示“人”的后缀。屈折变化：shivers、shivered、shivering；派生词：shiver + -y → shivery（发抖的；令人发冷的），shiver + -er → shiverer（发抖的人，较少用）。shivering 也可作形容词，意为“正在发抖的”。<br><span class="en-sub">Shiver is a modern base word; its final -er is not an agent suffix. Inflections are shivers, shivered, and shivering. Derivatives include shiver + -y → shivery, meaning trembling or causing chills, and shiver + -er → shiverer, a less common word for someone who shivers. Shivering can also function as an adjective.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>tremble（颤抖）适用范围最广，可由恐惧、虚弱等引起；shudder（猛地一颤）常指因厌恶、恐惧或寒冷而突然全身颤动；quake（剧烈发抖）语气更强，常强调恐惧。shiver 尤其常指寒冷引起的细小、不自主的颤抖。<br><span class="en-sub">Tremble is broad and can describe shaking from fear or weakness; shudder often suggests a sudden whole-body movement caused by disgust, fear, or cold; quake is stronger and often emphasizes fear. Shiver especially suggests small, involuntary movements caused by cold.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>冷风一吹，身体细细地抖：动作是 shiver，一阵抖也是 a shiver。<br><span class="en-sub">Imagine a cold breeze making your body shake: you shiver, and each brief shake is a shiver.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">rip</span>
+                    <span class="pos-badge">5 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CET4</span><span class="badge tag">CET6</span><span class="badge tag">考研</span><span class="badge tag">IELTS</span><span class="badge tag">TOEFL</span><span class="badge tag">CEFR-B2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 及物／不及物动词</span>
+                    <span class="sense-phonetic">//rɪp//</span>
+                    <span class="sense-meaning-zh">撕破；撕开；扯掉；裂开</span>
+                    <span class="sense-meaning-en">(to tear something forcefully or become torn)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If you rip something, you tear it forcefully, and if something rips, it becomes torn.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>rip something open; rip something off</code> <span class="trans">把某物撕开；把某物扯掉</span></div>
+                <div class="sentence"><strong>例句:</strong> He ripped the envelope open and read the letter.<br><span class="trans">他撕开信封，读起信来。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 不及物动词</span>
+                    <span class="sense-phonetic">//rɪp//</span>
+                    <span class="sense-meaning-zh">迅猛地移动；猛烈穿过或席卷</span>
+                    <span class="sense-meaning-en">(to move very quickly and forcefully through or across something)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If something rips through a place, it moves through it quickly and violently, often causing damage.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>rip through a building; rip across the sky</code> <span class="trans">猛烈席卷一栋建筑；迅猛划过天空</span></div>
+                <div class="sentence"><strong>例句:</strong> The explosion ripped through the building just before dawn.<br><span class="trans">黎明前，爆炸猛烈冲击了整栋建筑。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 及物动词</span>
+                    <span class="sense-phonetic">//rɪp//</span>
+                    <span class="sense-meaning-zh">抓取、提取并复制光盘中的音频或视频</span>
+                    <span class="sense-meaning-en">(to extract and copy audio or video from a disc into digital files)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If you rip a CD or DVD, you copy its sound or video onto a computer as digital files.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>rip a CD; rip tracks to a computer</code> <span class="trans">抓取一张 CD 的音轨；把音轨提取到电脑上</span></div>
+                <div class="sentence"><strong>例句:</strong> She ripped her old CDs to her laptop.<br><span class="trans">她把旧 CD 里的音乐提取到了笔记本电脑上。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 可数名词</span>
+                    <span class="sense-phonetic">//rɪp//</span>
+                    <span class="sense-meaning-zh">裂口；撕破的口子</span>
+                    <span class="sense-meaning-en">(a hole or split made by tearing)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A rip is a hole or split in something such as cloth or paper that has been torn.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a rip in your jeans; mend a rip</code> <span class="trans">牛仔裤上的一道裂口；缝补裂口</span></div>
+                <div class="sentence"><strong>例句:</strong> There was a small rip in the sleeve of his jacket.<br><span class="trans">他夹克的袖子上有一道小裂口。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 可数名词</span>
+                    <span class="sense-phonetic">//rɪp//</span>
+                    <span class="sense-meaning-zh">离岸流；裂流</span>
+                    <span class="sense-meaning-en">(a strong, narrow current flowing away from the shore)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A rip is a strong current that carries water away from the shore, often through breaking waves.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a dangerous rip; get caught in a rip</code> <span class="trans">危险的离岸流；被卷入离岸流</span></div>
+                <div class="sentence"><strong>例句:</strong> The swimmers were caught in a rip near the beach.<br><span class="trans">那些游泳者在海滩附近被卷入了离岸流。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>rip 的“撕裂”义来自中古英语 rippen，可能与中古荷兰语中表示“撕开、剥去”的同形词有关，但具体来源并不完全确定。现代计算机用法把“取出”的动作引申为从光盘中提取音频或视频。<br><span class="en-sub">Rip in the sense 'tear' comes from Middle English rippen and may be related to a Middle Dutch word of the same form meaning 'tear or strip,' although the precise origin is uncertain. In computing, the idea of taking something out developed into extracting audio or video from a disc.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>rip 是不可再拆分的现代基本词，可直接兼作动词和名词。屈折变化：rips、ripped、ripping；添加 -ed 或 -ing 时，重读闭音节末尾的 p 双写。词族及常见组合：ripper（撕裂者；撕裂工具）、ripped（撕破的；肌肉线条明显的）、rip-off（敲竹杠；劣质仿制品）、ripcord（降落伞拉绳）。常用短语动词还包括 rip up（撕碎）、rip off（扯掉；敲诈；抄袭）、rip into（猛烈批评）。<br><span class="en-sub">Rip is an indivisible modern base used as both a verb and a noun. Inflections are rips, ripped, and ripping; final p doubles before -ed and -ing because it follows a stressed short vowel. Family members and common combinations include ripper, ripped, rip-off, and ripcord. Ripped can mean torn or visibly muscular; a rip-off is an overcharge or inferior imitation. Common phrasal verbs include rip up, meaning tear into pieces; rip off, meaning remove by tearing, overcharge, or copy; and rip into, meaning criticize fiercely.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>tear（撕裂）最通用，不一定突出用力程度；rend（撕裂）较正式或文学化，强调猛烈撕开；split（裂开；劈开）强调分成部分，未必涉及撕扯。rip 通常更突出快速、用力地扯破。<br><span class="en-sub">Tear is the broadest term and need not emphasize force; rend is formal or literary and suggests violent tearing; split emphasizes separation into parts without necessarily involving a tearing action. Rip usually highlights quick, forceful tearing.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>抓住“猛地扯开”：动作是 rip，留下的裂口是 a rip；数字用法则像把内容从光盘里“抽取出来”。<br><span class="en-sub">Anchor rip to a forceful tear: rip is the action, and a rip is the opening left behind. In digital use, imagine pulling the content out of a disc.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">cage</span>
+                    <span class="pos-badge">2 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">中考</span><span class="badge tag">高考</span><span class="badge tag">CET4</span><span class="badge tag">考研</span><span class="badge tag">IELTS</span><span class="badge tag">TOEFL</span><span class="badge tag">CEFR-B1</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 可数名词</span>
+                    <span class="sense-phonetic">//keɪdʒ//</span>
+                    <span class="sense-meaning-zh">笼子；由栏杆、金属丝等构成的围护空间</span>
+                    <span class="sense-meaning-en">(an enclosure made of bars or wire for keeping animals or protecting something)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A cage is a structure made of bars or wire that keeps an animal inside or surrounds something to protect it.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a bird cage; a cage door</code> <span class="trans">鸟笼；笼门</span></div>
+                <div class="sentence"><strong>例句:</strong> The bird escaped when someone left the cage door open.<br><span class="trans">有人没有关上笼门，鸟就逃走了。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 及物动词</span>
+                    <span class="sense-phonetic">//keɪdʒ//</span>
+                    <span class="sense-meaning-zh">把……关进笼子；将……囚禁</span>
+                    <span class="sense-meaning-en">(to put or keep an animal or person in a cage or confined space)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If you cage an animal or a person, you put or keep them in a cage or another enclosed space.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>cage an animal; feel caged in</code> <span class="trans">把动物关进笼子；感到受困或受束缚</span></div>
+                <div class="sentence"><strong>例句:</strong> The rescued birds were caged temporarily while they recovered.<br><span class="trans">获救的鸟在康复期间被暂时关在笼子里。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>cage 经古法语 cage 进入英语，源于拉丁语 cavea，表示“笼子、围栏或封闭空间”，与表示“空的、中空的”的 cavus 有关。名词后来直接用作动词，表示“把……关进笼子”，也可比喻限制自由。<br><span class="en-sub">Cage entered English through Old French cage from Latin cavea, meaning a cage, enclosure, or enclosed space, related to cavus, 'hollow.' The noun later became a verb meaning 'put in a cage,' with figurative uses referring to restricted freedom.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语中 cage 是基本词，名词直接转为动词，无需添加词缀。屈折变化：cages（名词复数／动词第三人称单数）、caged（过去式／过去分词）、caging（现在分词／动名词，去掉词尾不发音的 e）。主要词族：caged（被关在笼中的）、uncage（放出笼子）、uncaged（未被关住的；已获释放的）、cageless（无笼的）；常见复合词 birdcage（鸟笼）。<br><span class="en-sub">Cage is a modern base word, and the verb is formed from the noun by conversion without an added affix. Inflections are cages, caged, and caging; the final silent e is dropped before -ing. Main family members include caged, uncage, uncaged, and cageless. Birdcage is a common compound.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>enclosure（围起来的区域）范围更广，可很大且没有顶；pen（畜栏）通常是饲养牲畜的围栏区域；coop（禽舍；鸡笼）主要供鸡等家禽栖居。cage 通常强调由栏杆或金属丝构成、限制进出的笼状结构。<br><span class="en-sub">An enclosure is any bounded area and may be large or open above; a pen is usually a fenced space for livestock; a coop is housing for chickens or other poultry. Cage typically emphasizes a structure of bars or wire that restricts entry or escape.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>围出一个空间：名词 cage 是“笼子”，动词 cage 是“把……关进去”；feel caged 就是感觉自由被围住。<br><span class="en-sub">Picture a space enclosed by bars: a cage is the enclosure, and to cage is to put something inside it. Feeling caged means feeling that your freedom is enclosed.</span></div>
+        </div>
+        </div>
+</body>
+</html>
