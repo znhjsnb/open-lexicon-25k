@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Open-Lexicon 25K - batch_17000_18000</title>
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 24px; }
+    h1 { color: #38bdf8; font-size: 22px; margin-bottom: 8px; }
+    .meta { color: #94a3b8; font-size: 13px; margin-bottom: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(540px, 1fr)); gap: 18px; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 18px; }
+    .card-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; border-bottom: 1px dashed #334155; padding-bottom: 8px; }
+    .word { font-size: 22px; font-weight: bold; color: #38bdf8; }
+    .pos-badge { background: #0284c7; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
+    .badge { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 11px; background: #0369a1; color: #fff; margin-left: 4px; }
+    .senses-container { margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .sense-block { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 10px; font-size: 12px; }
+    .sense-header { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; flex-wrap: wrap; }
+    .sense-pos { color: #fbbf24; font-weight: bold; }
+    .sense-meaning-zh { color: #f1f5f9; font-weight: 600; }
+    .sense-meaning-en { color: #94a3b8; font-style: italic; }
+    .en-def { color: #38bdf8; margin-bottom: 4px; font-style: italic; }
+    .colloc, .sentence { color: #cbd5e1; margin-bottom: 3px; line-height: 1.4; }
+    .trans { color: #94a3b8; font-size: 11px; }
+    .en-sub { color: #94a3b8; font-style: italic; font-size: 11px; display: block; margin-top: 2px; }
+    .etym, .morph, .synonym, .mnemonic { font-size: 12px; padding: 8px 10px; border-radius: 6px; margin-bottom: 6px; line-height: 1.4; }
+    .etym { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); }
+    .morph { background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.2); }
+    .synonym { background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.2); }
+    .mnemonic { background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.2); }
+    code { background: #0f172a; padding: 2px 4px; border-radius: 4px; color: #f472b6; }
+</style>
+</head>
+<body>
+    <h1>🚀 Open-Lexicon 25K - 批次抽检 (batch_17000_18000)</h1>
+    <div class="meta">已完成 <strong>1000 词</strong> | 规格：全词性覆盖 + 全维度中英双语对齐</div>
+    <div class="grid">
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">tubule</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈtjuːbjuːl//</span>
+                    <span class="sense-meaning-zh">小管；细管，尤指动植物体内的细小管状结构</span>
+                    <span class="sense-meaning-en">(A small tube, especially a narrow tubular structure in an animal or plant.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A tubule is a very small tube in a living organism through which substances can pass.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>renal tubule; seminiferous tubule</code> <span class="trans">肾小管；生精小管</span></div>
+                <div class="sentence"><strong>例句:</strong> The renal tubules reabsorb water and other substances that the body needs.<br><span class="trans">肾小管重新吸收水和身体所需的其他物质。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>来自拉丁语 tubulus，是 tubus（管）的指小形式，原义就是“小管”。英语保留了这一具体含义，尤其用于解剖学、植物学等领域。<br><span class="en-sub">Tubule comes from Latin tubulus, a diminutive of tubus, meaning “tube,” so its original meaning is “little tube.” English preserves this literal meaning, particularly in anatomy and botany.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代可分析为 tub-（管）+ -ule（指小后缀）→ tubule（小管）；复数为 tubules。主要相关词有 tubular（管状的）、tubulate（形成管状结构；具小管的）、tubulation（成管；管状排列）和 microtubule（微管）；这些词共享管状结构的词根，并非全部由 tubule 直接派生。<br><span class="en-sub">A useful modern analysis is tub- (“tube”) + the diminutive suffix -ule → tubule (“small tube”); the plural is tubules. Principal related forms include tubular (“tube-shaped”), tubulate (“to form tubes; having small tubes”), tubulation (“tube formation or arrangement”), and microtubule (“a microscopic cellular tube”); these share the tube-related base and are not all direct derivatives of tubule.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>tube（管）最通用，不限定大小；duct（导管）强调输送液体或分泌物的通道；capillary（毛细血管；毛细管）强调极细的管道，在解剖学中通常指血管。tubule 特指细小管状结构，不能与这些词任意互换。<br><span class="en-sub">Tube is the general term and does not specify size; duct emphasizes a passage carrying fluid or secretions; capillary emphasizes extreme narrowness and usually denotes a blood vessel in anatomy. Tubule specifically identifies a small tubular structure and is not freely interchangeable with these terms.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>tub- 是“管”，-ule 表示“小”：tubule 就是一根小管。<br><span class="en-sub">Think tub- = “tube” and -ule = “little”: a tubule is a little tube.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">wop</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//wɒp//</span>
+                    <span class="sense-meaning-zh">对意大利人或意大利裔人士的冒犯性族裔蔑称</span>
+                    <span class="sense-meaning-en">(An offensive ethnic slur for an Italian person or someone of Italian descent.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Wop is an offensive word used to insult someone who is Italian or of Italian descent.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>the slur “wop”; call someone a “wop”</code> <span class="trans">“wop”这一族裔蔑称；用“wop”辱骂某人</span></div>
+                <div class="sentence"><strong>例句:</strong> The historian explains that “wop” was used as an ethnic slur against Italian immigrants.<br><span class="trans">这位历史学家解释说，“wop”曾被用作辱骂意大利移民的族裔蔑称。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>这一美式蔑称通常被追溯到意大利南部方言 guappo，意为“花花公子、逞强的人”，并与西班牙语 guapo 有关。它在英语中演变成针对意大利人的族裔辱称，并不是“without papers”等英语短语的首字母缩写。<br><span class="en-sub">This American slur is generally traced to southern Italian dialect guappo, meaning a swaggerer or dandy, related to Spanish guapo. In English it developed into an ethnic insult against Italians; it is not an acronym for “without papers” or similar English phrases.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语中是不可再作有效词缀拆分的借词，不应按字母解释为缩写。复数为 wops；罕见派生形容词 woppish 由 wop + -ish 构成，双写 p，保留相同的冒犯意味。<br><span class="en-sub">In modern English this is a borrowed, morphologically simple word, not an acronym whose letters should be expanded. Its plural is wops; the rare adjective woppish is formed from wop + -ish with a doubled p and retains the same offensive character.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>没有语用色彩相同的中性近义词。Italian（意大利人）和 Italian American（意大利裔美国人）可按实际身份作为中性替代表达；前者指意大利国籍或族裔身份，后者专指美国的意大利裔人士，而 wop 带有族裔侮辱意味。<br><span class="en-sub">There is no neutral synonym with the same social force. Italian and Italian American are neutral alternatives when they accurately describe the person: Italian concerns Italian nationality or ancestry, while Italian American specifically identifies an American of Italian descent; wop adds ethnic hostility.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>记住语源链：guappo（逞强的人）→ wop（族裔蔑称）；不是证件缩写。<br><span class="en-sub">Remember the historical chain: guappo (“swaggerer”) → wop (an ethnic slur), with no connection to a paperwork acronym.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">asperity</span>
+                    <span class="pos-badge">3 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">GRE</span><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//əˈsperəti//</span>
+                    <span class="sense-meaning-zh">言语、语气或态度的严厉；生硬；粗暴</span>
+                    <span class="sense-meaning-en">(Harshness or sharpness in speech, tone, or manner.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If someone speaks with asperity, they speak sharply or harshly, often because they are annoyed.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>with asperity; asperity of tone</code> <span class="trans">语气严厉地；语气的生硬</span></div>
+                <div class="sentence"><strong>例句:</strong> “I have already explained that,” she replied with asperity.<br><span class="trans">“那件事我已经解释过了，”她语气生硬地回答。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//əˈsperəti//</span>
+                    <span class="sense-meaning-zh">表面的粗糙；粗糙表面上的微小凸起，常用复数</span>
+                    <span class="sense-meaning-en">(Surface roughness, or a small projection on a rough surface, often in the plural.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> An asperity is a small raised part of a rough surface; asperity can also mean the roughness itself.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>surface asperities; contact between asperities</code> <span class="trans">表面微凸体；微凸体之间的接触</span></div>
+                <div class="sentence"><strong>例句:</strong> Under pressure, the asperities on the two metal surfaces deform.<br><span class="trans">在压力作用下，两个金属表面上的微凸体会发生变形。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//əˈsperəti//</span>
+                    <span class="sense-meaning-zh">艰苦条件；生活中的困苦，通常用复数，属正式或文学用法</span>
+                    <span class="sense-meaning-en">(Hardships or severe conditions, usually plural and formal or literary.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> The asperities of life are the difficulties and harsh conditions that people have to endure.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>the asperities of life; the asperities of the climate</code> <span class="trans">生活的艰辛；气候的严酷</span></div>
+                <div class="sentence"><strong>例句:</strong> Their friendship helped them endure the asperities of life in exile.<br><span class="trans">他们的友谊帮助他们熬过了流亡生活中的种种艰辛。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>经法语 asperité 来自拉丁语 asperitas（粗糙、严酷），其基础是 asper（粗糙的、严厉的）。从表面触感的粗糙，词义扩展到言语态度的生硬以及生活条件的艰苦。<br><span class="en-sub">Asperity came through French asperité from Latin asperitas, meaning roughness or harshness, based on asper, “rough” or “harsh.” Physical roughness extended metaphorically to sharp speech and difficult living conditions.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>可分析为受限词根 asper-（粗糙、严厉）+ -ity（性质、状态）→ asperity；复数为 asperities。相关同源词有 exasperate（使恼怒）、exasperated（恼怒的）、exasperating（令人恼怒的）和 exasperation（恼怒），它们属于同一历史词根家族，并非 asperity 的直接派生词。<br><span class="en-sub">The word can be analyzed as the bound root asper- (“rough, harsh”) + -ity (“quality or state”) → asperity; its plural is asperities. Related words include exasperate, exasperated, exasperating, and exasperation; they belong to the same historical root family rather than being direct derivatives of asperity.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>harshness（严厉；粗糙）范围最广，可形容声音、待遇和环境；acrimony（尖刻；怨愤）更强调争执中的敌意；roughness（粗糙；粗鲁）偏重不平滑的表面或欠圆润的举止。asperity 尤其适合正式描述语气中的生硬，也保留具体的表面粗糙义。<br><span class="en-sub">Harshness broadly covers unpleasant sounds, treatment, and conditions; acrimony emphasizes bitterness and hostility in disagreement; roughness focuses on uneven surfaces or unpolished behavior. Asperity is especially suited to formal descriptions of a sharp tone and also retains its literal surface meaning.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>抓住“粗糙”：表面摸着粗糙，话语听着生硬，生活过得艰辛。<br><span class="en-sub">Anchor everything in roughness: a rough surface, a rough tone, and the rough conditions of life.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">bestiary</span>
+                    <span class="pos-badge">2 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈbestiəri//</span>
+                    <span class="sense-meaning-zh">中世纪动物寓言集，常配插图，以真实或虚构动物说明道德或宗教寓意</span>
+                    <span class="sense-meaning-en">(A medieval, often illustrated book describing real or imaginary animals and their moral or religious significance.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A bestiary is a medieval book that describes animals and uses their supposed qualities to teach moral or religious lessons.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>medieval bestiary; illustrated bestiary</code> <span class="trans">中世纪动物寓言集；配有插图的动物寓言集</span></div>
+                <div class="sentence"><strong>例句:</strong> The medieval bestiary describes the lion alongside creatures such as the unicorn.<br><span class="trans">这部中世纪动物寓言集既描写狮子，也描写独角兽等生物。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈbestiəri//</span>
+                    <span class="sense-meaning-zh">真实或虚构动物的图鉴、汇编或集合</span>
+                    <span class="sense-meaning-en">(A collection or descriptive catalogue of real or imaginary creatures.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A bestiary is a collection of descriptions or pictures of creatures, especially unusual or imaginary ones.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>fantasy bestiary; a bestiary of mythical creatures</code> <span class="trans">奇幻生物图鉴；神话生物汇编</span></div>
+                <div class="sentence"><strong>例句:</strong> The game's bestiary includes dragons, giants, and creatures invented by its designers.<br><span class="trans">这款游戏的生物图鉴收录了龙、巨人以及设计者创造的生物。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>来自中世纪拉丁语 bestiarium，与拉丁语 bestia（兽）有关。这个词起初用于记述动物并阐释道德或宗教寓意的书，后来也指汇集真实或幻想生物的作品。<br><span class="en-sub">Bestiary comes from Medieval Latin bestiarium and ultimately relates to Latin bestia, meaning “beast.” It first referred to books that described animals and explained their moral or religious significance, then broadened to collections of real or imaginary creatures.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>可分析为 besti-（兽，受限拉丁语词干）+ -ary（相关事物的集合或书籍）→ bestiary；复数为 bestiaries。相关同源词包括 beast（兽）、beastly（野兽般的；恶劣的）、bestial（兽性的）和 bestially（兽性地）；这些不是由 bestiary 直接派生。<br><span class="en-sub">A useful analysis is besti- (a bound Latin stem meaning “beast”) + -ary (a collection or associated book) → bestiary; its plural is bestiaries. Related words include beast, beastly, bestial, and bestially; these are cognate forms, not direct derivatives of bestiary.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>animal compendium（动物汇编）是中性泛称，不必包含寓意；bestiary 的中世纪义通常带有道德或宗教解读。encyclopedia of animals（动物百科全书）强调系统性知识；monster manual（怪物手册）偏重奇幻游戏中的怪物资料和规则。<br><span class="en-sub">Animal compendium is a neutral general description without an implied moral purpose, whereas a medieval bestiary usually interprets animals symbolically. Encyclopedia of animals suggests systematic factual coverage; monster manual emphasizes fantasy creatures and often game rules.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>besti- 联想到 beast（兽）：一本把真兽、异兽收在一起的书。<br><span class="en-sub">Connect besti- with beast: a book gathering beasts, both real and imagined.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">betel</span>
+                    <span class="pos-badge">2 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"><span class="badge tag">CEFR-C2</span></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈbiːtəl//</span>
+                    <span class="sense-meaning-zh">蒌叶植物，胡椒科的一种热带攀缘植物；其可供咀嚼的叶片</span>
+                    <span class="sense-meaning-en">(A tropical climbing pepper plant, or its leaves, which are used in chewing preparations.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Betel is a tropical climbing plant whose leaves are often wrapped around pieces of areca nut and other ingredients for chewing.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>betel leaf; betel vine</code> <span class="trans">蒌叶；蒌叶藤</span></div>
+                <div class="sentence"><strong>例句:</strong> She wrapped the pieces of areca nut in a fresh betel leaf.<br><span class="trans">她用一片新鲜蒌叶包住了那些槟榔子碎块。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//ˈbiːtəl//</span>
+                    <span class="sense-meaning-zh">以蒌叶、槟榔子等配成的咀嚼物</span>
+                    <span class="sense-meaning-en">(A preparation for chewing made with betel leaf, areca nut, and other ingredients.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Betel can also mean a preparation that people chew, usually made by wrapping areca nut and other ingredients in a betel leaf.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>chew betel; betel chewing</code> <span class="trans">嚼蒌叶槟榔；嚼蒌叶槟榔的习俗或行为</span></div>
+                <div class="sentence"><strong>例句:</strong> The account describes guests chewing betel after the meal.<br><span class="trans">这篇记述描写了客人饭后咀嚼蒌叶槟榔的情景。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>英语经葡萄牙语 bétele 借入，通常进一步追溯到泰米尔语 veṟṟilai，指蒌叶。词义由植物及其叶片延伸到以这种叶片包裹配料制成的咀嚼物。<br><span class="en-sub">English borrowed betel through Portuguese bétele, generally traced further to Tamil veṟṟilai, referring to the leaf. The meaning extended from the plant and its leaves to the chewing preparation made using them.</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>betel 是整体借入的单纯词，现代英语中没有可用的词根加词缀拆分，也没有常用的词缀派生词。主要复合表达有 betel leaf（蒌叶）、betel vine 或 betel pepper（蒌叶植物）、betel quid（蒌叶槟榔咀嚼包）和 betel nut（槟榔子）；betel nut 实际来自槟榔棕榈，并非蒌叶植物的果实。<br><span class="en-sub">Betel is a simple borrowed word with no productive root-and-affix breakdown or common affixal derivatives in modern English. Principal compounds include betel leaf, betel vine or betel pepper, betel quid, and betel nut; a betel nut actually comes from the areca palm, not from the betel plant.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>betel pepper（蒌叶植物）强调植物本身；betel leaf（蒌叶）明确指叶片；betel quid（蒌叶槟榔咀嚼包）指配制好的咀嚼物。三者分别对应植物、叶片和制成品，不能在所有语境中互换。<br><span class="en-sub">Betel pepper identifies the plant; betel leaf specifically identifies its leaf; betel quid identifies the prepared chewing mixture or parcel. These expressions distinguish the plant, its leaves, and the finished preparation and are not interchangeable in every context.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>把 betel 记成“包槟榔的心形蒌叶”；叶是 betel，里面的槟榔子来自另一种植物。<br><span class="en-sub">Picture betel as the heart-shaped leaf wrapping an areca nut: betel supplies the leaf, while the nut comes from another plant.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">bight</span>
+                    <span class="pos-badge">3 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//baɪt//</span>
+                    <span class="sense-meaning-zh">海岸的宽阔弯入处；由此形成的开阔海湾</span>
+                    <span class="sense-meaning-en">(A broad coastal indentation or the open bay it forms.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A bight is a broad curve in a coastline, or the area of sea inside that curve.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>the Great Australian Bight; a broad bight</code> <span class="trans">大澳大利亚湾；宽阔的海湾</span></div>
+                <div class="sentence"><strong>例句:</strong> The ship crossed the Great Australian Bight before turning north.<br><span class="trans">轮船横渡大澳大利亚湾后转向北方。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">//baɪt//</span>
+                    <span class="sense-meaning-zh">绳索中段的弯曲部分、绳弯或松弛部分</span>
+                    <span class="sense-meaning-en">(A bend, doubled section, or slack middle portion of a rope.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A bight is a curved or doubled part of a rope that does not include either end.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a bight of rope; tie a knot on a bight</code> <span class="trans">一段绳弯；在绳索的折弯处打结</span></div>
+                <div class="sentence"><strong>例句:</strong> She folded the rope to make a bight without using either end.<br><span class="trans">她把绳索中段对折成一个绳弯，没有用到任何一端。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 动词（及物，罕见航海用法）</span>
+                    <span class="sense-phonetic">//baɪt//</span>
+                    <span class="sense-meaning-zh">用绳弯系住或捆牢</span>
+                    <span class="sense-meaning-en">(To fasten or bind something with a bight of rope; rare nautical usage.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If you bight something, you secure it with a curved or doubled section of rope.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>bight a rope around a post</code> <span class="trans">把绳索弯绕在柱子上系牢</span></div>
+                <div class="sentence"><strong>例句:</strong> The sailor bighted the rope around the post.<br><span class="trans">水手把绳索弯绕在柱子上系牢。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>源自古英语 byht，意为“弯曲处、海湾”，与表示“弯曲”的 būgan 同源。海岸的弯入处和绳索的弯曲部分都保留了这一古老的形状概念。<br><span class="en-sub">Bight comes from Old English byht, meaning a bend or bay, and is related to būgan, meaning to bend. Its coastal and rope senses preserve the same underlying idea of curvature. [Merriam-Webster](https://scrabble.m-w.com/dictionary/bight)</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语中把 bight 作为不可再拆分的词基记忆，没有常用的前缀或后缀拆分。名词复数为 bights；罕见动词的变化为 bights、bighted、bighting；bighted 也可作分词修饰语，没有常用的独立形容词或副词派生形式。<br><span class="en-sub">In modern English, bight is an unsegmented base with no productive internal prefix–suffix analysis. The noun plural is bights; the rare verb has the forms bights, bighted, and bighting. Bighted can also function as a participial modifier, but there are no common independent adjective or adverb derivatives.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>bay（海湾）是较宽泛的地理名称，bight 强调海岸宽阔而开敞的弯曲；inlet（水湾、入海口）通常强调水体向陆地伸入，往往较狭窄；loop（圈、环）是一般的环形结构，而绳索术语 bight 特指不含绳端的折弯或松弛部分，不一定形成闭合圆圈。<br><span class="en-sub">Bay is the broader geographical term, whereas bight emphasizes a broad, open coastal curve. Inlet usually emphasizes water extending inland, often through a narrower opening. Loop is a general curved or circular structure, while a rope bight specifically excludes the ends and need not form a closed circle.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>抓住“弯”：海岸一弯是湾，绳索一弯是绳弯。<br><span class="en-sub">Keep the bend in mind: a bend in the coast makes a bay; a bend in a rope makes a bight.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">chromatogram</span>
+                    <span class="pos-badge">2 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">/UK 英式 /ˈkrəʊmətəˌɡræm/, /krəʊˈmætəˌɡræm/; US 美式 /kroʊˈmætəˌɡræm//</span>
+                    <span class="sense-meaning-zh">色谱图；记录色谱分离结果的曲线或图形</span>
+                    <span class="sense-meaning-en">(A graphical record of the results of chromatographic separation.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A chromatogram is a record that shows how a detector's response changes as separated substances emerge during chromatography. [IUPAC](https://goldbook.iupac.org/terms/view/C01071)</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a gas chromatogram; chromatogram peaks</code> <span class="trans">气相色谱图；色谱峰</span></div>
+                <div class="sentence"><strong>例句:</strong> The chromatogram showed three clearly separated peaks.<br><span class="trans">色谱图上显示出三个分离清晰的峰。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">/UK 英式 /ˈkrəʊmətəˌɡræm/, /krəʊˈmætəˌɡræm/; US 美式 /kroʊˈmætəˌɡræm//</span>
+                    <span class="sense-meaning-zh">色谱分离后呈现条带或斑点的纸、薄层或其他介质</span>
+                    <span class="sense-meaning-en">(A chromatographic medium bearing separated bands or spots.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A chromatogram can also be the paper, layer, or other material on which the substances in a mixture have separated into different areas.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a paper chromatogram; a thin-layer chromatogram</code> <span class="trans">纸色谱图；薄层色谱图</span></div>
+                <div class="sentence"><strong>例句:</strong> Several colored spots appeared on the paper chromatogram.<br><span class="trans">纸色谱图上出现了几个有色斑点。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>借自德语 Chromatogramm，由源于希腊语的 chromato-（颜色）和 -gramm（书写物、记录）构成。早期植物色素分离产生的色带赋予了它“颜色记录”的名称，后来其含义扩展到无色物质的分离记录。<br><span class="en-sub">Chromatogram was borrowed from German Chromatogramm, combining Greek-derived elements meaning color and a written record. The name reflects the colored bands produced in early pigment separations and later extended to records of separations involving colorless substances. [Word history](https://en.wiktionary.org/wiki/chromatogram)</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>构词公式：chromato-（颜色；在本词族中与色谱有关）+ -gram（记录、图）→ chromatogram；复数为 chromatograms。主要词族包括 chromatography（色谱法）、chromatograph（色谱仪；用色谱法分析）、chromatographer（色谱分析工作者）、chromatographic／chromatographical（色谱的）、chromatographically（用色谱法）；常见复合词包括 radiochromatogram（放射性色谱图）和 electrochromatogram（电色谱图）。<br><span class="en-sub">Formation: chromato- meaning color, and referring to chromatography within this family, + -gram meaning record → chromatogram; plural chromatograms. The principal family includes chromatography, the separation technique; chromatograph, an instrument or the verb meaning to analyze chromatographically; chromatographer, a practitioner; chromatographic/chromatographical, the adjectives; and chromatographically, the adverb. Compounds include radiochromatogram and electrochromatogram.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>chromatographic trace（色谱曲线）与仪器输出曲线义最接近；chromatographic record（色谱记录）更宽泛，也可涵盖纸上条带或斑点；elution profile（洗脱曲线）强调物质随洗脱时间或体积的变化，也可用于色谱以外的洗脱过程。<br><span class="en-sub">Chromatographic trace is the closest alternative for an instrumental curve. Chromatographic record is broader and can include physical bands or spots. Elution profile emphasizes changes during elution over time or volume and can also describe elution processes outside chromatography.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>chromato- 是“颜色”，-gram 是“记录”：先记“色带记录”，再扩展为所有色谱分离结果。<br><span class="en-sub">Chromato- supplies color and -gram supplies record: picture a record of colored bands, then extend it to any chromatographic result.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">desideratum</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">/UK 英式 /dɪˌzɪdəˈrɑːtəm/, /dɪˌzɪdəˈreɪtəm/; US 美式 /dɪˌsɪdəˈrɑːtəm/, /dɪˌsɪdəˈreɪtəm//</span>
+                    <span class="sense-meaning-zh">所希望或需要的事物、条件；尚待满足的要求</span>
+                    <span class="sense-meaning-en">(Something wanted or needed, especially a desirable condition not yet achieved.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A desideratum is something that people want or need, especially something they believe should be available or achieved.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>a key desideratum; an essential desideratum</code> <span class="trans">一项关键要求；一项必要条件</span></div>
+                <div class="sentence"><strong>例句:</strong> Reproducibility is a key desideratum in experimental research.<br><span class="trans">可重复性是实验研究的一项关键要求。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>17世纪从拉丁语借入，desideratum 字面意为“所渴望的东西”，是 desiderare（渴望）的中性过去分词用作名词。英语保留了它的正式语体，常用来指希望实现的条件或目前欠缺的事物，并不必然含有“迫切”的意思。<br><span class="en-sub">Borrowed in the seventeenth century, desideratum is the Latin neuter past participle of desiderare, meaning to desire, used as a noun for something desired. English retains its formal register, typically applying it to desired conditions or things still lacking, without necessarily implying urgency. [Oxford Learner's Dictionaries](https://www.oxfordlearnersdictionaries.com/definition/english/desideratum)</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语中通常把 desideratum 作为完整借词记忆；历史结构可分析为 desiderat-（“被渴望的”这一拉丁语分词词干）+ -um（中性单数词尾）。标准复数为 desiderata，-um 变为 -a；相关词有 desiderative（表示愿望的；愿望式），以及罕见的 desiderate（渴望；感到缺少）和 desideration（渴望；所需之物）；desire、desirable、desirability、desirous 与它同源，但不是由 desideratum 直接派生。<br><span class="en-sub">Modern English normally treats desideratum as a whole borrowed word; historically, it contains desiderat-, the Latin participial stem meaning desired, + the neuter singular ending -um. Its standard plural is desiderata, replacing -um with -a. Related words include desiderative, expressing desire or a grammatical desiderative, and the rare desiderate, to desire or feel the lack of, and desideration, desire or something desired. Desire, desirable, desirability, and desirous share its historical source but are not direct derivatives of desideratum.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>requirement（要求、必要条件）通常更强调必须满足；objective（目标）强调有意追求的结果；wish（愿望、希望得到的事物）更个人化，也不一定具有实际必要性；desideratum 则以正式语气指值得具备或需要实现的事物。<br><span class="en-sub">Requirement usually implies something that must be satisfied. Objective emphasizes a deliberately pursued result. Wish is more personal and need not involve practical necessity. Desideratum formally identifies something worth having or needing to be achieved.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>用同源词 desire 串联：desideratum 就是正式表达中的“一项所欲、所需之物”；多个则是 desiderata。<br><span class="en-sub">Connect it with its relative desire: a desideratum is one formally stated thing desired or needed; several are desiderata.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">foxtrot</span>
+                    <span class="pos-badge">4 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">/UK 英式 /ˈfɒkstrɒt/; US 美式 /ˈfɑːkstrɑːt//</span>
+                    <span class="sense-meaning-zh">狐步舞，一种结合慢步与快步的四拍交际舞</span>
+                    <span class="sense-meaning-en">(A ballroom dance in quadruple time combining slow and quick steps.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> The foxtrot is a ballroom dance in which partners move together using a mixture of long, slow steps and shorter, quick steps.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>dance the foxtrot; a slow foxtrot</code> <span class="trans">跳狐步舞；慢狐步舞</span></div>
+                <div class="sentence"><strong>例句:</strong> We learned the basic steps of the foxtrot in our first lesson.<br><span class="trans">我们在第一堂课上学了狐步舞的基本舞步。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">/UK 英式 /ˈfɒkstrɒt/; US 美式 /ˈfɑːkstrɑːt//</span>
+                    <span class="sense-meaning-zh">狐步舞曲</span>
+                    <span class="sense-meaning-en">(A piece of music suitable for dancing the foxtrot.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A foxtrot is also a piece of music written or played for people to dance the foxtrot to.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>play a foxtrot; a foxtrot rhythm</code> <span class="trans">演奏一首狐步舞曲；狐步舞曲的节奏</span></div>
+                <div class="sentence"><strong>例句:</strong> The band played a foxtrot, and several couples took to the floor.<br><span class="trans">乐队奏起一首狐步舞曲，几对舞伴随即走进舞池。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">v. 动词（不及物）</span>
+                    <span class="sense-phonetic">/UK 英式 /ˈfɒkstrɒt/; US 美式 /ˈfɑːkstrɑːt//</span>
+                    <span class="sense-meaning-zh">跳狐步舞</span>
+                    <span class="sense-meaning-en">(To dance the foxtrot.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> If you foxtrot, you dance the foxtrot with a partner.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>foxtrot across the floor; foxtrot to the music</code> <span class="trans">跳着狐步舞穿过舞池；随着音乐跳狐步舞</span></div>
+                <div class="sentence"><strong>例句:</strong> They foxtrotted across the floor with easy, flowing movements.<br><span class="trans">他们以轻松流畅的动作跳着狐步舞穿过舞池。</span></div>
+            </div>
+            
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词（拼读代码，通常写作 Foxtrot）</span>
+                    <span class="sense-phonetic">/UK 英式 /ˈfɒkstrɒt/; US 美式 /ˈfɑːkstrɑːt//</span>
+                    <span class="sense-meaning-zh">国际无线电通话拼读字母表中代表字母 F 的代码词</span>
+                    <span class="sense-meaning-en">(The code word representing the letter F in the international radiotelephony spelling alphabet.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> Foxtrot is the word used to represent the letter F when spelling something out over a radio or telephone.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>F for Foxtrot; Foxtrot Alpha</code> <span class="trans">用 Foxtrot 表示字母 F；FA 的无线电拼读形式</span></div>
+                <div class="sentence"><strong>例句:</strong> The operator spelled the first two letters as Foxtrot Alpha.<br><span class="trans">操作员用 Foxtrot Alpha 拼读开头的两个字母 FA。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>由英语 fox（狐狸）和 trot（小跑）组成，较早的 fox-trot 曾指短步小跑的步态，20世纪初又成为美国一种流行交际舞的名称。随后该词也指伴舞音乐，并可转作动词，表示“跳狐步舞”。<br><span class="en-sub">Foxtrot combines fox and trot; the earlier expression fox-trot described a short-stepped gait before becoming the name of a popular American ballroom dance in the early twentieth century. It also came to denote the accompanying music and became a verb meaning to perform the dance. [Dictionary entry](https://www.collinsdictionary.com/dictionary/english/foxtrot)</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>构词公式：fox（狐狸）+ trot（小跑）→ foxtrot；也见连字符形式 fox-trot。名词直接转类为动词，词形包括 foxtrots、foxtrotted、foxtrotting，后两者双写 t；相关表达有 foxtrotter（跳狐步舞的人，较少用）、slow foxtrot（慢狐步舞）和 fox-trotter（具有相关步态的马）；Foxtrot 是同一词的代码词用法。<br><span class="en-sub">Formation: fox + trot → foxtrot; the hyphenated spelling fox-trot also occurs. The noun becomes a verb by conversion, with the forms foxtrots, foxtrotted, and foxtrotting; the last two double the final t. Related formations include the less common foxtrotter, a dancer; slow foxtrot, a dance variety; and fox-trotter, a horse with the corresponding gait. Capitalized Foxtrot is the code-word use of the same word.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>ballroom dance（交际舞）是上位概念，包含狐步舞等多种舞蹈；slow foxtrot（慢狐步舞）指较具体的舞种形式，不能在所有语境中替换 foxtrot；dance（跳舞）可在动词语境中概括其动作，但不说明舞种。代表字母 F 时，Foxtrot 是固定代码词，没有可随意替换的同义词。<br><span class="en-sub">Ballroom dance is a broader category containing the foxtrot and other dances. Slow foxtrot identifies a more specific dance form and is not interchangeable with foxtrot in every context. Dance can paraphrase the verb but does not identify the dance type. As the code word for F, Foxtrot has no freely interchangeable synonym.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>把 fox + trot 想成狐狸轻快迈步，再联想到舞伴慢、慢、快、快地滑行；这是记忆画面，不是舞名起源的确证。<br><span class="en-sub">Picture a fox trotting lightly, then partners gliding slow, slow, quick, quick; this is a memory image rather than proof of how the dance was named.</span></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <span class="word">gesellschaft</span>
+                    <span class="pos-badge">1 词性 · 双语对齐</span>
+                </div>
+                <div class="tags"></div>
+            </div>
+            <div class="senses-container">
+            <div class="sense-block">
+                <div class="sense-header">
+                    <span class="sense-pos">n. 名词</span>
+                    <span class="sense-phonetic">/German-derived 德语式 /ɡəˈzɛlʃaft/; US 美式 /ɡəˈzɛlˌʃɑːft//</span>
+                    <span class="sense-meaning-zh">社会学中的法理社会：以契约、利益及非人格关系为基础的社会组织形式</span>
+                    <span class="sense-meaning-en">(A form of society organized through contractual, instrumental, and impersonal relationships.)</span>
+                </div>
+                <div class="en-def"><strong>COBUILD:</strong> A gesellschaft is a society or form of social association in which people are connected mainly by practical interests, formal rules, and contracts rather than close personal bonds.</div>
+                <div class="colloc"><strong>搭配:</strong> <code>Gemeinschaft and Gesellschaft; Gesellschaft relationships</code> <span class="trans">礼俗社会与法理社会；法理社会中的关系</span></div>
+                <div class="sentence"><strong>例句:</strong> Tönnies used Gesellschaft to describe social ties based mainly on calculation and contractual obligations.<br><span class="trans">滕尼斯用 Gesellschaft 描述主要建立在利益考量和契约义务之上的社会联系。</span></div>
+            </div>
+            </div>
+            <div class="etym"><strong>🏛️ 来源历史:</strong><br>直接借自德语 Gesellschaft（社会、交往），其构词与 Geselle（同伴）及 -schaft（表示状态或群体的后缀）有关。滕尼斯在1887年的《共同体与社会》中将它与 Gemeinschaft 对举，使其成为描述非人格化、利益导向社会关系的经典术语。<br><span class="en-sub">Gesellschaft was borrowed directly from German Gesellschaft, meaning society or association, formed from Geselle, meaning companion, and the suffix -schaft. Tönnies's 1887 work Gemeinschaft und Gesellschaft established its influential contrast with Gemeinschaft as a way of describing impersonal, interest-based social relations. [Word structure](https://www.collinsdictionary.com/dictionary/english/gesellschaft); [conceptual history](https://en.wikipedia.org/wiki/Gemeinschaft_and_Gesellschaft)</span></div>
+            <div class="morph"><strong>🧩 构词衍生:</strong><br>现代英语中通常把 gesellschaft 作为完整的社会学借词使用，常保留德语大写形式 Gesellschaft；其德语内部结构为 Gesell-（Geselle“同伴”的词干）+ -schaft（表示状态、关系或群体，历史上与英语 -ship 对应）。复数可见 Gesellschaften，也有英语化的 Gesellschafts；常用英语语境中多作抽象或类指名词，没有常用的独立英语动词、副词派生词；Gemeinschaft 是对举术语，不是其派生词。<br><span class="en-sub">Modern English generally treats gesellschaft as a whole sociological loanword, often retaining the German capitalization Gesellschaft. Its German structure is Gesell-, the stem of Geselle meaning companion, + -schaft, a suffix for a state, relationship, or group historically corresponding to English -ship. Plurals include Gesellschaften and the Anglicized Gesellschafts, although English often uses it abstractly or generically. It has no common independent English verb or adverb derivatives; Gemeinschaft is its contrasting term, not a derivative.</span></div>
+            <div class="synonym"><strong>⚖️ 近义微雕:</strong><br>contractual society（契约社会）突出契约联系；impersonal association（非人格化联合）突出正式角色和疏远的人际联系；modern society（现代社会）是更宽泛的历史性称呼，并不必然符合 Gesellschaft 的理论特征。这些是近义释义，没有一个能在所有社会学语境中完全替代该术语。<br><span class="en-sub">Contractual society emphasizes contractual ties. Impersonal association emphasizes formal roles and distant interpersonal connections. Modern society is a broader historical description and does not necessarily meet the theoretical characteristics of Gesellschaft. These are approximate paraphrases rather than exact substitutes in every sociological context.</span></div>
+            <div class="mnemonic"><strong>💡 秒记锚点:</strong><br>把“同伴组成的群体”接到专业义：大家因合同、岗位和利益而联系；记住“契约相连”的社会。<br><span class="en-sub">Start with companions forming an association, then connect the technical meaning to people linked through contracts, roles, and interests: a society held together by formal ties.</span></div>
+        </div>
+        </div>
+</body>
+</html>
