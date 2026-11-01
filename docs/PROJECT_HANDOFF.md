@@ -1,16 +1,17 @@
 # Open-Lexicon 25K 项目交接与开源发布全景指南 (Project Handoff & Launch Blueprint)
 
-> **文档定位**：本项目完整交接报告（Handoff）、公库（GitHub）最终呈现架构规范，以及从内部检验向顶级开源项目转化的执行路线图。
+> **文档定位**：本项目完整交接报告（Handoff）、分工边界与职责矩阵（RACI）、公库（GitHub）最终呈现架构规范，以及从内部检验向顶级开源项目转化的执行路线图。
 
 ---
 
 ## 目录
 1. [项目里程碑与成果总览 (Milestones & Assets)](#一项目里程碑与成果总览)
 2. [数据底层规范与资产全景 (Data Schema & Architecture)](#二数据底层规范与资产全景)
-3. [现有内部界面复盘与公开版前端重构蓝图 (Frontend Redesign Blueprint)](#三现有内部界面复盘与公开版前端重构蓝图)
-4. [GitHub 公库最终呈现形式 (GitHub Presentation Strategy)](#四github-公库最终呈现形式)
-5. [大文件分发与跨平台发布矩阵 (Releases & Hugging Face)](#五大文件分发与跨平台发布矩阵)
-6. [Codex / GitHub 插件推送能力解析与操作指令 (Git & Codex Execution)](#六codex--github-插件推送能力解析与操作指令)
+3. [核心分工边界与职责矩阵 (Roles, Responsibilities & Boundary Matrix)](#三核心分工边界与职责矩阵)
+4. [现有内部界面复盘与公开版前端重构蓝图 (Frontend Redesign Blueprint)](#四现有内部界面复盘与公开版前端重构蓝图)
+5. [GitHub 公库最终呈现形式 (GitHub Presentation Strategy)](#五github-公库最终呈现形式)
+6. [大文件分发与跨平台发布矩阵 (Releases & Hugging Face)](#六大文件分发与跨平台发布矩阵)
+7. [Codex / GitHub 插件推送能力解析与操作指令 (Git & Codex Execution)](#七codex--github-插件推送能力解析与操作指令)
 
 ---
 
@@ -26,7 +27,7 @@
 | **中英双语对齐率** | **100.00%** | 英文解释、中文释义、地道搭配、例句及翻译均实现 1:1 双语对齐 |
 | **批次产出物** | **26 个 JSON 文件** | 分批存储于 `data/enriched/`，单个文件最大 14.7 MB，完全契合 Git 规范 |
 | **质量门禁报告** | **26 份 HTML 报告** | 全量批次均通过自动化校验脚本，产出可视化审查卡 |
-| **本地 Git 状态** | **31 Commits (Clean)** | 全部批次已原子化提交，工作区 clean，历史清晰完整 |
+| **本地 Git 状态** | **32 Commits (Clean)** | 全部批次已原子化提交，工作区 clean，历史清晰完整 |
 
 ---
 
@@ -47,6 +48,8 @@ dict/
 │       ├── open_lexicon_25k.db         # SQLite 3 生产库 (291 MB, 含 FTS5 虚拟全文索引)
 │       ├── open_lexicon_25k_anki.tsv   # Anki 高颜值卡片包 (114 MB, 自带 CSS 样式)
 │       └── open_lexicon_25k.jsonl      # LLM 训练 / RAG 检索微调语料 (180 MB)
+├── docs/                               # 项目交接与工程规范文档
+│   └── PROJECT_HANDOFF.md              # 本规范交接全景指南
 ├── reports/                            # 26 个批次的单体验收可视化报告
 ├── src/                                # 自动化引擎与导出工具链
 │   ├── export_databases.py             # 25秒内从 JSON 重新构建 SQLite / Anki / JSONL
@@ -97,7 +100,108 @@ dict/
 
 ---
 
-## 三、 现有内部界面复盘与公开版前端重构蓝图
+## 三、 核心分工边界与职责矩阵 (Roles, Responsibilities & Boundary Matrix)
+
+本项目涉及**人类负责人（Project Owner）**、**本地工程 Agent（Antigravity/Local Butler）**、**云端 AI 助手（OpenAI Codex / ChatGPT）**以及**独立前端重构实体（Frontend Subagent/Engineer）**四个关键角色。明确物理边界与权限红线，是确保数据资产不损毁、流程不越权的核心保障。
+
+### 1. 四大实体角色定位与物理边界
+
+```mermaid
+flowchart TD
+    subgraph LocalMachine ["本地宿主机 (Windows Local Environment)"]
+        Owner["人类负责人 (Project Owner)<br>• 需求裁决与审美验收<br>• 账号资产与法律授权"]
+        LocalAgent["本地工程 Agent (Antigravity)<br>• 25K全量清洗与富化流水线<br>• SQLite/Anki/JSONL构建<br>• 本地Git原子提交与环境管理"]
+        LocalData["本地数据资产与Git<br>• data/enriched (26 JSONs)<br>• data/exports (SQLite/Anki)"]
+        Owner <-->|授权与指令| LocalAgent
+        LocalAgent <-->|直接读写/编译| LocalData
+    end
+
+    subgraph CloudGithub ["云端生态 (GitHub / Hugging Face)"]
+        Repo["GitHub 远程仓库 (Private/Public)"]
+        Releases["GitHub Releases (大文件分发)"]
+        HF["Hugging Face Datasets"]
+    end
+
+    subgraph CloudAI ["云端 AI 沙箱 (Cloud OpenAI Codex)"]
+        Codex["云端 Codex / ChatGPT<br>• 云端PR代码审查<br>• 纯前端UI组件编写<br>• CI/CD自动化配置建议"]
+    end
+
+    LocalAgent -->|git push 推送代码与JSON| Repo
+    Owner -->|创建空库 / 网页上传附件| Releases
+    Owner -->|同步公开语料| HF
+    Repo <-->|GitHub Plugin 读取公开仓库| Codex
+
+    classDef ownerStyle fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#92400E;
+    classDef localStyle fill:#DBEAFE,stroke:#2563EB,stroke-width:2px,color:#1E40AF;
+    classDef cloudStyle fill:#D1FAE5,stroke:#059669,stroke-width:2px,color:#065F46;
+    classDef codexStyle fill:#F3E8FF,stroke:#9333EA,stroke-width:2px,color:#6B21A8;
+
+    class Owner ownerStyle;
+    class LocalAgent,LocalData localStyle;
+    class Repo,Releases,HF cloudStyle;
+    class Codex codexStyle;
+```
+
+#### ① 人类项目负责人 (Human Project Owner / User)
+- **职责范畴**：战略决策、需求下达、审美最终判定；拥有 GitHub / Hugging Face 账号主权与 OAuth 授权；决定仓库公开/私有切换；签发开源许可证（License）。
+- **物理权限边界**：**拥有最高且唯一的外部身份凭证**。任何涉及外部平台账号创建、2FA 鉴权、敏感 Token 输入、法律合规确认的操作必须由人类发起或直接授权；**人类不承担繁重的底层编码、大规模数据修复或手动多线程调度等机械任务**。
+
+#### ② 本地主力工程 Agent (Antigravity Local Butler)
+- **职责范畴**：直接掌控本地环境，驱动多线程流水线完成 25,006 词全量数据富化；执行 58,574 个义项的语法与格式自动化门禁审查；负责 SQLite（含 FTS5 虚拟全文索引）、Anki 牌组包、JSONL 语料的导出编译；维护本地干净的 Git 版本树并配置安全过滤规则；构建桌面静默启动器与系统环境补丁。
+- **物理权限边界**：**严格受限于本地宿主机文件系统与沙箱之内**。遵循零人工中继（Zero-human relay）；严禁擅自伪造凭据向未授权的外部生产服务发起非预期的破坏性操作。
+
+#### ③ 云端 Codex (OpenAI Codex / ChatGPT with GitHub Plugin)
+- **职责范畴**：在本地代码推送至 GitHub 远端后，利用其 GitHub 插件在**云端进行代码审查（PR Review）、自动化 Issue 响应、独立纯前端组件（React/Next.js/Vue）设计与代码生成**。
+- **物理权限边界（绝对红线）**：**云端 Codex 运行在 OpenAI 云服务器中，绝对无法直接穿透网络读取或写入你当前 Windows 电脑本地磁盘（`C:\Users\d\Documents\dict`）中的文件**。无法代替本地 Git 执行物理磁盘的首次推送。
+
+#### ④ 独立前端重构实体 (Frontend Subagent / UI Engineer)
+- **职责范畴**：负责将 Web 界面从当前的“后端数据巡检控制台”彻底解耦，采用现代高标准技术栈（Next.js / Tailwind / Lucide）打造消费级高颜值在线查词应用。
+- **物理权限边界（绝对红线）**：**单向只读消费数据**。前端重构仅允许消费 `data/exports/` 生成的数据库或 API 接口，**绝对严禁改动底层 26 个批次 JSON 的 6 维 Schema 定义**，确保数据底盘的持久稳定性。
+
+---
+
+### 2. 全流程 RACI 职责矩阵 (RACI Matrix)
+
+*注：**A** = 最终裁决/全权负责 (Accountable)；**R** = 直接执行人 (Responsible)；**C** = 咨询/协同 (Consulted)；**I** = 被知会人 (Informed)*
+
+| 工作流任务节点 | 人类 Owner | 本地工程 Agent (Antigravity) | 云端 Codex | 前端重构实体 |
+| :--- | :---: | :---: | :---: | :---: |
+| **1. 25,006 词源数据清洗与多词性增强** | A | **R** | C | I |
+| **2. 6 维词条 Schema 制定与门禁审计** | A | **R** | C | I |
+| **3. SQLite / Anki / JSONL 派生产物编译** | I | **R** | I | I |
+| **4. 本地 Git 提交历史管理与 .gitignore 规避** | I | **R** | I | I |
+| **5. GitHub 远端仓库创建与 2FA/OAuth 鉴权** | **A / R** | I | I | I |
+| **6. 本地仓库向 GitHub 私库/公库安全推送** | A | **R** | I | I |
+| **7. 云端 PR 代码审查与自动化 Issue 响应** | A | I | **R** | C |
+| **8. 消费级前端 UI 交互设计与代码重写 (Next.js)** | A | C | C | **R** |
+| **9. 在线 Demo 站点托管与部署 (Vercel/CF)** | A | C | I | **R** |
+| **10. GitHub Releases 大文件打包与发布 (v1.0.0)** | **A / R** | C (提供编译包) | I | I |
+| **11. Hugging Face Datasets 语料同步发布** | **A / R** | C (提供JSONL) | I | I |
+| **12. 开源许可证最终裁决与社区宣发推广** | **A / R** | C | I | I |
+
+---
+
+### 3. 阶段准入与准出交接红线 (Phase Gate Boundaries)
+
+#### 【阶段一：数据底盘生产（已 100% 达成）】
+- **准出标准**：25,006 词、58,574 个义项无一缺失；26 份批次检测报告通过率 100%；SQLite、Anki、JSONL 编译完毕；本地 Git 工作区 Clean。
+- **交接红线**：**底盘数据 Schema 正式封版**。后续任何前端展示或衍生工具开发，均不得破坏现有 JSON 字段名称与层级逻辑。
+
+#### 【阶段二：私库托管归档（当前阶段）】
+- **职责交接**：人类 Owner 在 GitHub 建立私有空库 $\rightarrow$ 本地工程 Agent 绑定 Remote 并执行 `git push`。
+- **交接红线**：**严格禁止将 >100MB 的二进制文件（SQLite/单体HTML）推入 Git 提交历史**。所有大型编译包必须通过 `.gitignore` 排除，仅托管轻量源码与 26 个 JSON 批次。
+
+#### 【阶段三：前端解耦与消费级重构（待启动）】
+- **职责交接**：前端实体/Codex 接单 $\rightarrow$ 产出基于现代框架（Next.js/Tailwind）的高颜值界面 $\rightarrow$ 人类 Owner 验收视觉与交互体验。
+- **交接红线**：前端工程与后端数据构建管线完全解耦。前端作为纯展示层，可通过静态部署或轻量 Serverless 运行，不污染核心数据仓库。
+
+#### 【阶段四：公开发布与社区矩阵建立（最终阶段）】
+- **职责交接**：人类 Owner 批准公开发布 $\rightarrow$ 仓库转为 Public $\rightarrow$ 人类/自动化将 Release 包上传至 GitHub Releases $\rightarrow$ 上架 Hugging Face Datasets。
+- **交接红线**：遵守开源许可证要求，确保版权声明完整清晰。
+
+---
+
+## 四、 现有内部界面复盘与公开版前端重构蓝图
 
 ### 1. 现有界面（`app/static/index.html`）的定位与局限复盘
 - **当时的设计定位**：这是一个**面向内部开发者的快速校验控制台（Inspector Console）**，首要目标是验证 Python 3 标准库后端在 0.5ms 内检索 58,574 条 SQLite 数据的响应能力，并确保每项数据字段完整。
@@ -132,7 +236,7 @@ flowchart LR
 
 ---
 
-## 四、 GitHub 公库最终呈现形式
+## 五、 GitHub 公库最终呈现形式
 
 一个能在 GitHub 上斩获数千 Star 的开源数据/词典项目，绝不能仅仅是“扔一堆代码”，而必须拥有顶级项目的主页包装（The Storefront）。
 
@@ -146,6 +250,7 @@ flowchart LR
 │   ├── enriched/               # 26 个全量标准 JSON 批次数据 (版本化代码库的核心)
 │   └── sample_1000.json        # 供开发者无需下载全量即可 3 秒快速测试的精选样本
 ├── docs/                       # 详细文档
+│   ├── PROJECT_HANDOFF.md      # 项目交接与工程规范指南
 │   ├── SCHEMA.md               # 完备的数据字典与字段类型定义
 │   ├── API_GUIDE.md            # Python / Node.js / SQLite 嵌入查询指南
 │   └── BENCHMARK.md            # 与 ECDICT、WordNet 的横向多维度对比
@@ -175,7 +280,7 @@ flowchart LR
 
 ---
 
-## 五、 大文件分发与跨平台发布矩阵
+## 六、 大文件分发与跨平台发布矩阵
 
 因为 `open_lexicon_25k.db` (291MB)、`open_lexicon_25k_anki.tsv` (114MB) 和 `open_lexicon_25k.jsonl` (180MB) 超过了 GitHub 单文件 100MB 的限制，因此**绝不能直接 `git add` 提交到仓库历史中**，应采取以下三轨分发策略：
 
@@ -201,7 +306,7 @@ flowchart LR
 
 ---
 
-## 六、 Codex / GitHub 插件推送能力解析与操作指令
+## 七、 Codex / GitHub 插件推送能力解析与操作指令
 
 ### 1. 针对问题“codex我绑定了github插件他能不能直接创建，推送？”的解答
 
