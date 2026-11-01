@@ -33,30 +33,41 @@
 
 ## 二、 数据底层规范与资产全景
 
-### 1. 目录架构
+### 1. 目录架构与实存文件映射
 ```
 dict/
 ├── app/                                # 本地极速查词服务 (Python 3 零依赖标准库)
 │   ├── server.py                       # 支持 FTS5 全文搜索、多字段过滤的 HTTP 服务
-│   └── static/index.html               # 轻量级内部验收前端
+│   └── static/                         # 查词前端 (index.html, app.js, styles.css)
 ├── data/
-│   ├── enriched/                       # 【核心资产】26 个批次 JSON (总计 218 MB)
-│   │   ├── batch_00000_01000.json
+│   ├── enriched/                       # 【核心资产】26 个生产批次 JSON (总计 218 MB)
+│   │   ├── batch_00000_01000.json      # (注：早期试验包含 batch_00004/00006/00010/00015)
 │   │   ├── ...
 │   │   └── batch_25000_25006.json
+│   ├── sample_1000.json                # 【快速测试】精选 1,000 核心词样本 (13.4 MB)
 │   └── exports/                        # 【分发资产】多端导出成品 (已被 .gitignore 保护)
-│       ├── open_lexicon_25k.db         # SQLite 3 生产库 (291 MB, 含 FTS5 虚拟全文索引)
-│       ├── open_lexicon_25k_anki.tsv   # Anki 高颜值卡片包 (114 MB, 自带 CSS 样式)
-│       └── open_lexicon_25k.jsonl      # LLM 训练 / RAG 检索微调语料 (180 MB)
+│       ├── open_lexicon_25k.db         # SQLite 3 生产库 (305 MB, 含 FTS5 虚拟全文索引)
+│       ├── open_lexicon_25k_anki.tsv   # Anki 高颜值卡片包 (119 MB, 自带 CSS 样式)
+│       ├── open_lexicon_25k.jsonl      # LLM 训练 / RAG 检索微调语料 (188 MB)
+│       ├── open_lexicon_25k_sqlite.zip # Releases 预压缩分发包 (70.7 MB)
+│       ├── open_lexicon_25k_anki.zip   # Releases 预压缩分发包 (22.7 MB)
+│       └── open_lexicon_25k_jsonl.zip  # Releases 预压缩分发包 (45.5 MB)
 ├── docs/                               # 项目交接与工程规范文档
-│   └── PROJECT_HANDOFF.md              # 本规范交接全景指南
-├── reports/                            # 26 个批次的单体验收可视化报告
+│   ├── PROJECT_HANDOFF.md              # 本全景交接指南 (含接手报告与实录)
+│   ├── SCHEMA.md                       # 六维词条完整数据字典与类型规范
+│   └── API_GUIDE.md                    # Python / Node.js / SQLite 嵌入查询指南
+├── reports/                            # 自动化门禁报告与审计日志 (production_audit.jsonl)
 ├── src/                                # 自动化引擎与导出工具链
-│   ├── export_databases.py             # 25秒内从 JSON 重新构建 SQLite / Anki / JSONL
-│   ├── run_production_pipeline.py      # 多线程生产流水线调度器
-│   └── verify_and_patch.py             # 自动化格式校验与门禁审计脚本
+│   ├── export_databases.py             # 统一导出调度器 (构建 SQLite / Anki / JSONL / ZIP)
+│   ├── export_sqlite.py                # SQLite + FTS5 虚拟索引构建脚本
+│   ├── export_anki.py                  # Anki 牌组格式编译脚本
+│   ├── export_jsonl.py                 # JSONL 单行语料提取脚本
+│   ├── mass_producer.py                # 25K 多线程高并发生产调度引擎
+│   ├── check_batch.py                  # 批次质量快速校验脚本
+│   └── create_launchers.py             # 桌面静默启动器与快捷方式创建脚本
 ├── .gitignore                          # 过滤 >100MB 二进制及缓存，防 GitHub 拒推
-└── README.md                           # 项目首页说明
+├── LICENSE                             # CC-BY-SA 4.0 (数据) + MIT (代码) 双许可证
+└── README.md                           # GitHub 顶级门面双语说明 (已全面对齐)
 ```
 
 ### 2. 六维词条数据规范 (JSON Schema)
@@ -350,6 +361,47 @@ git push -u origin main
 ---
 
 ### 3. 本地与未来维护清单
-- **重新导出所有格式**：`python src/export_databases.py`
+- **重新导出所有格式**：`python src/export_databases.py --all`
+- **构建 GitHub Releases 压缩包**：`python src/export_databases.py --zip`
 - **后台启动工作台服务**：双击桌面 `启动Open-Lexicon词典工作台.bat`
 - **直接查看工作台**：双击桌面 `Open-Lexicon 词典工作台.url` 或访问 `http://127.0.0.1:8765`
+
+---
+
+## 八、 接手工作全景审计、已补全项与即刻行动清单 (Takeover Audit & Action Log)
+
+本章节由接手工程师于 2026-11-01 正式接手时编写，针对前期“注意力涣散”状态下文档与实际工程代码之间的脱节与缺漏进行了全面实录审计与补全。
+
+### 1. 偏差与遗漏复盘明细 (Audit Findings & Fixes)
+
+| 审计维度 | 接手文档原始表述 (前期草稿) | 实际磁盘与仓库状态 | 接手已执行的对齐与修复动作 |
+| :--- | :--- | :--- | :--- |
+| **导出调度器** | 引用 `src/export_databases.py` | 实际代码拆分为 `export_sqlite.py` 等 3 个独立文件，无总控调度器 | **已编写统一入口 `src/export_databases.py`**，支持 `--all`, `--zip` 等参数 |
+| **Releases 压缩包** | 提及需将 SQLite/Anki/JSONL 打包上传 | `data/exports/` 仅有原始二进制，未压缩 | **已全量构建 3 个 Releases ZIP 包** (70.7MB / 22.7MB / 45.5MB) |
+| **快速测试样本** | 目录树列出 `data/sample_1000.json` | 实际磁盘中该文件不存在 | **已从第 1 批次提取生成 `data/sample_1000.json`** (13.4MB) |
+| **开源许可证** | 规划 CC-BY-SA 4.0 + MIT 双许可 | 根目录下无 `LICENSE` 文件 | **已创建标准双许可 `LICENSE` 文件** |
+| **数据字典与规范** | 规划 `docs/SCHEMA.md` | 未编写独立文件 | **已创建 `docs/SCHEMA.md`**，包含完整 TS 接口与双语示例 |
+| **开发接入指南** | 规划 `docs/API_GUIDE.md` | 未编写独立文件 | **已创建 `docs/API_GUIDE.md`**，含 Python, FTS5, Node.js 完整范例 |
+| **首页门面包装** | `README.md` 停留在生产前的过时草稿 | 仅 34 行，格式陈旧且为单义项扁平结构 | **已按开源顶刊标准彻底重写 `README.md`** (含徽章、横向对比、六维结构) |
+| **Git 分支对齐** | 文档多次假定当前为主干 `main` 分支 | 本地 Git 实际处于初始默认的 `master` 分支 | 在推送指令中明确指导执行 `git branch -M main` 重命名对齐 |
+| **试验批次残留** | 记录为 26 个 JSON | 包含早期试验的 4 个小批次 (`00004/00006/00010/00015`) | 已在文档与脚本中注明，导出脚本自动过滤 `<500` 词的小批次，数据绝对干净 |
+| **本地工作台** | 记录服务端口 8765 | 服务正常运行中（PID 45172，响应良好） | 已完成 `/api/stats` 验证，25,006 词、58,574 义项全部在线 |
+
+---
+
+### 2. 即刻执行路线图 (Immediate Next Steps for Owner & Butler)
+
+项目目前已完全具备向 GitHub 推送与对外发布的条件，后续流水作业如下：
+
+```mermaid
+flowchart TD
+    Step1["【人类 Owner 操作 · 耗时 10 秒】<br>在 GitHub 网页新建名为 open-lexicon-25k 的 Private 空仓库"] --> Step2["【本地 Agent 执行 · 耗时 30 秒】<br>绑定 remote origin，将本地 master 重命名为 main 并推送全量代码与 26 批次 JSON"]
+    Step2 --> Step3["【人类/自动化发布 · 耗时 2 分钟】<br>在 GitHub Release 页面发布 v1.0.0，上传 data/exports/ 下已压缩好的 3 个 ZIP 包"]
+    Step3 --> Step4["【可选拓展 · 社区上架】<br>同步 open_lexicon_25k.jsonl 至 Hugging Face Datasets 供全球 AI 开发者一行代码调用"]
+    Step4 --> Step5["【下一阶段 · 前端重构】<br>将 app/ 改造为 Cambridge/Linear 式浅色高阶典雅在线词典 (Next.js / Tailwind)"]
+```
+
+> **人类 Owner 现在只需做的事**：
+> 1. 打开浏览器登录 GitHub，新建一个**空白 Private 仓库**（不要勾选生成 README / License / .gitignore）；
+> 2. 将新建仓库的 URL（例如 `git@github.com:username/open-lexicon-25k.git` 或 `https://github.com/username/open-lexicon-25k.git`）发给我；
+> 3. 我将自动为你完成分支规范重命名、Remote 绑定、本地代码与 25K 全量资产的原子推送！
