@@ -64,6 +64,7 @@ function fixture(reduce = false, stored = [], hash = '') {
     }
     querySelector(selector) { if (!this.children.has(selector)) this.children.set(selector, new Element(selector)); return this.children.get(selector); }
     querySelectorAll(selector) { return selector === '[data-word]' ? this.rows : selector === 'button' ? (this.buttons || []) : []; }
+    closest(selector) { return selector === 'button[data-value]' && this.getAttribute('data-value') !== null ? this : null; }
     get lastElementChild() { return this.querySelector('last'); }
     getBoundingClientRect() { return this.rect || { left: 800, top: 12, right: 1280, bottom: 900, width: 480, height: 888 }; }
     getClientRects() { return [this.getBoundingClientRect()]; }
@@ -296,27 +297,65 @@ test('sidebar keyboard controls and restored preferences remain bounded with cor
 });
 
 test('language buttons restore, persist, expose selection and vibrate without replacing the current entry', () => {
+  function assertLanguage(f, mode) {
+    assert.equal(f.document.body.classList.contains('lang-en-only'), mode === 'en');
+    const buttons = f.element('typography-langs').querySelectorAll('button');
+    assert.deepEqual(buttons.map(button => button.dataset.value), ['bilingual', 'en']);
+    for (const value of ['bilingual', 'en']) {
+      assert.equal(f.element(`lang-${value}`).getAttribute('aria-pressed'), String(value === mode));
+      assert.equal(buttons.find(button => button.dataset.value === value).getAttribute('aria-pressed'), String(value === mode));
+    }
+  }
   const f = fixture();
-  assert.equal(f.element('lang-bilingual').getAttribute('aria-pressed'), 'true');
+  assertLanguage(f, 'bilingual');
+  assert.equal(f.storage.has('open_lexicon_lang_mode'), false);
+  assert.deepEqual(f.vibrations, []);
+  assert.match(f.element('typography-langs').innerHTML, />中英双语<\/button>.*>纯英沉浸<\/button>/);
   f.element('detail').innerHTML = '<p>Current entry</p>';
   f.element('content').scrollTop = 250;
   f.element('lang-en').onclick();
-  assert.ok(f.document.body.classList.contains('lang-en-only'));
-  assert.equal(f.element('lang-en').getAttribute('aria-pressed'), 'true');
-  assert.equal(f.element('lang-bilingual').getAttribute('aria-pressed'), 'false');
+  assertLanguage(f, 'en');
   assert.equal(f.storage.get('open_lexicon_lang_mode'), '"en"');
+  assert.equal(f.element('content').classList.contains('is-scrolled'), true);
+  assert.deepEqual(f.vibrations, [[8]]);
+
+  typographyOption(f, 'typography-langs', 'bilingual');
+  assertLanguage(f, 'bilingual');
+  assert.equal(f.storage.get('open_lexicon_lang_mode'), '"bilingual"');
+  assertLanguage(fixture(false, [...f.storage]), 'bilingual');
+  // Delegation accepts a nested element and rejects empty space, non-elements and unknown values.
+  const group = f.element('typography-langs');
+  const nested = f.element('language-label');
+  nested.closest = selector => { assert.equal(selector, 'button[data-value]'); return group.querySelectorAll('button')[1]; };
+  f.element('content').classList.remove('is-scrolled');
+  group.onclick({ target: nested });
+  assertLanguage(f, 'en');
+  assert.equal(f.storage.get('open_lexicon_lang_mode'), '"en"');
+  assert.equal(f.element('content').classList.contains('is-scrolled'), true);
   assert.equal(f.element('detail').innerHTML, '<p>Current entry</p>');
   assert.equal(f.element('content').scrollTop, 250);
-  assert.deepEqual(f.vibrations, [[8]]);
+  assert.deepEqual(f.vibrations, [[8], [8], [8]]);
+  assert.equal(f.storage.has('open_lexicon_typography'), false);
+  const unknown = f.element('invalid-language'); unknown.setAttribute('data-value', '__proto__'); unknown.dataset.value = '__proto__';
+  for (const target of [group, null, {}, unknown]) assert.doesNotThrow(() => group.onclick({ target }));
+  assertLanguage(f, 'en');
+  assert.equal(f.storage.get('open_lexicon_lang_mode'), '"en"');
+  assert.deepEqual(f.vibrations, [[8], [8], [8]]);
+
   const restored = fixture(false, [...f.storage]);
-  assert.ok(restored.document.body.classList.contains('lang-en-only'));
+  assertLanguage(restored, 'en');
   assert.deepEqual(restored.vibrations, []);
   restored.element('lang-bilingual').onclick();
-  assert.equal(restored.document.body.classList.contains('lang-en-only'), false);
+  assertLanguage(restored, 'bilingual');
   assert.equal(restored.storage.get('open_lexicon_lang_mode'), '"bilingual"');
-  assert.equal(fixture(false, [['open_lexicon_lang_mode', '"invalid"']]).element('lang-bilingual').getAttribute('aria-pressed'), 'true');
+  for (const stored of ['"invalid"', 'null', '[]', '{}', 'broken']) assertLanguage(fixture(false, [['open_lexicon_lang_mode', stored]]), 'bilingual');
   restored.context.localStorage.setItem = () => { throw new Error('quota'); };
-  assert.doesNotThrow(() => restored.element('lang-en').onclick());
+  restored.context.navigator.vibrate = () => { throw new Error('unsupported'); };
+  assert.doesNotThrow(() => typographyOption(restored, 'typography-langs', 'en'));
+  assertLanguage(restored, 'en');
+  assert.match(restored.element('toast').textContent, /当前页面/);
+  assert.doesNotThrow(() => restored.element('lang-bilingual').onclick());
+  assertLanguage(restored, 'bilingual');
 });
 
 test('sense quick chips move focus to their own learning unit and renderer escapes source text', () => {
@@ -601,7 +640,11 @@ test('shipped typography entry has readable Chinese labels and one accessible na
   assert.match(html, /id="typography-btn"[^>]*aria-label="阅读排版"[^>]*aria-controls="typography-panel"/);
   assert.match(html, /<span>排版<\/span>/);
   assert.match(html, /<dialog id="typography-panel" class="typography-popover" aria-labelledby="typography-title">/);
-  for (const id of ['typography-btn', 'typography-panel', 'typography-title', 'typography-close', 'typography-handle', 'typography-reset']) {
+  assert.match(html, /id="lang-bilingual" class="lang-pill" aria-pressed="true" title="中英双语对照">中英双语<\/button>/);
+  assert.match(html, /id="lang-en" class="lang-pill" aria-pressed="false" title="纯英文沉浸阅读">纯英沉浸<\/button>/);
+  const firstFieldset = html.slice(html.indexOf('<dialog id="typography-panel"')).match(/<fieldset>([\s\S]*?)<\/fieldset>/)[1];
+  assert.match(firstFieldset, /^<legend>语言显示模式<\/legend><div id="typography-langs" class="typography-segments" role="group" aria-label="语言显示模式"><\/div>$/);
+  for (const id of ['typography-btn', 'typography-panel', 'typography-title', 'typography-close', 'typography-handle', 'typography-reset', 'typography-langs']) {
     assert.equal(html.split(`id="${id}"`).length - 1, 1);
   }
 });
@@ -609,7 +652,7 @@ test('shipped typography entry has readable Chinese labels and one accessible na
 function typographyOption(f, id, value) {
   const button = f.element(id).querySelectorAll('button').find(button => button.dataset.value === value);
   assert.ok(button, `${id}: ${value}`);
-  f.element(id).onclick({ target: { closest: () => button } });
+  f.element(id).onclick({ target: button });
   return button;
 }
 function typographySnapshot(f) {
@@ -685,6 +728,11 @@ test('a fresh page session restores every setting and reset persists all default
   assert.deepEqual(typographySnapshot(f), { scale: 1.15, font: 'serif', density: 'spacious', paper: 'sepia' });
   assert.deepEqual(f.vibrations, []);
   f.element('typography-reset').onclick();
+  assert.equal(f.document.body.classList.contains('lang-en-only'), true);
+  assert.equal(f.element('lang-en').getAttribute('aria-pressed'), 'true');
+  for (const button of f.element('typography-langs').querySelectorAll('button')) {
+    assert.equal(button.getAttribute('aria-pressed'), String(button.dataset.value === 'en'));
+  }
   assert.deepEqual(JSON.parse(f.storage.get(typographyKey)), { scale: 1, font: 'sans', density: 'normal', paper: 'white' });
   assert.deepEqual(typographySnapshot(fixture(false, [...f.storage])), typographySnapshot(f));
   assert.equal(f.storage.get('open_lexicon_lang_mode'), '"en"'); assert.equal(f.storage.get('open_lexicon_theme'), '"dark"');

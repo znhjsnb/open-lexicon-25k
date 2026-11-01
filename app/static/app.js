@@ -116,13 +116,22 @@ resizer.addEventListener('keydown', event => {
   updateScrollEdge();
 });
 
+const typographyLangs = { bilingual: '中英双语', en: '纯英沉浸' };
+const typographyLangControls = $('typography-langs');
 function setLangMode(mode, persist = false) {
   const english = mode === 'en';
+  const value = english ? 'en' : 'bilingual';
   document.body.classList.toggle('lang-en-only', english);
   $('lang-bilingual').setAttribute('aria-pressed', String(!english));
   $('lang-en').setAttribute('aria-pressed', String(english));
-  if (persist) { writeStorage('open_lexicon_lang_mode', english ? 'en' : 'bilingual'); haptic(); updateScrollEdge(); }
+  typographyLangControls.querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.value === value)));
+  if (persist) { writeStorage('open_lexicon_lang_mode', value); haptic(); updateScrollEdge(); }
 }
+typographyLangControls.innerHTML = Object.entries(typographyLangs).map(([value, label]) => `<button type="button" data-value="${value}" aria-pressed="false">${label}</button>`).join('');
+typographyLangControls.onclick = event => {
+  const button = event.target instanceof Element ? event.target.closest('button[data-value]') : null;
+  if (button && Object.hasOwn(typographyLangs, button.dataset.value)) setLangMode(button.dataset.value, true);
+};
 setLangMode(readStorage('open_lexicon_lang_mode', 'bilingual'));
 $('lang-bilingual').onclick = () => setLangMode('bilingual', true);
 $('lang-en').onclick = () => setLangMode('en', true);

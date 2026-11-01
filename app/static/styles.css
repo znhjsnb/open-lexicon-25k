@@ -173,8 +173,16 @@ kbd { font: .6875rem/1.5 var(--sans); border: 1px solid var(--line); border-radi
 .pinned-audio .audio-pill { padding: .4rem .75rem; }
 .toolbar-actions { display: flex; align-items: center; gap: .15rem; flex-shrink: 0; }
 .lang-switch { display: flex; flex-shrink: 0; margin-left: auto; padding: 3px; border: 1px solid var(--line); border-radius: 99px; background: var(--example); }
-.lang-pill { min-height: 28px; padding: .125rem .625rem; border-radius: 99px; font-size: .75rem; }
-.lang-pill[aria-pressed="true"] { color: var(--accent); background: var(--paper); box-shadow: 0 1px 4px #00000012; }
+.lang-pill { min-height: 36px; padding: .375rem .875rem; border-radius: 99px; font-size: .8125rem; font-weight: 550; white-space: nowrap; cursor: pointer; }
+.lang-pill, #typography-langs button { position: relative; isolation: isolate; }
+/* Fade the selection surface, keeping background and shadow off the animation path. */
+.lang-pill::before, #typography-langs button::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  background: var(--paper); box-shadow: 0 1px 4px #00000012;
+  opacity: 0; transition: opacity 160ms var(--ease);
+}
+.lang-pill[aria-pressed='true'], #typography-langs button[aria-pressed='true'] { color: var(--accent); font-weight: 650; }
+.lang-pill[aria-pressed='true']::before, #typography-langs button[aria-pressed='true']::before { opacity: 1; }
 #save[aria-pressed='true'] { color: var(--gold); background: var(--gold-soft); }
 #save[aria-pressed='true'] svg { fill: currentColor; }
 .entry { max-width: 76rem; margin: 0 auto; padding: .75rem 1.5rem 2rem; container-type: inline-size; }
@@ -467,6 +475,8 @@ body.resizing, body.resizing * { cursor: col-resize !important; user-select: non
 .paper-swatch { display: block; width: 2.125rem; height: 2.125rem; border-radius: 50%; border: 1px solid #8888; }
 .paper-white { background: #fff; } .paper-sepia { background: #fbf0d9; } .paper-grey { background: #e8e8ea; } .paper-night { background: #000; }
 .typography-popover [aria-pressed='true'] { background: var(--accent-soft); color: var(--accent); box-shadow: inset 0 0 0 2px var(--accent); }
+#typography-langs button::before { background: var(--accent-soft); box-shadow: inset 0 0 0 2px var(--accent); }
+#typography-langs button[aria-pressed='true'] { background: transparent; box-shadow: none; }
 .typography-reset { display: block; width: 100%; margin-top: 1rem; }
 @media (max-width: 900px) {
   .typography-popover { right: .75rem; }
