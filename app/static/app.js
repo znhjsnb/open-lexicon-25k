@@ -9,7 +9,8 @@ const detail = $('detail');
 const pinnedWord = $('toolbar-pinned-word');
 const studyDialog = $('study');
 const metrics = window.lexiconMetrics = { startup: {}, searches: [], details: [] };
-const state = { ready: false, query: '', letter: '', prefix: '', prefixes: {}, tag: '', pos: '', savedOnly: false, offset: 0, total: 0, results: [], appending: false, pendingNavigation: '', selected: null, selectedKey: '', requestId: 0, selectionId: 0, studyId: 0, study: [], cardIndex: 0, flipped: false, studyDone: false };
+const pageSize = 50;
+const state = { ready: false, query: '', sort: 'alpha', letter: '', prefix: '', prefixes: {}, tag: '', pos: '', savedOnly: false, offset: 0, startOffset: 0, page: 1, openWord: '', total: 0, results: [], appending: false, prepending: false, pendingNavigation: '', selected: null, selectedKey: '', requestId: 0, selectionId: 0, studyId: 0, study: [], cardIndex: 0, flipped: false, studyDone: false };
 let worker;
 let toastTimer;
 let speechButton;
@@ -246,6 +247,7 @@ $('alphabet-bar').onclick = event => {
   requestSearch(true);
 };
 $('pos-filter').onchange = () => { state.pos = $('pos-filter').value; requestSearch(true); };
+$('sort-order').onchange = () => { state.sort = $('sort-order').value; requestSearch(true); };
 function updateBookmarks() {
   $('bookmark-count').textContent = bookmarks.size;
   const saved = bookmarks.has(state.selectedKey.toLowerCase());
@@ -303,6 +305,7 @@ function indexError(message) {
   state.total = 0;
   state.appending = false;
   state.pendingNavigation = '';
+  updatePagination();
   $('list-status').textContent = '词库未能载入';
   $('connection').innerHTML = '<i></i>词库未就绪';
   list.removeAttribute('aria-activedescendant');
@@ -327,22 +330,29 @@ function startWorker() {
         metrics.startup.indexPersistent = data.persistent;
         metrics.startup.total = data.total;
         updateConnection();
-        requestSearch(true);
+        requestSearch(true, { anchor: hashWord() });
       } else if (data.type === 'results' && data.requestId === state.requestId) {
         const listHadFocus = document.activeElement === list;
         const append = state.appending;
+        const prepend = state.prepending;
         const previousLength = state.results.length;
         const navigateFrom = state.pendingNavigation;
-        state.results = append ? [...state.results, ...data.results] : data.results;
+        state.results = prepend ? [...data.results, ...state.results] : append ? [...state.results, ...data.results] : data.results;
         state.appending = false;
+        state.prepending = false;
         state.pendingNavigation = '';
         state.offset = data.offset;
+        if (!append || prepend) state.startOffset = data.offset;
         state.total = data.total;
-        renderList(data, append);
+        renderList(data, append, prepend);
         if (listHadFocus) list.focus({ preventScroll: true });
-        pushMetric('searches', { query: state.query, letter: state.letter, prefix: state.prefix, tag: state.tag, offset: data.offset, appended: append, total: data.total, worker: data.elapsed, endToEnd: performance.now() - searchStarted });
-        if (append) {
-          if (navigateFrom && navigateFrom === state.selectedKey && state.results[previousLength]) selectWord(state.results[previousLength].w, false);
+        pushMetric('searches', { query: state.query, sort: state.sort, letter: state.letter, prefix: state.prefix, tag: state.tag, offset: data.offset, appended: append, total: data.total, worker: data.elapsed, endToEnd: performance.now() - searchStarted });
+        const openWord = state.openWord;
+        state.openWord = '';
+        if (openWord) selectWord(data.results.find(entry => entry.w.toLowerCase() === openWord.toLowerCase())?.w || openWord, false);
+        else if (append) {
+          const next = prepend ? data.results.at(-1) : state.results[previousLength];
+          if (navigateFrom && navigateFrom === state.selectedKey && next) selectWord(next.w, false);
           else markSelected(false);
         } else if (!state.selected || !state.selectedKey || !data.results.some(entry => entry.w === state.selectedKey)) {
           const first = data.results[0];
@@ -362,24 +372,27 @@ function startWorker() {
     list.setAttribute('aria-busy', 'true');
   } catch { indexError('当前浏览器无法启动检索，请使用支持 Web Worker 的现代浏览器。'); }
 }
-function requestSearch(reset = false) {
+function requestSearch(reset = false, { offset = 0, anchor = '', prepend = false } = {}) {
   state.requestId++;
   if (reset) {
     state.selectionId++; // A new query invalidates detail loading; appending does not.
     state.query = searchInput.value.trim();
-    state.offset = 0;
+    state.offset = offset;
+    state.openWord = anchor;
     state.pendingNavigation = '';
     list.scrollTop = 0;
   }
   state.appending = !reset;
+  state.prepending = !reset && prepend;
   $('clear').hidden = !searchInput.value;
   $('search-key').hidden = Boolean(searchInput.value);
   list.setAttribute('aria-busy', 'true');
+  updatePagination();
   if (state.ready && reset) $('result-count').textContent = '正在检索…';
   $('list-status').textContent = reset ? '正在检索…' : `已载入 ${state.results.length.toLocaleString()} / ${state.total.toLocaleString()} 词 · 正在加载…`;
   searchStarted = performance.now();
   if (!state.ready) return;
-  worker.postMessage({ type: 'search', requestId: state.requestId, query: state.query, letter: state.letter, prefix: state.prefix, tag: state.tag, pos: state.pos, offset: state.offset, bookmarks: state.savedOnly ? [...bookmarks] : null });
+  worker.postMessage({ type: 'search', requestId: state.requestId, query: state.query, sort: state.sort, anchor: state.openWord, letter: state.letter, prefix: state.prefix, tag: state.tag, pos: state.pos, offset: state.offset, bookmarks: state.savedOnly ? [...bookmarks] : null });
 }
 let composing = false;
 searchInput.addEventListener('compositionstart', () => { composing = true; });
@@ -387,19 +400,57 @@ searchInput.addEventListener('compositionend', () => { composing = false; reques
 searchInput.addEventListener('input', () => { if (!composing) requestSearch(true); });
 function clearSearch() { searchInput.value = ''; setLetter(''); requestSearch(true); searchInput.focus(); }
 $('clear').onclick = clearSearch;
-function renderList(data, append = false) {
+function renderList(data, append = false, prepend = false) {
   list.setAttribute('aria-busy', 'false');
   $('result-count').textContent = `${data.total.toLocaleString()} 个词${data.fuzzy ? ' · 相近拼写' : ''}`;
   $('search-time').textContent = `${data.elapsed.toFixed(1)} ms`;
   $('search-time').title = 'Web Worker 内部检索耗时';
-  $('list-status').textContent = `已载入 ${state.results.length.toLocaleString()} / ${data.total.toLocaleString()} 词${state.results.length < data.total ? '（向下滚动加载更多）' : ' · 已全部载入'}`;
+  const end = state.startOffset + state.results.length;
+  $('list-status').textContent = `${state.startOffset ? `第 ${(state.startOffset + 1).toLocaleString()}–${end.toLocaleString()} / ${data.total.toLocaleString()} 词` : `已载入 ${state.results.length.toLocaleString()} / ${data.total.toLocaleString()} 词`}${end < data.total ? '（向下滚动加载更多）' : state.startOffset ? ' · 已到末页' : ' · 已全部载入'}`;
   const rows = data.results.map((entry, index) => `<button id="result-${entry.id}" class="word-row" role="option" aria-selected="false" aria-posinset="${data.offset + index + 1}" aria-setsize="${data.total}" data-word="${escapeHtml(entry.w)}" tabindex="-1"><span class="word-row-top"><strong lang="en">${escapeHtml(entry.w)}</strong><span class="row-pos">${escapeHtml([...new Set(entry.s.map(s => posName(s.p)))].join(' / '))}</span><span class="row-chevron" aria-hidden="true">›</span></span><span class="row-meaning">${escapeHtml(entry.s.map(s => s.m).join('；'))}</span></button>`).join('');
-  if (append) list.insertAdjacentHTML('beforeend', rows);
+  if (prepend) {
+    const height = list.scrollHeight;
+    const top = list.scrollTop;
+    list.insertAdjacentHTML('afterbegin', rows);
+    list.scrollTop = top + list.scrollHeight - height;
+  } else if (append) list.insertAdjacentHTML('beforeend', rows);
   else {
     list.innerHTML = rows || '<div class="empty-results"><strong>没有找到匹配的词</strong>试试更短的英文或中文释义，<br>也可以切换字母、考试范围或关闭收藏筛选。</div>';
     list.scrollTop = 0;
   }
+  lastListScrollTop = list.scrollTop;
+  syncVisiblePage();
 }
+function updatePagination() {
+  const pages = Math.max(1, Math.ceil(state.total / pageSize));
+  const busy = !state.ready || list.getAttribute('aria-busy') === 'true' || !state.total;
+  $('page-input').max = String(pages);
+  $('page-input').value = String(state.page);
+  $('page-total').textContent = `/ ${state.total ? pages : 0} 页`;
+  $('page-input').disabled = $('page-go').disabled = busy;
+  $('page-prev').disabled = busy || state.page <= 1;
+  $('page-next').disabled = busy || state.page >= pages;
+}
+function syncVisiblePage() {
+  const rows = list.querySelectorAll('[data-word]');
+  let index = 0;
+  while (index + 1 < rows.length && rows[index + 1].offsetTop - rows[0].offsetTop <= list.scrollTop + 1) index++;
+  state.page = Math.floor((state.startOffset + index) / pageSize) + 1;
+  updatePagination();
+}
+function jumpPage(value) {
+  if (!state.ready || !state.total) return;
+  const number = Number(value);
+  if (!Number.isFinite(number) || !String(value).trim()) { updatePagination(); return; }
+  const page = Math.max(1, Math.min(Math.ceil(state.total / pageSize), Math.trunc(number)));
+  requestSearch(true, { offset: (page - 1) * pageSize });
+}
+$('page-go').onclick = () => jumpPage($('page-input').value);
+$('page-input').addEventListener('keydown', event => {
+  if (event.key === 'Enter') { event.preventDefault(); jumpPage($('page-input').value); }
+});
+$('page-prev').onclick = () => jumpPage(state.page - 1);
+$('page-next').onclick = () => jumpPage(state.page + 1);
 function markSelected(scroll = true) {
   let selected;
   list.querySelectorAll('[data-word]').forEach(row => {
@@ -409,7 +460,7 @@ function markSelected(scroll = true) {
   });
   if (selected) {
     list.setAttribute('aria-activedescendant', selected.id);
-    if (scroll) selected.scrollIntoView({ block: 'nearest' });
+    if (scroll) { selected.scrollIntoView({ block: 'nearest' }); lastListScrollTop = list.scrollTop; syncVisiblePage(); }
   } else list.removeAttribute('aria-activedescendant');
 }
 list.onclick = event => {
@@ -417,20 +468,39 @@ list.onclick = event => {
   if (button) selectWord(button.dataset.word, true);
 };
 function loadMore(navigateFrom = '') {
-  if (!state.ready || list.getAttribute('aria-busy') === 'true' || state.results.length >= state.total) return;
+  if (!state.ready || list.getAttribute('aria-busy') === 'true' || state.startOffset + state.results.length >= state.total) return;
   state.pendingNavigation = navigateFrom;
-  state.offset = state.results.length;
+  state.offset = state.startOffset + state.results.length;
   requestSearch();
+}
+function loadPrevious(navigateFrom = '') {
+  if (!state.ready || list.getAttribute('aria-busy') === 'true' || state.startOffset <= 0) return;
+  state.pendingNavigation = navigateFrom;
+  state.offset = Math.max(0, state.startOffset - pageSize);
+  requestSearch(false, { prepend: true });
 }
 function maybeLoadMore() {
   if (list.clientHeight > 0 && list.scrollTop + list.clientHeight >= list.scrollHeight - 300) loadMore();
 }
-list.addEventListener('scroll', maybeLoadMore, { passive: true });
+let lastListScrollTop = 0;
+list.addEventListener('scroll', () => {
+  const upwards = list.scrollTop < lastListScrollTop;
+  lastListScrollTop = list.scrollTop;
+  syncVisiblePage();
+  if (upwards && list.scrollTop < 150) loadPrevious();
+  else maybeLoadMore();
+}, { passive: true });
+list.addEventListener('wheel', event => {
+  if (event.deltaY < 0 && list.scrollTop <= 0) loadPrevious();
+}, { passive: true });
 function navigate(direction) {
   if (!state.results.length || list.getAttribute('aria-busy') === 'true') return;
   const current = state.results.findIndex(entry => entry.w === state.selectedKey);
   const next = current < 0 ? 0 : current + direction;
-  if (next < 0) return;
+  if (next < 0) {
+    loadPrevious(state.selectedKey);
+    return;
+  }
   if (next >= state.results.length) { loadMore(state.selectedKey); return; }
   selectWord(state.results[next].w, false);
 }
@@ -503,13 +573,13 @@ function renderDetail(entry) {
   pinnedWord.hidden = true;
   detail.innerHTML = `<header class="word-header"><div class="word-headline"><h1 class="word-heading" lang="en">${escapeHtml(entry.word)}</h1><div class="pronunciations"><span class="phonetic">${escapeHtml(phonetic(entry.phonetic))}</span>${audioButton(entry.word, '英音', false, 'en-GB')}${audioButton(entry.word, '美音', true)}</div></div><div class="tag-line">${tags.map(tag => `<span class="exam-tag ${tag.startsWith('CEFR') ? 'cefr-tag' : ''}">${escapeHtml(tag)}</span>`).join('')}</div>
     <nav class="sense-quick-chips" aria-label="义项速览">${entry.senses.map((sense, index) => `<button class="sense-chip" data-sense="${index + 1}"><span>${String(index + 1).padStart(2, '0')}</span> ${label(escapeHtml(sense.meaning_zh), escapeHtml(sense.english_definition || posName(sense.pos)))}</button>`).join('')}</nav></header>
-    <section class="sense-learning" aria-label="释义、例句与搭配"><div class="learning-headings"><div class="dimension core-definitions">${dimensionHeading('一', '释义与定义', 'Meaning & definition')}</div><div class="dimension real-scenarios">${dimensionHeading('二', '例句与搭配', 'Examples & collocations')}</div></div>
+    <section class="sense-learning" aria-label="释义、例句与搭配">
     ${entry.senses.map((sense, index) => {
       const collocations = String(sense.collocation_en || '').split(/\s*[;；]\s*/).filter(Boolean);
       const translations = String(sense.collocation_zh || '').split(/\s*[;；]\s*/);
       const pos = posName(sense.pos);
-      return `<section id="sense-${index + 1}" class="sense-card" tabindex="-1" aria-label="Sense ${index + 1}"><div class="sense-heading"><span class="sense-number">${String(index + 1).padStart(2, '0')}</span><span class="pos-tag ${posClass(sense.pos)}">${escapeHtml(pos)}<span class="zh-content">${escapeHtml(String(sense.pos || '').slice(pos.length))}</span></span><h3 class="zh-content">${escapeHtml(sense.meaning_zh)}</h3></div><p class="definition" lang="en">${escapeHtml(sense.english_definition)}</p>
-      <div class="context-grid">${sense.sentence_en ? `<div class="example-card"><div class="example-heading"><span>${label('场景例句', 'Example')}</span>${audioButton(sense.sentence_en, '听例句')}</div><p class="example-en" lang="en">${highlighted(sense.sentence_en, entry.word)}</p><p class="example-zh zh-content">${escapeHtml(sense.sentence_zh)}</p></div>` : ''}${collocations.length ? `<div class="collocations"><h4>${label('高频搭配', 'Collocations')}</h4>${collocations.map((phrase, i) => `<div class="collocation"><p class="example-en" lang="en">${highlighted(phrase, entry.word)}</p><p class="example-zh zh-content">${escapeHtml(translations[i] || '')}</p></div>`).join('')}</div>` : ''}</div></section>`;
+      return `<section id="sense-${index + 1}" class="sense-card" tabindex="-1" aria-label="Sense ${index + 1}"><div class="${index === 0 ? 'dimension ' : ''}core-definitions" role="group" aria-label="要素一：释义与定义"><div class="sense-heading"><span class="sense-number">${String(index + 1).padStart(2, '0')}</span><span class="pos-tag ${posClass(sense.pos)}">${escapeHtml(pos)}<span class="zh-content">${escapeHtml(String(sense.pos || '').slice(pos.length))}</span></span><h3 class="zh-content">${escapeHtml(sense.meaning_zh)}</h3></div><p class="definition" lang="en">${escapeHtml(sense.english_definition)}</p></div>
+      <div class="${index === 0 ? 'dimension ' : ''}real-scenarios context-grid" role="group" aria-label="要素二：例句与搭配">${sense.sentence_en ? `<div class="example-card"><div class="example-heading"><span>${label('场景例句', 'Example')}</span>${audioButton(sense.sentence_en, '听例句')}</div><p class="example-en" lang="en">${highlighted(sense.sentence_en, entry.word)}</p><p class="example-zh zh-content">${escapeHtml(sense.sentence_zh)}</p></div>` : ''}${collocations.length ? `<div class="collocations"><h4>${label('高频搭配', 'Collocations')}</h4>${collocations.map((phrase, i) => `<div class="collocation"><p class="example-en" lang="en">${highlighted(phrase, entry.word)}</p><p class="example-zh zh-content">${escapeHtml(translations[i] || '')}</p></div>`).join('')}</div>` : ''}</div></section>`;
     }).join('')}</section>
     <div class="deep-grid"><section class="dimension deep-card morphology" aria-label="要素三：现代公式化构词">${dimensionHeading('三', '现代公式化构词', 'Word formation')}${formula ? `<p class="formula${/[\u3400-\u9fff]/.test(formula) ? ' zh-content' : ''}">${escapeHtml(formula)}</p>` : ''}${String(entry.morphology_zh || '暂无构词说明').split(/(?=常用词族[：:]|派生词族?[：:]|复合词[：:])/u).map(text => `<p class="deep-copy zh-content">${escapeHtml(text)}</p>`).join('')}<p class="label-en source-note" lang="en">Word formation notes are available in bilingual mode.</p></section>
     <section class="dimension deep-card etymology" aria-label="要素四：词源故事与高效记忆">${dimensionHeading('四', '词源故事', 'Word origin')}<p class="deep-copy zh-content">${escapeHtml(entry.etymology_zh || '暂无词源说明')}</p><p class="label-en source-note" lang="en">Origin notes are available in bilingual mode.</p></section></div>`;
@@ -799,7 +869,7 @@ $('study-open').onclick = () => {
   const card = state.study[state.cardIndex];
   if (!card) return;
   closeStudy(() => {
-    searchInput.value = card.w;
+    searchInput.value = '';
     setLetter('');
     state.savedOnly = false;
     state.tag = '';
@@ -807,7 +877,7 @@ $('study-open').onclick = () => {
     $('pos-filter').value = '';
     $('bookmarks').setAttribute('aria-pressed', 'false');
     $('filters').querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed', String(!button.dataset.tag)));
-    requestSearch(true);
+    requestSearch(true, { anchor: card.w });
     document.body.classList.add('reading');
     content.focus({ preventScroll: true });
   });
@@ -816,7 +886,7 @@ $('study-open').onclick = () => {
 window.addEventListener('keydown', event => {
   if (event.isComposing || composing || event.altKey || (event.ctrlKey && event.key !== 'k') || (event.metaKey && event.key !== 'k')) return;
   if (studyDialog.open) return; // Native focus trap; cancel event animates Escape.
-  const editable = event.target instanceof Element && event.target.matches('input, textarea, [contenteditable="true"]');
+  const editable = event.target instanceof Element && event.target.matches('input, select, textarea, [contenteditable="true"]');
   if ((event.key === '/' && !editable) || ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k')) {
     event.preventDefault();
     setImmersive(false);
@@ -836,10 +906,14 @@ window.addEventListener('keydown', event => {
   }
 });
 
-// Restore shareable words without an API request; malformed fragments are harmless.
-try { searchInput.value = decodeURIComponent(location.hash.slice(1)).slice(0, 120); } catch { searchInput.value = ''; }
+// Fragments select a detail and locate its page without becoming a search.
+function hashWord() {
+  try { return decodeURIComponent(location.hash.slice(1)).slice(0, 120); } catch { return ''; }
+}
+searchInput.value = '';
 window.addEventListener('hashchange', () => {
-  try { searchInput.value = decodeURIComponent(location.hash.slice(1)).slice(0, 120); setLetter(''); requestSearch(true); } catch { /* ignore malformed URL */ }
+  const word = hashWord();
+  if (word) requestSearch(true, { anchor: word });
 });
 if ('serviceWorker' in navigator && window.isSecureContext) {
   offlineShellReady = navigator.serviceWorker.register(new URL('./sw.js', import.meta.url), { scope: './' }).then(async () => {

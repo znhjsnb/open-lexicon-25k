@@ -7,7 +7,7 @@ import vm from 'node:vm';
 
 const source = await fs.readFile(new URL('../app/static/app.js', import.meta.url), 'utf8');
 
-function fixture(reduce = false, stored = []) {
+function fixture(reduce = false, stored = [], hash = '') {
   let now = 0, serial = 0;
   const frames = new Map(), timers = new Map(), animations = new Set(), elements = new Map();
   const vibrations = [], storage = new Map(stored), workers = [];
@@ -42,10 +42,17 @@ function fixture(reduce = false, stored = []) {
     get innerHTML() { return this.html || ''; }
     appendRows(html) {
       for (const match of html.matchAll(/<button id="(result-[^"]+)"[^>]*data-word="([^"]+)"/g)) {
-        const row = new Element(match[1]); row.dataset.word = match[2]; this.rows.push(row);
+        const row = new Element(match[1]); row.dataset.word = match[2]; row.offsetTop = this.rows.length * 52; this.rows.push(row);
       }
     }
-    insertAdjacentHTML(position, html) { assert.equal(position, 'beforeend'); this.html += html; this.appendRows(html); }
+    insertAdjacentHTML(position, html) {
+      if (position === 'afterbegin') {
+        this.html = html + this.html;
+        const previous = this.rows; this.rows = []; this.appendRows(html); this.rows.push(...previous);
+        this.rows.forEach((row, index) => { row.offsetTop = index * 52; });
+        this.scrollHeight = this.rows.length * 52;
+      } else { assert.equal(position, 'beforeend'); this.html += html; this.appendRows(html); }
+    }
     scrollIntoView() { this.scrollCalls = (this.scrollCalls || 0) + 1; }
     setAttribute(name, value) { this.attributes.set(name, String(value)); }
     getAttribute(name) { return this.attributes.get(name) ?? null; }
@@ -84,7 +91,7 @@ function fixture(reduce = false, stored = []) {
     performance: { now: () => now },
     localStorage: { getItem: key => storage.get(key), setItem: (key, value) => storage.set(key, value) },
     navigator: { onLine: true, vibrate: pattern => vibrations.push([...pattern]) },
-    location: { hash: '', href: 'https://lexicon.test/' }, history: { replaceState() {} },
+    location: { hash, href: `https://lexicon.test/${hash}` }, history: { replaceState() {} },
     normalizeTags: tags => tags || [], cacheStatus: { persistent: true },
     getWord: async word => ({ entry: { word, phonetic: 'test', tags: [], senses: [] }, source: 'memory', elapsed: 0 }),
     Worker: class {
@@ -461,4 +468,129 @@ test('the pinned identity appears past the word header, offers both accents and 
   assert.equal(spoken.text, 'available'); assert.equal(spoken.lang, 'en-GB');
   f.element('content').scrollTop = 0; f.ui.updateScrollEdge();
   assert.equal(badge.hidden, true); assert.equal(f.element('breadcrumb').hidden, false);
+});
+
+test('initial fragments and hash changes locate words without filtering or filling the search box', async () => {
+  const f = fixture(false, [], '#AVAILABLE');
+  assert.equal(f.element('search').value, '');
+  const { worker, batch } = searchSession(f, 25006);
+  assert.equal(worker.messages.at(-1).query, '');
+  assert.equal(worker.messages.at(-1).anchor, 'AVAILABLE');
+  assert.equal(worker.messages.at(-1).sort, 'alpha');
+  f.context.location.hash = '#available'; f.context.window.dispatch('hashchange');
+  const linked = batch(1500); linked.results[22].w = 'available';
+  worker.reply(linked); await Promise.resolve();
+  assert.equal(f.element('search').value, '');
+  assert.equal(f.ui.state.selectedKey, 'available');
+  assert.equal(f.ui.state.total, 25006);
+  assert.equal(f.element('word-list').rows.length, 50);
+  assert.equal(f.element('word-list').rows[22].getAttribute('aria-selected'), 'true');
+  assert.equal(f.element('word-list').rows[22].scrollCalls, 1);
+  assert.equal(f.element('page-input').value, '31');
+  f.element('search').value = 'typed query';
+  f.context.location.hash = '#borrow'; f.context.window.dispatch('hashchange');
+  assert.equal(f.element('search').value, 'typed query');
+  assert.equal(worker.messages.at(-1).query, 'typed query');
+  assert.equal(worker.messages.at(-1).anchor, 'borrow');
+  const before = worker.messages.length;
+  f.context.location.hash = '#%E0%A4%A'; f.context.window.dispatch('hashchange');
+  assert.equal(worker.messages.length, before);
+});
+
+test('page input supports Enter and go, clamps bounds, rejects stale replies and uses absolute offsets when appending', () => {
+  const f = fixture(); const { worker, batch } = searchSession(f, 25006);
+  assert.equal(f.element('page-input').max, '501');
+  assert.equal(f.element('page-prev').disabled, true);
+  f.element('page-input').value = '25';
+  assert.equal(f.element('page-input').dispatch('keydown', { key: 'Enter' }).defaultPrevented, true);
+  assert.equal(worker.messages.at(-1).offset, 1200);
+  const stale = batch(1200);
+  f.element('page-input').value = '100'; f.element('page-go').onclick();
+  assert.equal(worker.messages.at(-1).offset, 4950);
+  worker.reply(stale); assert.equal(f.ui.state.startOffset, 0);
+  worker.reply(batch(4950));
+  assert.equal(f.ui.state.startOffset, 4950);
+  assert.equal(f.element('page-input').value, '100');
+  f.ui.loadMore(); assert.equal(worker.messages.at(-1).offset, 5000);
+  worker.reply(batch(5000));
+  assert.equal(f.element('word-list').rows.length, 100);
+  assert.equal(f.ui.state.startOffset, 4950);
+  f.element('page-input').value = '9999'; f.element('page-go').onclick();
+  assert.equal(worker.messages.at(-1).offset, 25000);
+  worker.reply(batch(25000));
+  assert.equal(f.element('page-input').value, '501');
+  assert.equal(f.element('word-list').rows.length, 6);
+  assert.equal(f.element('page-next').disabled, true);
+  assert.match(f.element('list-status').textContent, /已到末页/);
+  const count = worker.messages.length; f.ui.loadMore(); assert.equal(worker.messages.length, count);
+  f.element('page-prev').onclick(); assert.equal(worker.messages.at(-1).offset, 24950);
+  worker.reply(batch(24950));
+  f.element('page-next').onclick(); assert.equal(worker.messages.at(-1).offset, 25000);
+  worker.reply(batch(25000));
+  for (const input of ['', 'invalid', 'Infinity']) {
+    const count = worker.messages.length;
+    f.element('page-input').value = input; f.element('page-go').onclick();
+    assert.equal(worker.messages.length, count); assert.equal(f.element('page-input').value, '501');
+  }
+  f.element('page-input').value = '-5'; f.element('page-go').onclick();
+  assert.equal(worker.messages.at(-1).offset, 0);
+});
+
+test('visible pages follow scrolling in both directions and filters recalculate totals including empty results', () => {
+  const f = fixture(); const { worker, batch } = searchSession(f, 125);
+  f.ui.loadMore(); worker.reply(batch(50));
+  const list = f.element('word-list'); list.clientHeight = 400; list.scrollHeight = 5200;
+  list.scrollTop = 52 * 50; list.dispatch('scroll');
+  assert.equal(f.element('page-input').value, '2');
+  list.scrollTop = 0; list.dispatch('scroll'); assert.equal(f.element('page-input').value, '1');
+  f.element('page-input').value = '3'; f.element('page-go').onclick(); worker.reply(batch(100));
+  assert.equal(f.element('page-input').value, '3');
+  f.element('search').value = 'word'; f.element('search').dispatch('input');
+  assert.equal(worker.messages.at(-1).offset, 0);
+  const filtered = batch(0, 1); filtered.total = 1; worker.reply(filtered);
+  assert.equal(f.element('page-input').value, '1'); assert.equal(f.element('page-input').max, '1');
+  assert.equal(f.element('page-prev').disabled, true); assert.equal(f.element('page-next').disabled, true);
+  f.element('search').value = 'zzzz'; f.element('search').dispatch('input');
+  const empty = batch(0, 0); empty.total = 0; worker.reply(empty);
+  assert.equal(f.element('page-total').textContent, '/ 0 页');
+  assert.equal(f.element('page-go').disabled, true);
+  f.element('clear').onclick(); assert.equal(worker.messages.at(-1).query, '');
+  worker.reply(batch(0));
+  assert.equal(f.element('page-total').textContent, '/ 3 页');
+});
+
+test('sort changes compose with filters and reset pagination without rewriting the query', () => {
+  const f = fixture(); const { worker, batch } = searchSession(f);
+  f.ui.state.tag = 'CET4'; f.ui.state.pos = 'n.'; f.ui.state.savedOnly = true;
+  f.element('search').value = 'ab';
+  f.ui.loadMore(); const stale = batch(50);
+  for (const sort of ['rank', 'senses', 'alpha-desc', 'alpha']) {
+    f.element('sort-order').value = sort; f.element('sort-order').onchange();
+    const message = worker.messages.at(-1);
+    assert.equal(message.sort, sort); assert.equal(message.offset, 0);
+    assert.equal(message.query, 'ab'); assert.equal(message.tag, 'CET4'); assert.equal(message.pos, 'n.');
+    assert.deepEqual([...message.bookmarks], []);
+  }
+  worker.reply(stale); assert.equal(f.element('word-list').rows.length, 50);
+});
+
+test('scrolling up from a deep page prepends context without moving existing rows or invalidating detail; keyboard selects the adjacent word', async () => {
+  const f = fixture(); const { worker, batch } = searchSession(f, 25006);
+  f.element('page-input').value = '100'; f.element('page-go').onclick(); worker.reply(batch(4950));
+  await Promise.resolve();
+  const list = f.element('word-list'); list.scrollHeight = 2600; list.clientHeight = 400;
+  const first = list.rows[0], selection = f.ui.state.selectionId;
+  list.dispatch('wheel', { deltaY: -100 });
+  assert.equal(worker.messages.at(-1).offset, 4900);
+  const count = worker.messages.length; list.dispatch('wheel', { deltaY: -100 }); assert.equal(worker.messages.length, count);
+  worker.reply(batch(4900));
+  assert.equal(f.ui.state.selectionId, selection);
+  assert.equal(list.rows[50], first); assert.equal(list.scrollTop, 2600);
+  assert.equal(f.element('page-input').value, '100');
+  f.ui.loadMore(); assert.equal(worker.messages.at(-1).offset, 5000); worker.reply(batch(5000));
+  await f.ui.selectWord('word4900'); f.ui.navigate(-1);
+  assert.equal(worker.messages.at(-1).offset, 4850);
+  worker.reply(batch(4850)); await Promise.resolve();
+  assert.equal(f.ui.state.selectedKey, 'word4899');
+  assert.equal(list.rows.length, 200);
 });

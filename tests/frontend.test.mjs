@@ -146,6 +146,49 @@ test('all 501 pages are reachable, bounded, and cannot run beyond the last page'
   assert.equal(search('', { offset: -1 }).offset, 0);
 });
 
+test('all browse sorts use the real index, deterministic ties and page before slicing; default stays rank compatible', () => {
+  const alphabet = new Intl.Collator('en', { sensitivity: 'base' });
+  const byAlpha = (a, b) => alphabet.compare(a.w.toLowerCase(), b.w.toLowerCase()) || a.id - b.id;
+  const comparators = {
+    alpha: byAlpha,
+    'alpha-desc': (a, b) => -byAlpha(a, b),
+    rank: (a, b) => a.id - b.id,
+    senses: (a, b) => b.s.length - a.s.length || byAlpha(a, b),
+  };
+  assert.deepEqual(search('').results.map(entry => entry.id), index.slice(0, 50).map(entry => entry.id));
+  for (const [sort, compare] of Object.entries(comparators)) {
+    const expected = [...index].sort(compare);
+    for (const offset of [0, 50, 1200, 4950, 25000]) {
+      const result = search('', { sort, offset });
+      assert.equal(result.total, index.length);
+      assert.deepEqual(result.results.map(entry => entry.id), expected.slice(offset, offset + 50).map(entry => entry.id), `${sort} page ${offset / 50 + 1}`);
+    }
+    assert.equal(search('available', { sort }).results[0].w, 'available');
+    assert.equal(search('availabel', { sort }).results[0].w, 'available');
+    const filtered = index.filter(entry => entry.w.toLowerCase().startsWith('b') && normalizeTags(entry.t).includes('CET4') && entry.s.some(sense => sense.p.split(/\s/)[0] === 'n.')).sort(compare);
+    const result = search('', { sort, letter: 'b', tag: 'CET4', pos: 'n.' });
+    assert.equal(result.total, filtered.length);
+    assert.deepEqual(result.results.map(entry => entry.id), filtered.slice(0, 50).map(entry => entry.id));
+  }
+});
+
+test('deep-link anchors locate a full unfiltered page in every sort and respect active filters', () => {
+  for (const sort of ['alpha', 'rank', 'senses', 'alpha-desc']) {
+    const result = search('', { sort, anchor: 'AVAILABLE' });
+    assert.equal(result.total, 25006);
+    assert.ok(result.results.some(entry => entry.w === 'available'));
+    assert.equal(result.offset % 50, 0);
+    assert.ok(result.results.length > 1);
+    const missing = search('', { sort, anchor: 'not-in-this-dictionary' });
+    assert.equal(missing.offset, 0); assert.equal(missing.total, 25006);
+    const filtered = search('', { sort, letter: 'b', anchor: 'available' });
+    assert.ok(filtered.results.every(entry => entry.w.toLowerCase().startsWith('b')));
+    assert.equal(filtered.offset, 0);
+    assert.equal(search('', { sort, bookmarks: [] }).total, 0);
+  }
+  assert.equal(search('', { sort: 'alpha', offset: 76 }).offset, 50);
+});
+
 test('alphabet prefix filtering reaches every letter and composes with search, exams, POS and bookmarks', () => {
   for (const letter of 'abcdefghijklmnopqrstuvwxyz') {
     const result = search('', { letter });

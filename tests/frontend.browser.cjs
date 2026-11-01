@@ -62,13 +62,16 @@ async function find(page, query, word) {
   page.on('request', request => network.push(request.url()));
 
   await runCase('cold startup, real data, no API calls or external CDN', async () => {
-    await page.goto(base);
+    await page.goto(new URL('#available', base).href);
     await page.waitForLoadState('networkidle');
     await ready(page, 'available');
     const metrics = await page.evaluate(() => window.lexiconMetrics);
     assert.equal(metrics.startup.total, 25006);
     assert.equal(metrics.startup.indexFromCache, false);
     assert.equal(await page.locator('.word-row').count(), 50);
+    assert.equal(await page.locator('#search').inputValue(), '');
+    assert.match(await page.locator('#result-count').textContent(), /25,006/);
+    assert.equal(await page.locator('.word-row[aria-selected="true"]').getAttribute('data-word'), 'available');
     assert.ok(!network.some(url => url.includes('/api/')));
     assert.ok(network.every(url => url.startsWith(base)));
     report.coldStartup = metrics.startup;
@@ -80,8 +83,11 @@ async function find(page, query, word) {
       return { width: rect('.sidebar').width, row: rect('.word-row').height, alphabet: rect('#alphabet-bar').height, exams: rect('#filters').height, visibleRows: Math.floor(rect('#word-list').height / rect('.word-row').height) };
     });
     assert.equal(density.width, 340); assert.equal(density.row, 52);
-    assert.equal(density.alphabet, 28); assert.equal(density.exams, 30);
-    assert.ok(density.visibleRows >= 12);
+    assert.equal(density.alphabet, 47); assert.ok(density.exams <= 49);
+    assert.ok(density.visibleRows >= 10);
+    const bars = await page.locator('#alphabet-bar, #sub-prefix-bar, #filters').evaluateAll(elements => elements.every(element => element.scrollWidth <= element.clientWidth && getComputedStyle(element).overflowX !== 'auto'));
+    assert.equal(bars, true);
+    assert.equal(await page.locator('[data-letter="z"]').isVisible(), true);
     const handle = page.locator('#resizer');
     const box = await handle.boundingBox();
     await page.mouse.move(box.x + box.width / 2, box.y + 40);
@@ -115,6 +121,48 @@ async function find(page, query, word) {
     await page.locator('[data-letter=""]').click();
     await page.waitForFunction(() => window.lexiconMetrics.searches.at(-1)?.letter === '');
     assert.equal(await page.locator('#sub-prefix-bar').isVisible(), false);
+  });
+  await runCase('page jumps, sorting and scrolling share one full dictionary without hash filtering', async () => {
+    const check = await context.newPage();
+    await check.goto(new URL('#available', base).href); await ready(check, 'available');
+    const settled = () => check.waitForFunction(() => document.querySelector('#word-list').getAttribute('aria-busy') === 'false' && document.querySelector('#content').getAttribute('aria-busy') === 'false');
+    assert.equal(await check.locator('#search').inputValue(), '');
+    for (const [value, offset] of [['25', 1200], ['100', 4950], ['501', 25000]]) {
+      await check.locator('#page-input').fill(value);
+      if (value === '25') await check.locator('#page-input').press('Enter');
+      else await check.locator('#page-go').click();
+      await check.waitForFunction(offset => window.lexiconMetrics.searches.at(-1)?.offset === offset, offset);
+      await settled();
+      assert.equal(await check.locator('#page-input').inputValue(), value);
+      assert.equal(await check.locator('.word-row').first().getAttribute('aria-posinset'), String(offset + 1));
+    }
+    assert.equal(await check.locator('.word-row').count(), 6);
+    assert.equal(await check.locator('#page-next').isDisabled(), true);
+    await check.locator('#page-prev').click(); await settled();
+    assert.equal(await check.locator('#page-input').inputValue(), '500');
+    await check.locator('#page-next').click(); await settled();
+    assert.equal(await check.locator('#page-input').inputValue(), '501');
+    for (const sort of ['rank', 'senses', 'alpha-desc', 'alpha']) {
+      await check.locator('#sort-order').selectOption(sort);
+      await check.waitForFunction(sort => window.lexiconMetrics.searches.at(-1)?.sort === sort && window.lexiconMetrics.searches.at(-1)?.offset === 0, sort);
+      await settled();
+      assert.equal(await check.locator('#page-input').inputValue(), '1');
+      assert.match(await check.locator('#result-count').textContent(), /25,006/);
+      if (sort === 'rank') assert.equal(await check.locator('.word-row').first().getAttribute('data-word'), 'available');
+    }
+    await check.locator('#word-list').evaluate(element => { element.scrollTop = element.scrollHeight; });
+    await check.waitForFunction(() => document.querySelectorAll('.word-row').length === 100);
+    await check.locator('.word-row').nth(55).evaluate(element => element.scrollIntoView({ block: 'start' }));
+    await check.waitForFunction(() => document.querySelector('#page-input').value === '2');
+    await check.locator('#word-list').evaluate(element => { element.scrollTop = 0; });
+    await check.waitForFunction(() => document.querySelector('#page-input').value === '1');
+    await check.goto(new URL('#available', base).href); await ready(check, 'available');
+    assert.equal(await check.locator('#search').inputValue(), '');
+    await check.locator('#content').evaluate(element => { element.scrollTop = element.scrollHeight; });
+    const top = await check.locator('.topbar').boundingBox(), toolbar = await check.locator('.content-toolbar').boundingBox();
+    assert.ok(toolbar.y >= top.y + top.height - 1);
+    await check.screenshot({ path: path.join(output, 'page-jump-sorting.png') });
+    await check.close();
   });
   await runCase('English mode hides Chinese learning copy and restores after reload and word changes', async () => {
     await find(page, 'available', 'available');
@@ -171,7 +219,9 @@ async function find(page, query, word) {
     await page.locator('#content').evaluate(element => { element.scrollTop = 0; });
   });
   await runCase('continuous list appends in place, alphabet jumps are strict and all letters can be restored', async () => {
-    await find(page, '', 'available');
+    await find(page, '');
+    const firstWord = await page.locator('.word-row').first().getAttribute('data-word');
+    await ready(page, firstWord);
     const before = await page.locator('#word-list').evaluate(element => {
       window.__firstResult = element.firstElementChild;
       element.scrollTop = element.scrollHeight;
@@ -181,7 +231,7 @@ async function find(page, query, word) {
     assert.equal(await page.evaluate(() => window.__firstResult === document.querySelector('.word-row')), true);
     assert.equal(await page.locator('#word-list').evaluate(element => element.scrollTop), before);
     assert.match(await page.locator('#list-status').textContent(), /100 \/ 25,006/);
-    assert.equal(await page.locator('.word-heading').textContent(), 'available');
+    assert.equal(await page.locator('.word-heading').textContent(), firstWord);
     assert.equal(await page.locator('#previous, #next').count(), 0);
     for (const letter of ['b', 'z']) {
       await page.locator(`[data-letter="${letter}"]`).click();
@@ -190,17 +240,18 @@ async function find(page, query, word) {
       assert.equal(await page.locator('#word-list').evaluate(element => element.scrollTop), 0);
     }
     await page.locator('[data-letter=""]').click();
-    await page.waitForFunction(() => document.querySelector('.word-heading')?.textContent === 'available' && document.querySelector('#content').getAttribute('aria-busy') === 'false');
+    await page.waitForFunction(word => document.querySelector('.word-heading')?.textContent === word && document.querySelector('#content').getAttribute('aria-busy') === 'false', firstWord);
     assert.equal(await page.locator('.word-row').count(), 50);
   });
   await runCase('four expanded dimensions, cohesive senses, compact two-column examples and a pinned speaking identity', async () => {
+    await find(page, 'available', 'available');
     assert.equal(await page.locator('#detail .dimension').count(), 4);
     const type = await page.evaluate(() => {
       const style = selector => getComputedStyle(document.querySelector(selector));
       return { ink: style('body').color, zh: parseFloat(style('.sense-heading h3').fontSize), en: parseFloat(style('.example-en').fontSize), translation: parseFloat(style('.example-zh').fontSize), columns: style('.context-grid').gridTemplateColumns.split(' ').length };
     });
     assert.equal(type.ink, 'rgb(17, 24, 39)');
-    assert.equal(type.zh, 16); assert.ok(type.en >= 14 && type.translation >= 13);
+    assert.equal(type.zh, 17); assert.ok(type.en >= 14 && type.translation >= 13);
     assert.equal(type.columns, 2);
     for (const card of await page.locator('.sense-card').all()) {
       assert.equal(await card.locator('.definition').count(), 1);

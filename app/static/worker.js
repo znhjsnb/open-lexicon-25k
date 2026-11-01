@@ -3,6 +3,8 @@ import { normalizeTags, INDEX_CACHE } from './data.js';
 let entries = [];
 let pending = null;
 let loading = false;
+const alphabet = new Intl.Collator('en', { sensitivity: 'base' });
+const pageSize = 50;
 
 // Bounded optimal-string-alignment distance accepts adjacent transpositions.
 function distance(a, b, limit, rows) {
@@ -62,9 +64,20 @@ function search(message) {
       if (edits <= limit) buckets[3 + edits].push(entry);
     }
   }
+  const byAlpha = (a, b) => alphabet.compare(a.key, b.key) || a.id - b.id;
+  const compare = {
+    alpha: byAlpha,
+    'alpha-desc': (a, b) => -byAlpha(a, b),
+    rank: (a, b) => a.id - b.id,
+    senses: (a, b) => b.s.length - a.s.length || byAlpha(a, b),
+  }[message.sort];
+  // Preserve exact/prefix/contains/typo relevance before the browse order.
+  if (compare) buckets.forEach(bucket => bucket.sort(compare));
   const matches = buckets.flat();
-  const offset = Math.max(0, Math.min(Number(message.offset) || 0, Math.max(0, Math.floor((matches.length - 1) / 50) * 50)));
-  const results = matches.slice(offset, offset + 50).map(({ key, zh, ...entry }) => entry);
+  const anchor = message.anchor ? matches.findIndex(entry => entry.key === String(message.anchor).toLowerCase()) : -1;
+  const requested = anchor >= 0 ? anchor : Number(message.offset) || 0;
+  const offset = Math.max(0, Math.min(Math.floor(requested / pageSize) * pageSize, Math.max(0, Math.floor((matches.length - 1) / pageSize) * pageSize)));
+  const results = matches.slice(offset, offset + pageSize).map(({ key, zh, ...entry }) => entry);
   postMessage({ type: 'results', requestId: message.requestId, results, total: matches.length, offset,
     fuzzy: direct === 0 && matches.length > 0, elapsed: performance.now() - started });
 }

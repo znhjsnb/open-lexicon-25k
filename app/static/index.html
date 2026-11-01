@@ -35,11 +35,12 @@
         <div id="filters" class="filters" role="group" aria-label="考试范围"></div>
         <div id="alphabet-bar" class="alphabet-bar" role="group" aria-label="字母快速直达"></div>
         <div id="sub-prefix-bar" class="sub-prefix-bar" role="group" aria-label="二级前缀快速定位" hidden></div>
-        <button id="bookmarks" class="bookmark-filter" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9Z"/></svg>我的收藏 <span id="bookmark-count">0</span></button>
       </div>
-      <div class="results-meta"><span id="result-count" role="status">正在准备词库…</span><select id="pos-filter" aria-label="词性筛选"><option value="">全部词性</option value="n.">名词</option><option value="v.">动词</option><option value="adj.">形容词</option><option value="adv.">副词</option><option value="prep.">介词</option><option value="conj.">连词</option><option value="pron.">代词</option></select><span id="search-time"></span></div>
+      <div class="results-meta"><span id="result-count" role="status">正在准备词库…</span><button id="bookmarks" class="bookmark-filter" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9Z"/></svg>我的收藏 <span id="bookmark-count">0</span></button><span id="search-time"></span></div>
+      <div class="list-controls"><select id="sort-order" aria-label="排序方式"><option value="alpha">A–Z 字母排序</option><option value="rank">考纲核心排序</option><option value="senses">多义词丰富度</option><option value="alpha-desc">Z–A 倒序</option></select><select id="pos-filter" aria-label="词性筛选"><option value="">全部词性</option><option value="n.">名词</option><option value="v.">动词</option><option value="adj.">形容词</option><option value="adv.">副词</option><option value="prep.">介词</option><option value="conj.">连词</option><option value="pron.">代词</option></select></div>
       <div id="word-list" class="word-list" role="listbox" aria-label="词条结果" tabindex="0" aria-busy="true"></div>
       <div class="list-status" role="status"><span id="list-status">正在准备词库…</span></div>
+      <div class="page-jumper" role="group" aria-label="页码跳转"><button id="page-prev" class="page-nav-btn" aria-label="上一页" disabled>◀</button><label class="page-input-label">第 <input id="page-input" type="number" min="1" max="501" value="1" aria-label="页码" disabled> <span id="page-total">/ 501 页</span></label><button id="page-next" class="page-nav-btn" aria-label="下一页" disabled>▶</button><button id="page-go" class="page-go-btn" disabled>跳转</button></div>
       <footer class="sidebar-footer"><span id="connection"><i></i> 正在载入</span><button id="offline-download" title="下载全部字母分片，约 45 MiB，可随时暂停">准备离线词库</button></footer>
     </aside>
     <div id="resizer" class="resizer" role="separator" aria-orientation="vertical" aria-label="调整侧边栏宽度" aria-controls="word-sidebar" tabindex="0" title="拖动调整宽度 · 双击重置 · 方向键微调"></div>
