@@ -594,3 +594,172 @@ test('scrolling up from a deep page prepends context without moving existing row
   assert.equal(f.ui.state.selectedKey, 'word4899');
   assert.equal(list.rows.length, 200);
 });
+
+const typographyKey = 'open_lexicon_typography';
+test('shipped typography entry has readable Chinese labels and one accessible native dialog', async () => {
+  const html = await fs.readFile(new URL('../app/static/index.html', import.meta.url), 'utf8');
+  assert.match(html, /id="typography-btn"[^>]*aria-label="阅读排版"[^>]*aria-controls="typography-panel"/);
+  assert.match(html, /<span>排版<\/span>/);
+  assert.match(html, /<dialog id="typography-panel" class="typography-popover" aria-labelledby="typography-title">/);
+  for (const id of ['typography-btn', 'typography-panel', 'typography-title', 'typography-close', 'typography-handle', 'typography-reset']) {
+    assert.equal(html.split(`id="${id}"`).length - 1, 1);
+  }
+});
+
+function typographyOption(f, id, value) {
+  const button = f.element(id).querySelectorAll('button').find(button => button.dataset.value === value);
+  assert.ok(button, `${id}: ${value}`);
+  f.element(id).onclick({ target: { closest: () => button } });
+  return button;
+}
+function typographySnapshot(f) {
+  const root = f.element('html');
+  return { scale: Number(root.style['--font-scale']), font: root.dataset.readingFont, density: root.dataset.readingDensity, paper: root.dataset.readingPaper };
+}
+
+test('typography defaults initialize all controls without storage writes or haptics', () => {
+  const f = fixture();
+  assert.deepEqual(typographySnapshot(f), { scale: 1, font: 'sans', density: 'normal', paper: 'white' });
+  assert.equal(f.element('html').style['--reading-line-height'], '1.65');
+  assert.equal(f.element('html').style['--reading-padding-scale'], '1');
+  assert.equal(f.element('typography-scale').textContent, '100% · 标准');
+  assert.equal(f.storage.has(typographyKey), false); assert.deepEqual(f.vibrations, []);
+  for (const id of ['typography-fonts', 'typography-densities', 'typography-papers']) {
+    assert.equal(f.element(id).querySelectorAll('button').filter(b => b.getAttribute('aria-pressed') === 'true').length, 1);
+  }
+});
+
+test('A− and A+ visit all five exact scales, announce labels and stop at both boundaries', () => {
+  const f = fixture(); const down = f.element('typography-decrease'), up = f.element('typography-increase');
+  down.onclick(); assert.equal(typographySnapshot(f).scale, .95);
+  down.onclick(); assert.equal(typographySnapshot(f).scale, .85); assert.equal(down.disabled, true);
+  down.onclick(); assert.equal(f.vibrations.length, 2);
+  for (const scale of [.95, 1, 1.15, 1.3]) { up.onclick(); assert.equal(typographySnapshot(f).scale, scale); }
+  assert.equal(up.disabled, true); assert.equal(down.disabled, false);
+  assert.equal(f.element('typography-scale').textContent, '130% · 特大护眼');
+  up.onclick(); assert.equal(f.vibrations.length, 6);
+  assert.deepEqual(f.vibrations, Array.from({ length: 6 }, () => [8]));
+  assert.equal(JSON.parse(f.storage.get(typographyKey)).scale, 1.3);
+});
+
+test('all font families select accessibly and persist independently of scale', () => {
+  const f = fixture(); f.element('typography-increase').onclick();
+  for (const font of ['serif', 'mono', 'legible', 'sans']) {
+    const selected = typographyOption(f, 'typography-fonts', font);
+    assert.equal(typographySnapshot(f).font, font); assert.equal(typographySnapshot(f).scale, 1.15);
+    assert.equal(selected.getAttribute('aria-pressed'), 'true');
+    assert.equal(JSON.parse(f.storage.get(typographyKey)).font, font);
+    assert.equal(f.element('typography-fonts').querySelectorAll('button').filter(b => b.getAttribute('aria-pressed') === 'true').length, 1);
+  }
+  const count = f.vibrations.length; typographyOption(f, 'typography-fonts', 'sans'); assert.equal(f.vibrations.length, count);
+});
+
+test('density controls drive exact leading and padding, with one 8ms feedback per change', () => {
+  const f = fixture();
+  for (const [density, leading, padding] of [['compact', '1.45', '0.8'], ['spacious', '1.85', '1.25'], ['normal', '1.65', '1']]) {
+    typographyOption(f, 'typography-densities', density);
+    assert.equal(f.element('html').style['--reading-line-height'], leading);
+    assert.equal(f.element('html').style['--reading-padding-scale'], padding);
+  }
+  assert.deepEqual(f.vibrations, [[8], [8], [8]]);
+});
+
+test('all paper palettes retain the independent shell theme and language preference', () => {
+  const f = fixture(); f.element('theme').onclick(); f.element('lang-en').onclick();
+  for (const paper of ['sepia', 'grey', 'night', 'white']) {
+    const selected = typographyOption(f, 'typography-papers', paper);
+    assert.equal(f.element('html').dataset.readingPaper, paper);
+    assert.equal(selected.getAttribute('aria-pressed'), 'true');
+    assert.equal(f.element('html').dataset.theme, 'dark');
+    assert.equal(f.document.body.classList.contains('lang-en-only'), true);
+    assert.equal(JSON.parse(f.storage.get(typographyKey)).paper, paper);
+  }
+});
+
+test('a fresh page session restores every setting and reset persists all defaults without touching other preferences', () => {
+  const first = fixture();
+  first.element('typography-increase').onclick(); typographyOption(first, 'typography-fonts', 'serif');
+  typographyOption(first, 'typography-densities', 'spacious'); typographyOption(first, 'typography-papers', 'sepia');
+  first.element('lang-en').onclick(); first.element('theme').onclick();
+  const f = fixture(false, [...first.storage]);
+  assert.deepEqual(typographySnapshot(f), { scale: 1.15, font: 'serif', density: 'spacious', paper: 'sepia' });
+  assert.deepEqual(f.vibrations, []);
+  f.element('typography-reset').onclick();
+  assert.deepEqual(JSON.parse(f.storage.get(typographyKey)), { scale: 1, font: 'sans', density: 'normal', paper: 'white' });
+  assert.deepEqual(typographySnapshot(fixture(false, [...f.storage])), typographySnapshot(f));
+  assert.equal(f.storage.get('open_lexicon_lang_mode'), '"en"'); assert.equal(f.storage.get('open_lexicon_theme'), '"dark"');
+});
+
+test('malformed or hostile typography storage falls back per field and cannot inject CSS', () => {
+  for (const stored of ['{broken', 'null', '[]', '42', '"serif"', '{"scale":999,"font":"__proto__","density":"constructor","paper":"toString"}']) {
+    const f = fixture(false, [[typographyKey, stored]]);
+    assert.deepEqual(typographySnapshot(f), { scale: 1, font: 'sans', density: 'normal', paper: 'white' });
+  }
+  const f = fixture(false, [[typographyKey, JSON.stringify({ scale: .95, font: 'serif', density: 'broken', paper: 'url(bad)' })]]);
+  assert.deepEqual(typographySnapshot(f), { scale: .95, font: 'serif', density: 'normal', paper: 'white' });
+});
+
+test('blocked storage and vibration retain live typography controls and show the existing storage notice', () => {
+  const f = fixture();
+  f.context.localStorage.setItem = () => { throw new Error('denied'); };
+  f.context.navigator.vibrate = () => { throw new Error('unsupported'); };
+  assert.doesNotThrow(() => typographyOption(f, 'typography-papers', 'night'));
+  assert.equal(typographySnapshot(f).paper, 'night');
+  assert.match(f.element('toast').textContent, /当前页面/);
+  f.context.navigator.vibrate = undefined;
+  assert.doesNotThrow(() => f.element('typography-increase').onclick());
+});
+
+test('typography popover springs open, reverses dismissal from its live position and restores trigger focus', () => {
+  const f = fixture(); const panel = f.element('typography-panel'), trigger = f.element('typography-btn');
+  trigger.onclick(); f.advance(1200);
+  assert.equal(panel.open, true); assert.equal(panel.style.opacity, '1');
+  assert.equal(trigger.getAttribute('aria-expanded'), 'true');
+  f.element('typography-close').onclick(); f.advance(64);
+  const position = panel.style.transform; assert.equal(panel.open, true);
+  trigger.onclick(); assert.equal(panel.style.transform, position);
+  f.advance(1200); assert.equal(panel.style.opacity, '1');
+  f.element('typography-close').onclick(); f.advance(1200);
+  assert.equal(panel.open, false); assert.equal(trigger.getAttribute('aria-expanded'), 'false');
+  assert.equal(f.document.activeElement, trigger);
+});
+
+test('typography Esc and double-click handle dismiss, while clicks inside or drags outside do not', () => {
+  const f = fixture(); const panel = f.element('typography-panel'), trigger = f.element('typography-btn');
+  trigger.onclick(); f.advance(1200);
+  panel.dispatch('pointerdown', { clientX: 900, clientY: 50 });
+  panel.dispatch('click', { clientX: 10, clientY: 50 }); f.advance(1200); assert.equal(panel.open, true);
+  panel.dispatch('pointerdown', { clientX: 900, clientY: 50 });
+  panel.dispatch('click', { clientX: 900, clientY: 50 }); f.advance(1200); assert.equal(panel.open, true);
+  const canceled = panel.dispatch('cancel'); assert.equal(canceled.defaultPrevented, true);
+  f.advance(1200); assert.equal(panel.open, false);
+  trigger.onclick(); f.advance(1200); f.element('typography-handle').dispatch('click'); assert.equal(panel.open, true);
+  f.element('typography-handle').dispatch('dblclick'); f.advance(1200); assert.equal(panel.open, false);
+  trigger.onclick(); f.advance(1200);
+  panel.dispatch('pointerdown', { clientX: 10, clientY: 50 });
+  panel.dispatch('click', { clientX: 10, clientY: 50 }); f.advance(1200); assert.equal(panel.open, false);
+});
+
+test('open typography suppresses dictionary shortcuts and preserves the active result page', () => {
+  const f = fixture(); const { worker, batch } = searchSession(f);
+  f.element('page-input').value = '25'; f.element('page-go').onclick(); worker.reply(batch(1200));
+  const before = JSON.stringify(f.ui.state); const messages = worker.messages.length;
+  f.element('typography-btn').onclick(); f.advance(1200);
+  for (const key of ['/', 'ArrowDown', 'ArrowUp', 'Escape', 'Enter']) f.context.window.dispatch('keydown', { key });
+  typographyOption(f, 'typography-fonts', 'mono'); typographyOption(f, 'typography-papers', 'sepia');
+  f.element('typography-increase').onclick(); typographyOption(f, 'typography-densities', 'compact');
+  assert.equal(JSON.stringify(f.ui.state), before); assert.equal(worker.messages.length, messages);
+  assert.equal(f.element('page-input').value, '25');
+});
+
+test('reduced motion typography cross-fades only and a live preference change cancels displacement', () => {
+  const f = fixture(true); f.element('typography-btn').onclick();
+  assert.equal(f.element('typography-panel').style.transform, 'none');
+  assert.ok([...f.animations].every(a => !('transform' in a.keyframes[0])));
+  f.advance(160); assert.equal(f.element('typography-panel').style.opacity, '1');
+  f.element('typography-close').onclick(); f.advance(160); assert.equal(f.element('typography-panel').open, false);
+  const live = fixture(); live.element('typography-btn').onclick(); live.advance(64);
+  live.media.matches = true; live.media.dispatch('change');
+  assert.equal(live.element('typography-panel').style.transform, 'none');
+  live.advance(160); assert.equal(live.element('typography-panel').style.opacity, '1');
+});

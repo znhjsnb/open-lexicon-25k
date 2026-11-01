@@ -161,6 +161,114 @@ function createSpring(paint, { damping = 1, response = .3 } = {}) {
   };
 }
 
+// Reading preferences are independent of navigation, language and shell theme.
+const typographyKey = 'open_lexicon_typography';
+const typographyDefaults = { scale: 1, font: 'sans', density: 'normal', paper: 'white' };
+const typographyScales = [.85, .95, 1, 1.15, 1.3];
+const typographyScaleNames = ['紧凑', '小字', '标准', '大字', '特大护眼'];
+const typographyFonts = { sans: '现代黑体', serif: '人文经典衬线', mono: '极客等宽', legible: '高易读体' };
+const typographyDensities = { compact: [1.45, .8, '紧凑'], normal: [1.65, 1, '标准'], spacious: [1.85, 1.25, '舒展'] };
+const typographyPapers = { white: '现代纸白', sepia: '暖黄羊皮纸', grey: '水墨素灰', night: '深黑 OLED' };
+const typographyPanel = $('typography-panel');
+const typographyButton = $('typography-btn');
+let typography = { ...typographyDefaults };
+function validTypography(value) {
+  const saved = value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+  return {
+    scale: typographyScales.includes(saved.scale) ? saved.scale : typographyDefaults.scale,
+    font: Object.hasOwn(typographyFonts, saved.font) ? saved.font : typographyDefaults.font,
+    density: Object.hasOwn(typographyDensities, saved.density) ? saved.density : typographyDefaults.density,
+    paper: Object.hasOwn(typographyPapers, saved.paper) ? saved.paper : typographyDefaults.paper,
+  };
+}
+function applyTypography(value, persist = false) {
+  typography = validTypography(value);
+  const root = document.documentElement;
+  root.dataset.readingFont = typography.font;
+  root.dataset.readingDensity = typography.density;
+  root.dataset.readingPaper = typography.paper;
+  root.style.setProperty('--font-scale', String(typography.scale));
+  root.style.setProperty('--reading-line-height', String(typographyDensities[typography.density][0]));
+  root.style.setProperty('--reading-padding-scale', String(typographyDensities[typography.density][1]));
+  const index = typographyScales.indexOf(typography.scale);
+  $('typography-scale').textContent = `${Math.round(typography.scale * 100)}% · ${typographyScaleNames[index]}`;
+  $('typography-decrease').disabled = index === 0;
+  $('typography-increase').disabled = index === typographyScales.length - 1;
+  for (const [id, key] of [['typography-fonts', 'font'], ['typography-densities', 'density'], ['typography-papers', 'paper']]) {
+    $(id).querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.value === typography[key])));
+  }
+  if (persist) { writeStorage(typographyKey, typography); haptic(); updateScrollEdge(); }
+}
+for (const [id, key, options] of [['typography-fonts', 'font', typographyFonts], ['typography-densities', 'density', typographyDensities], ['typography-papers', 'paper', typographyPapers]]) {
+  $(id).innerHTML = Object.entries(options).map(([value, label]) => `<button data-value="${value}" aria-pressed="false"${key === 'font' ? ` class="font-preview-${value}"` : ''}>${key === 'font' ? '<span lang="en" aria-hidden="true">Ag</span>' : key === 'paper' ? `<i class="paper-swatch paper-${value}" aria-hidden="true"></i>` : ''}${Array.isArray(label) ? label[2] : label}</button>`).join('');
+  $(id).onclick = event => {
+    const button = event.target.closest('button[data-value]');
+    if (button && Object.hasOwn(options, button.dataset.value) && typography[key] !== button.dataset.value) applyTypography({ ...typography, [key]: button.dataset.value }, true);
+  };
+}
+function changeTypographyScale(direction) {
+  const index = typographyScales.indexOf(typography.scale) + direction;
+  if (index >= 0 && index < typographyScales.length) applyTypography({ ...typography, scale: typographyScales[index] }, true);
+}
+$('typography-decrease').onclick = () => changeTypographyScale(-1);
+$('typography-increase').onclick = () => changeTypographyScale(1);
+$('typography-reset').onclick = () => applyTypography(typographyDefaults, true);
+applyTypography(readStorage(typographyKey, typographyDefaults));
+
+let typographyClosing = false;
+let typographyFade;
+const typographySpring = createSpring(value => {
+  const presence = Math.max(0, Math.min(1, value / 100));
+  typographyPanel.style.transform = reducedMotion.matches ? 'none' : `translateY(${-8 * (1 - presence)}px) scale(${.96 + .04 * presence})`;
+  typographyPanel.style.opacity = String(presence);
+});
+function settleTypography(open) {
+  typographyClosing = !open;
+  const opacity = Number(getComputedStyle(typographyPanel).opacity);
+  typographyFade?.cancel();
+  typographyPanel.style.willChange = 'transform, opacity';
+  const complete = () => {
+    typographyPanel.style.willChange = '';
+    if (!open && typographyClosing) typographyPanel.close();
+  };
+  if (reducedMotion.matches) {
+    typographySpring.stop();
+    typographyPanel.style.transform = 'none';
+    typographyFade = typographyPanel.animate([{ opacity }, { opacity: open ? 1 : 0 }], { duration: 120, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+    typographyFade.onfinish = () => { typographySpring.jump(open ? 100 : 0); complete(); };
+  } else typographySpring.to(open ? 100 : 0, { complete });
+}
+function openTypography() {
+  if (!typographyPanel.open) {
+    typographyPanel.showModal();
+    typographySpring.jump(0);
+  }
+  typographyButton.setAttribute('aria-expanded', 'true');
+  settleTypography(true);
+}
+function closeTypography() { if (typographyPanel.open) settleTypography(false); }
+typographyButton.onclick = () => typographyPanel.open && !typographyClosing ? closeTypography() : openTypography();
+$('typography-close').onclick = closeTypography;
+$('typography-handle').addEventListener('dblclick', closeTypography);
+typographyPanel.addEventListener('cancel', event => { event.preventDefault(); closeTypography(); });
+let typographyOutsideDown = false;
+function outsideTypography(event) {
+  const rect = typographyPanel.getBoundingClientRect();
+  return event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom;
+}
+typographyPanel.addEventListener('pointerdown', event => { typographyOutsideDown = event.target === typographyPanel && outsideTypography(event); });
+typographyPanel.addEventListener('click', event => {
+  if (typographyOutsideDown && event.target === typographyPanel && outsideTypography(event)) closeTypography();
+  typographyOutsideDown = false;
+});
+typographyPanel.addEventListener('close', () => {
+  typographySpring.stop(); typographyFade?.cancel(); typographyClosing = false; typographyOutsideDown = false;
+  typographyPanel.style.willChange = '';
+  typographyButton.setAttribute('aria-expanded', 'false');
+  typographyButton.focus({ preventScroll: true });
+});
+reducedMotion.addEventListener('change', () => { if (typographyPanel.open) settleTypography(!typographyClosing); });
+
 let scrollFrame = 0;
 function updateScrollEdge() {
   scrollFrame = 0;
@@ -885,7 +993,7 @@ $('study-open').onclick = () => {
 
 window.addEventListener('keydown', event => {
   if (event.isComposing || composing || event.altKey || (event.ctrlKey && event.key !== 'k') || (event.metaKey && event.key !== 'k')) return;
-  if (studyDialog.open) return; // Native focus trap; cancel event animates Escape.
+  if (studyDialog.open || typographyPanel.open) return; // Native focus traps; cancel animates Escape.
   const editable = event.target instanceof Element && event.target.matches('input, select, textarea, [contenteditable="true"]');
   if ((event.key === '/' && !editable) || ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k')) {
     event.preventDefault();

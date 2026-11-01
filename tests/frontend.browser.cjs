@@ -357,6 +357,47 @@ async function find(page, query, word) {
     await page.locator('.word-header [data-speak="available"]').first().click();
     assert.equal(await page.locator('.audio-pill.playing').count(), 0);
   });
+  await runCase('typography scales real reading text, changes density and restores settings across reload', async () => {
+    await ready(page, 'available');
+    const selectors = ['.word-heading', '.phonetic', '.sense-heading h3', '.definition', '.example-en', '.example-zh', '.formula'];
+    const sizes = () => page.evaluate(selectors => selectors.map(selector => parseFloat(getComputedStyle(document.querySelector(selector)).fontSize)), selectors);
+    const original = await sizes();
+    const rowHeight = await page.locator('.word-row').first().evaluate(element => element.getBoundingClientRect().height);
+    await page.locator('#typography-btn').click();
+    await page.locator('#typography-increase').click(); await page.locator('#typography-increase').click();
+    assert.equal(await page.locator('#typography-increase').isDisabled(), true);
+    const enlarged = await sizes();
+    original.forEach((size, index) => assert.ok(Math.abs(enlarged[index] - size * 1.3) < .05, selectors[index]));
+    await page.locator('#typography-fonts [data-value="serif"]').click();
+    assert.match(await page.locator('#detail').evaluate(element => getComputedStyle(element).fontFamily), /Georgia/);
+    await page.locator('#typography-densities [data-value="compact"]').click();
+    const compact = await page.locator('.example-card').first().evaluate(element => parseFloat(getComputedStyle(element).paddingTop));
+    await page.locator('#typography-densities [data-value="spacious"]').click();
+    const spacious = await page.locator('.example-card').first().evaluate(element => parseFloat(getComputedStyle(element).paddingTop));
+    assert.ok(spacious > compact);
+    const leading = await page.locator('.definition').first().evaluate(element => { const css = getComputedStyle(element); return parseFloat(css.lineHeight) / parseFloat(css.fontSize); });
+    assert.ok(Math.abs(leading - 1.85) < .01);
+    await page.locator('#typography-papers [data-value="sepia"]').click();
+    await page.keyboard.press('Escape'); await page.locator('#typography-panel').waitFor({ state: 'hidden' });
+    assert.equal(await page.evaluate(() => document.activeElement.id), 'typography-btn');
+    await page.reload(); await ready(page, 'available');
+    assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('open_lexicon_typography'))), { scale: 1.3, font: 'serif', density: 'spacious', paper: 'sepia' });
+    assert.equal(await page.locator('.word-row').first().evaluate(element => element.getBoundingClientRect().height), rowHeight);
+    for (const theme of ['dark', 'light']) {
+      if (await page.locator('html').getAttribute('data-theme') !== theme) await page.locator('#theme').click();
+      await page.waitForFunction(theme => document.documentElement.dataset.theme === theme, theme);
+      await page.locator('#typography-btn').click();
+      for (const [paper, background, ink] of [['sepia', 'rgb(251, 240, 217)', 'rgb(44, 34, 20)'], ['grey', 'rgb(232, 232, 234)', 'rgb(32, 32, 36)'], ['night', 'rgb(0, 0, 0)', 'rgb(237, 237, 240)']]) {
+        await page.locator(`#typography-papers [data-value="${paper}"]`).click();
+        const colors = await page.locator('#content').evaluate(element => { const css = getComputedStyle(element); return [css.backgroundColor, css.color]; });
+        assert.deepEqual(colors, [background, ink]);
+      }
+      await page.keyboard.press('Escape'); await page.locator('#typography-panel').waitFor({ state: 'hidden' });
+    }
+    await page.locator('#typography-btn').click(); await page.locator('#typography-reset').click();
+    await page.locator('#typography-handle').dblclick(); await page.locator('#typography-panel').waitFor({ state: 'hidden' });
+    assert.deepEqual(await sizes(), original);
+  });
   await runCase('desktop dark theme and mobile navigation without horizontal overflow', async () => {
     await page.locator('#theme').click();
     await page.waitForFunction(() => document.documentElement.dataset.theme === 'dark');
@@ -371,6 +412,13 @@ async function find(page, query, word) {
     assert.equal(await page.locator('#content').isVisible(), true);
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     assert.equal(await page.locator('.deep-grid').evaluate(element => getComputedStyle(element).gridTemplateColumns.split(' ').length), 1);
+    await page.locator('#typography-btn').click();
+    await page.locator('#typography-increase').click(); await page.locator('#typography-increase').click();
+    const panel = await page.locator('#typography-panel').boundingBox();
+    assert.ok(panel.x >= 0 && panel.x + panel.width <= 390 && panel.y + panel.height <= 844);
+    assert.ok(await page.locator('#content').evaluate(element => element.scrollWidth <= element.clientWidth));
+    await page.locator('#typography-reset').click();
+    await page.mouse.click(5, 100); await page.locator('#typography-panel').waitFor({ state: 'hidden' });
     await page.screenshot({ path: path.join(output, 'mobile.png') });
     await page.locator('#back').click();
     assert.equal(await page.locator('.sidebar').isVisible(), true);
