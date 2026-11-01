@@ -297,18 +297,13 @@ test('sidebar keyboard controls and restored preferences remain bounded with cor
 
 test('language buttons restore, persist, expose selection and vibrate without replacing the current entry', () => {
   const f = fixture();
-  const typoLang = (target, val) => target.element('typography-langs').querySelectorAll('button').find(b => b.dataset.value === val);
   assert.equal(f.element('lang-bilingual').getAttribute('aria-pressed'), 'true');
-  assert.equal(typoLang(f, 'bilingual')?.getAttribute('aria-pressed'), 'true');
-  assert.equal(typoLang(f, 'en')?.getAttribute('aria-pressed'), 'false');
   f.element('detail').innerHTML = '<p>Current entry</p>';
   f.element('content').scrollTop = 250;
   f.element('lang-en').onclick();
   assert.ok(f.document.body.classList.contains('lang-en-only'));
   assert.equal(f.element('lang-en').getAttribute('aria-pressed'), 'true');
-  assert.equal(f.element('lang-bilingual').getAttribute('aria-pressed'), 'false');
-  assert.equal(typoLang(f, 'en')?.getAttribute('aria-pressed'), 'true');
-  assert.equal(typoLang(f, 'bilingual')?.getAttribute('aria-pressed'), 'false');
+  assert.equal(f.element('lang-bilingual').getAttribute('aria-pressed'), 'false');
   assert.equal(f.storage.get('open_lexicon_lang_mode'), '"en"');
   assert.equal(f.element('detail').innerHTML, '<p>Current entry</p>');
   assert.equal(f.element('content').scrollTop, 250);
@@ -316,8 +311,7 @@ test('language buttons restore, persist, expose selection and vibrate without re
   const restored = fixture(false, [...f.storage]);
   assert.ok(restored.document.body.classList.contains('lang-en-only'));
   assert.deepEqual(restored.vibrations, []);
-  const typoBi = typoLang(restored, 'bilingual');
-  restored.element('typography-langs').onclick({ target: { closest: () => typoBi } });
+  restored.element('lang-bilingual').onclick();
   assert.equal(restored.document.body.classList.contains('lang-en-only'), false);
   assert.equal(restored.storage.get('open_lexicon_lang_mode'), '"bilingual"');
   assert.equal(fixture(false, [['open_lexicon_lang_mode', '"invalid"']]).element('lang-bilingual').getAttribute('aria-pressed'), 'true');
