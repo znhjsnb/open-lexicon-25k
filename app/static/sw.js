@@ -1,4 +1,4 @@
-const SHELL_CACHE = 'open-lexicon-shell-v3';
+const SHELL_CACHE = 'open-lexicon-shell-v4';
 const SHELL = ['./', './index.html', './styles.css', './app.js', './worker.js', './db.js', './data.js'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(SHELL_CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));

@@ -74,6 +74,65 @@ async function find(page, query, word) {
     report.coldStartup = metrics.startup;
     await page.screenshot({ path: path.join(output, 'desktop.png'), fullPage: true });
   });
+  await runCase('compact sidebar, pointer resizing, bounds, keyboard reset and width persistence', async () => {
+    const density = await page.evaluate(() => {
+      const rect = selector => document.querySelector(selector).getBoundingClientRect();
+      return { width: rect('.sidebar').width, row: rect('.word-row').height, alphabet: rect('#alphabet-bar').height, exams: rect('#filters').height, visibleRows: Math.floor(rect('#word-list').height / rect('.word-row').height) };
+    });
+    assert.equal(density.width, 340); assert.equal(density.row, 52);
+    assert.equal(density.alphabet, 28); assert.equal(density.exams, 30);
+    assert.ok(density.visibleRows >= 12);
+    const handle = page.locator('#resizer');
+    const box = await handle.boundingBox();
+    await page.mouse.move(box.x + box.width / 2, box.y + 40);
+    await page.mouse.down(); await page.mouse.move(box.x + box.width / 2 + 120, box.y + 40); await page.mouse.up();
+    assert.equal(await handle.getAttribute('aria-valuenow'), '460');
+    await page.reload(); await ready(page);
+    assert.equal(await page.locator('.sidebar').evaluate(element => element.getBoundingClientRect().width), 460);
+    await handle.focus(); await page.keyboard.press('End');
+    assert.equal(await handle.getAttribute('aria-valuenow'), '640');
+    await page.keyboard.press('Home'); assert.equal(await handle.getAttribute('aria-valuenow'), '240');
+    await handle.dblclick(); assert.equal(await handle.getAttribute('aria-valuenow'), '340');
+    await page.setViewportSize({ width: 1024, height: 768 });
+    assert.equal(await page.locator('.workspace').evaluate(element => getComputedStyle(element).gridTemplateColumns.split(' ').length), 3);
+    assert.equal(await page.locator('.sidebar').evaluate(element => element.getBoundingClientRect().width), 340);
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    await page.setViewportSize({ width: 1440, height: 1000 });
+  });
+  await runCase('two-letter prefix jumps are strict and compose with exams', async () => {
+    await page.locator('[data-letter="a"]').click();
+    await page.locator('[data-prefix="av"]').waitFor();
+    await page.locator('[data-prefix="av"]').click();
+    await page.waitForFunction(() => window.lexiconMetrics.searches.at(-1)?.prefix === 'av');
+    assert.equal(await page.locator('.word-row').count(), 33);
+    assert.ok(await page.locator('.word-row').evaluateAll(rows => rows.every(row => row.dataset.word.toLowerCase().startsWith('av'))));
+    await page.locator('[data-tag="CET4"]').click();
+    await page.waitForFunction(() => window.lexiconMetrics.searches.at(-1)?.tag === 'CET4');
+    assert.ok(await page.locator('.word-row').evaluateAll(rows => rows.every(row => row.dataset.word.toLowerCase().startsWith('av'))));
+    await page.locator('[data-tag=""]').click();
+    await page.locator('[data-prefix=""]').click();
+    await page.waitForFunction(() => window.lexiconMetrics.searches.at(-1)?.prefix === '' && window.lexiconMetrics.searches.at(-1)?.letter === 'a');
+    await page.locator('[data-letter=""]').click();
+    await page.waitForFunction(() => window.lexiconMetrics.searches.at(-1)?.letter === '');
+    assert.equal(await page.locator('#sub-prefix-bar').isVisible(), false);
+  });
+  await runCase('English mode hides Chinese learning copy and restores after reload and word changes', async () => {
+    await find(page, 'available', 'available');
+    await page.locator('#lang-en').click();
+    assert.equal(await page.locator('#lang-en').getAttribute('aria-pressed'), 'true');
+    assert.equal(await page.locator('.sense-heading h3').first().isVisible(), false);
+    assert.equal(await page.locator('.example-zh').first().isVisible(), false);
+    assert.equal(await page.locator('.definition').first().isVisible(), true);
+    assert.equal(await page.locator('.example-en').first().isVisible(), true);
+    assert.ok(await page.locator('.definition').first().evaluate(element => parseFloat(getComputedStyle(element).fontSize) >= 16));
+    await page.screenshot({ path: path.join(output, 'english-mode.png') });
+    await page.reload(); await ready(page, 'available');
+    assert.equal(await page.locator('body').evaluate(element => element.classList.contains('lang-en-only')), true);
+    await find(page, 'borrow', 'borrow');
+    assert.equal(await page.locator('.example-zh').first().isVisible(), false);
+    await page.locator('#lang-bilingual').click();
+    assert.equal(await page.locator('.example-zh').first().isVisible(), true);
+  });
   await runCase('exact, prefix, typo and Chinese searches', async () => {
     await find(page, 'abandon', 'abandon');
     assert.equal(await page.locator('.sense-card').count(), 5);
@@ -134,15 +193,24 @@ async function find(page, query, word) {
     await page.waitForFunction(() => document.querySelector('.word-heading')?.textContent === 'available' && document.querySelector('#content').getAttribute('aria-busy') === 'false');
     assert.equal(await page.locator('.word-row').count(), 50);
   });
-  await runCase('four expanded dimensions, readable single-column examples and a pinned speaking identity', async () => {
-    assert.equal(await page.locator('#detail > .dimension').count(), 4);
+  await runCase('four expanded dimensions, cohesive senses, compact two-column examples and a pinned speaking identity', async () => {
+    assert.equal(await page.locator('#detail .dimension').count(), 4);
     const type = await page.evaluate(() => {
       const style = selector => getComputedStyle(document.querySelector(selector));
       return { ink: style('body').color, zh: parseFloat(style('.sense-heading h3').fontSize), en: parseFloat(style('.example-en').fontSize), translation: parseFloat(style('.example-zh').fontSize), columns: style('.context-grid').gridTemplateColumns.split(' ').length };
     });
     assert.equal(type.ink, 'rgb(17, 24, 39)');
-    assert.ok(type.zh >= 19 && type.en >= 15 && type.translation >= 14);
-    assert.equal(type.columns, 1);
+    assert.equal(type.zh, 16); assert.ok(type.en >= 14 && type.translation >= 13);
+    assert.equal(type.columns, 2);
+    for (const card of await page.locator('.sense-card').all()) {
+      assert.equal(await card.locator('.definition').count(), 1);
+      assert.equal(await card.locator('.example-card [data-speak]').count(), 1);
+      assert.ok(await card.locator('.collocation').count());
+    }
+    assert.ok(await page.locator('#sense-2').evaluate(element => element.getBoundingClientRect().bottom <= innerHeight));
+    assert.equal(await page.locator('.deep-grid').evaluate(element => getComputedStyle(element).gridTemplateColumns.split(' ').length), 2);
+    await page.locator('[data-sense="2"]').click();
+    await page.waitForFunction(() => document.activeElement?.id === 'sense-2');
     await page.locator('#content').evaluate(element => { element.scrollTop = element.scrollHeight; });
     await page.locator('#toolbar-pinned-word').waitFor({ state: 'visible' });
     assert.equal(await page.locator('.toolbar-word-badge strong').textContent(), 'available');
@@ -232,10 +300,10 @@ async function find(page, query, word) {
       speechSynthesis.cancel = () => {};
       speechSynthesis.speak = utterance => window.__utterances.push(utterance.text);
     });
-    await page.locator('[data-speak="available"]').first().click();
+    await page.locator('.word-header [data-speak="available"]').first().click();
     assert.equal(await page.locator('.audio-pill.playing').count(), 1);
     assert.deepEqual(await page.evaluate(() => window.__utterances), ['available']);
-    await page.locator('[data-speak="available"]').first().click();
+    await page.locator('.word-header [data-speak="available"]').first().click();
     assert.equal(await page.locator('.audio-pill.playing').count(), 0);
   });
   await runCase('desktop dark theme and mobile navigation without horizontal overflow', async () => {
@@ -247,9 +315,11 @@ async function find(page, query, word) {
     await page.waitForFunction(() => document.documentElement.dataset.theme === 'light');
     await page.setViewportSize({ width: 390, height: 844 });
     assert.equal(await page.locator('.sidebar').isVisible(), true);
+    assert.equal(await page.locator('#resizer').isVisible(), false);
     await page.locator('.word-row').first().click();
     assert.equal(await page.locator('#content').isVisible(), true);
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    assert.equal(await page.locator('.deep-grid').evaluate(element => getComputedStyle(element).gridTemplateColumns.split(' ').length), 1);
     await page.screenshot({ path: path.join(output, 'mobile.png') });
     await page.locator('#back').click();
     assert.equal(await page.locator('.sidebar').isVisible(), true);

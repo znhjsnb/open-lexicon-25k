@@ -9,7 +9,7 @@ const detail = $('detail');
 const pinnedWord = $('toolbar-pinned-word');
 const studyDialog = $('study');
 const metrics = window.lexiconMetrics = { startup: {}, searches: [], details: [] };
-const state = { ready: false, query: '', letter: '', tag: '', pos: '', savedOnly: false, offset: 0, total: 0, results: [], appending: false, pendingNavigation: '', selected: null, selectedKey: '', requestId: 0, selectionId: 0, studyId: 0, study: [], cardIndex: 0, flipped: false, studyDone: false };
+const state = { ready: false, query: '', letter: '', prefix: '', prefixes: {}, tag: '', pos: '', savedOnly: false, offset: 0, total: 0, results: [], appending: false, pendingNavigation: '', selected: null, selectedKey: '', requestId: 0, selectionId: 0, studyId: 0, study: [], cardIndex: 0, flipped: false, studyDone: false };
 let worker;
 let toastTimer;
 let speechButton;
@@ -44,7 +44,9 @@ function posClass(value) {
 }
 const speaker = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 5 10H2v4h3l6 5V5Z"/><path d="M15 8c3 2 3 6 0 8m3-11c5 4 5 10 0 14"/></svg>';
 function audioButton(text, label, light = false, lang = 'en-US') {
-  return `<button class="audio-pill${light ? ' light' : ''}" data-speak="${escapeHtml(text)}" data-lang="${lang}" aria-label="${escapeHtml(label)}">${speaker}<span>${escapeHtml(label)}</span><span class="wave" aria-hidden="true"><span></span><span></span><span></span></span></button>`;
+  const englishLabel = ({ 英音: 'UK', 美音: 'US', 听例句: 'Listen' })[label];
+  const caption = englishLabel ? `<span class="label-zh">${escapeHtml(label)}</span><span class="label-en" lang="en">${englishLabel}</span>` : `<span>${escapeHtml(label)}</span>`;
+  return `<button class="audio-pill${light ? ' light' : ''}" data-speak="${escapeHtml(text)}" data-lang="${lang}" aria-label="${escapeHtml(label)}">${speaker}${caption}<span class="wave" aria-hidden="true"><span></span><span></span><span></span></span></button>`;
 }
 function highlighted(text, word) {
   // Literal matching, never interpolate a headword into an unescaped RegExp.
@@ -65,6 +67,64 @@ function haptic() {
 }
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+// Direct manipulation changes layout without a width animation or delayed tracking.
+const resizer = $('resizer');
+const sidebarWidthKey = 'open_lexicon_sidebar_width';
+let sidebarWidth = 340;
+let resizeGrab;
+function setSidebarWidth(value, persist = false) {
+  sidebarWidth = Math.round(Math.max(240, Math.min(640, Number.isFinite(value) ? value : 340)));
+  document.documentElement.style.setProperty('--sidebar-width', `${sidebarWidth}px`);
+  resizer.setAttribute('aria-valuenow', sidebarWidth);
+  resizer.setAttribute('aria-valuetext', `${sidebarWidth} 像素`);
+  if (persist) writeStorage(sidebarWidthKey, sidebarWidth);
+}
+resizer.setAttribute('aria-valuemin', '240');
+resizer.setAttribute('aria-valuemax', '640');
+const storedSidebarWidth = readStorage(sidebarWidthKey, 340);
+setSidebarWidth(typeof storedSidebarWidth === 'number' ? storedSidebarWidth : 340);
+resizer.addEventListener('pointerdown', event => {
+  if (!event.isPrimary || event.button !== 0) return;
+  event.preventDefault();
+  resizeGrab = { id: event.pointerId, x: event.clientX, width: sidebarWidth };
+  resizer.setPointerCapture(event.pointerId);
+  resizer.focus({ preventScroll: true });
+  document.body.classList.add('resizing');
+});
+resizer.addEventListener('pointermove', event => {
+  if (resizeGrab?.id !== event.pointerId) return;
+  setSidebarWidth(resizeGrab.width + event.clientX - resizeGrab.x);
+});
+function finishResize(event) {
+  if (resizeGrab?.id !== event.pointerId) return;
+  resizeGrab = undefined;
+  document.body.classList.remove('resizing');
+  if (resizer.hasPointerCapture(event.pointerId)) resizer.releasePointerCapture(event.pointerId);
+  writeStorage(sidebarWidthKey, sidebarWidth);
+  updateScrollEdge();
+}
+for (const name of ['pointerup', 'pointercancel', 'lostpointercapture']) resizer.addEventListener(name, finishResize);
+resizer.addEventListener('dblclick', () => { setSidebarWidth(340, true); updateScrollEdge(); });
+resizer.addEventListener('keydown', event => {
+  const step = event.shiftKey ? 40 : 10;
+  const next = { ArrowLeft: sidebarWidth - step, ArrowRight: sidebarWidth + step, Home: 240, End: 640, Enter: 340 }[event.key];
+  if (next === undefined) return;
+  event.preventDefault();
+  setSidebarWidth(next, true);
+  updateScrollEdge();
+});
+
+function setLangMode(mode, persist = false) {
+  const english = mode === 'en';
+  document.body.classList.toggle('lang-en-only', english);
+  $('lang-bilingual').setAttribute('aria-pressed', String(!english));
+  $('lang-en').setAttribute('aria-pressed', String(english));
+  if (persist) { writeStorage('open_lexicon_lang_mode', english ? 'en' : 'bilingual'); haptic(); updateScrollEdge(); }
+}
+setLangMode(readStorage('open_lexicon_lang_mode', 'bilingual'));
+$('lang-bilingual').onclick = () => setLangMode('bilingual', true);
+$('lang-en').onclick = () => setLangMode('en', true);
 // Integrate a damped spring from its live position AND velocity. Retargeting never
 // restarts a scripted transition. Substeps keep the physics stable on slow frames.
 function createSpring(paint, { damping = 1, response = .3 } = {}) {
@@ -154,8 +214,29 @@ $('filters').onclick = event => {
 };
 function setLetter(letter) {
   state.letter = letter;
+  state.prefix = '';
   $('alphabet-bar').querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.letter === letter)));
+  renderPrefixes();
+  $('sub-prefix-bar').scrollLeft = 0;
 }
+function renderPrefixes() {
+  const bar = $('sub-prefix-bar');
+  const wasHidden = bar.hidden;
+  bar.hidden = !state.letter;
+  bar.innerHTML = state.letter ? ['', ...(state.prefixes[state.letter] || [])].map(prefix => `<button class="prefix-button" data-prefix="${escapeHtml(prefix)}" aria-pressed="${state.prefix === prefix}">${escapeHtml(prefix || '全部')}</button>`).join('') : '';
+  if (wasHidden && !bar.hidden) {
+    bar.scrollLeft = 0;
+    bar.animate([{ opacity: 0, transform: reducedMotion.matches ? 'none' : 'translateY(-4px)' }, { opacity: 1, transform: 'none' }], { duration: reducedMotion.matches ? 120 : 180, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+  }
+}
+$('sub-prefix-bar').onclick = event => {
+  const button = event.target.closest('[data-prefix]');
+  if (!button || !state.letter) return;
+  state.prefix = button.dataset.prefix;
+  $('sub-prefix-bar').querySelectorAll('button').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+  searchInput.value = '';
+  requestSearch(true);
+};
 $('alphabet-bar').innerHTML = ['', ...'abcdefghijklmnopqrstuvwxyz'].map(letter => `<button class="alphabet-button" data-letter="${letter}" aria-label="${letter ? `${letter.toUpperCase()} 开头的词` : '全部字母'}" aria-pressed="${!letter}">${letter.toUpperCase() || '全部'}</button>`).join('');
 $('alphabet-bar').onclick = event => {
   const button = event.target.closest('[data-letter]');
@@ -238,6 +319,8 @@ function startWorker() {
     worker.onmessage = ({ data }) => {
       if (data.type === 'ready') {
         state.ready = true;
+        state.prefixes = data.prefixes || {};
+        renderPrefixes();
         metrics.startup.indexReady = performance.now();
         metrics.startup.workerInit = data.elapsed;
         metrics.startup.indexFromCache = data.fromCache;
@@ -257,7 +340,7 @@ function startWorker() {
         state.total = data.total;
         renderList(data, append);
         if (listHadFocus) list.focus({ preventScroll: true });
-        pushMetric('searches', { query: state.query, letter: state.letter, tag: state.tag, offset: data.offset, appended: append, total: data.total, worker: data.elapsed, endToEnd: performance.now() - searchStarted });
+        pushMetric('searches', { query: state.query, letter: state.letter, prefix: state.prefix, tag: state.tag, offset: data.offset, appended: append, total: data.total, worker: data.elapsed, endToEnd: performance.now() - searchStarted });
         if (append) {
           if (navigateFrom && navigateFrom === state.selectedKey && state.results[previousLength]) selectWord(state.results[previousLength].w, false);
           else markSelected(false);
@@ -296,7 +379,7 @@ function requestSearch(reset = false) {
   $('list-status').textContent = reset ? '正在检索…' : `已载入 ${state.results.length.toLocaleString()} / ${state.total.toLocaleString()} 词 · 正在加载…`;
   searchStarted = performance.now();
   if (!state.ready) return;
-  worker.postMessage({ type: 'search', requestId: state.requestId, query: state.query, letter: state.letter, tag: state.tag, pos: state.pos, offset: state.offset, bookmarks: state.savedOnly ? [...bookmarks] : null });
+  worker.postMessage({ type: 'search', requestId: state.requestId, query: state.query, letter: state.letter, prefix: state.prefix, tag: state.tag, pos: state.pos, offset: state.offset, bookmarks: state.savedOnly ? [...bookmarks] : null });
 }
 let composing = false;
 searchInput.addEventListener('compositionstart', () => { composing = true; });
@@ -412,20 +495,24 @@ async function selectWord(word, openMobile = false) {
 }
 function renderDetail(entry) {
   const tags = normalizeTags(entry.tags);
-  // Pull out an existing formula only; never invent a morphological split.
+  // Emphasize existing source formulas; never invent a morphological split.
   const formula = String(entry.morphology_zh || '').match(/[A-Za-z][A-Za-z -]*(?:\s*\+\s*[-A-Za-z]+)+\s*→\s*[^；。\n]+/)?.[0];
-  const dimensionHeading = (number, title, caption) => `<div class="dimension-heading"><span class="dimension-number">要素${number}</span><div><h2>${title}</h2><p>${caption}</p></div></div>`;
+  const label = (zh, en) => `<span class="label-zh">${zh}</span><span class="label-en" lang="en">${en}</span>`;
+  const dimensionHeading = (number, title, en) => `<div class="dimension-heading"><span class="dimension-number">${label(`要素${number}`, ({ 一: '01', 二: '02', 三: '03', 四: '04' })[number])}</span><h2>${label(title, en)}</h2></div>`;
   pinnedWord.innerHTML = `<span class="toolbar-word-badge"><strong lang="en">${escapeHtml(entry.word)}</strong><span class="pinned-phonetic">${escapeHtml(phonetic(entry.phonetic))}</span></span><span class="pinned-audio">${audioButton(entry.word, '英音', false, 'en-GB')}${audioButton(entry.word, '美音', true)}</span>`;
   pinnedWord.hidden = true;
-  detail.innerHTML = `<header class="word-header"><p class="entry-kicker">词语档案 · ENGLISH–CHINESE</p><div class="word-headline"><h1 class="word-heading" lang="en">${escapeHtml(entry.word)}</h1></div><div class="pronunciations"><span class="phonetic">${escapeHtml(phonetic(entry.phonetic))}</span>${audioButton(entry.word, '英音', false, 'en-GB')}${audioButton(entry.word, '美音', true)}</div><div class="tag-line">${tags.map(tag => `<span class="exam-tag ${tag.startsWith('CEFR') ? 'cefr-tag' : ''}">${escapeHtml(tag)}</span>`).join('')}</div></header>
-    <section class="dimension core-definitions" aria-label="要素一：核心释义与多词性">${dimensionHeading('一', '核心释义与多词性', `${entry.senses.length} 个义项 · 中文抓住核心，英文读懂用法`)}${entry.senses.map((sense, index) => `<section class="sense-card"><div class="sense-heading"><span class="sense-number">${String(index + 1).padStart(2, '0')}</span><span class="pos-tag ${posClass(sense.pos)}">${escapeHtml(sense.pos)}</span><h3>${escapeHtml(sense.meaning_zh)}</h3></div><p class="definition" lang="en">${escapeHtml(sense.english_definition)}</p></section>`).join('')}</section>
-    <section class="dimension real-scenarios" aria-label="要素二：双场景例句与高频搭配">${dimensionHeading('二', '双场景例句与高频搭配', '跟着例句听读，用场景搭配练习表达')}${entry.senses.map((sense, index) => {
+  detail.innerHTML = `<header class="word-header"><div class="word-headline"><h1 class="word-heading" lang="en">${escapeHtml(entry.word)}</h1><div class="pronunciations"><span class="phonetic">${escapeHtml(phonetic(entry.phonetic))}</span>${audioButton(entry.word, '英音', false, 'en-GB')}${audioButton(entry.word, '美音', true)}</div></div><div class="tag-line">${tags.map(tag => `<span class="exam-tag ${tag.startsWith('CEFR') ? 'cefr-tag' : ''}">${escapeHtml(tag)}</span>`).join('')}</div>
+    <nav class="sense-quick-chips" aria-label="义项速览">${entry.senses.map((sense, index) => `<button class="sense-chip" data-sense="${index + 1}"><span>${String(index + 1).padStart(2, '0')}</span> ${label(escapeHtml(sense.meaning_zh), escapeHtml(sense.english_definition || posName(sense.pos)))}</button>`).join('')}</nav></header>
+    <section class="sense-learning" aria-label="释义、例句与搭配"><div class="learning-headings"><div class="dimension core-definitions">${dimensionHeading('一', '释义与定义', 'Meaning & definition')}</div><div class="dimension real-scenarios">${dimensionHeading('二', '例句与搭配', 'Examples & collocations')}</div></div>
+    ${entry.senses.map((sense, index) => {
       const collocations = String(sense.collocation_en || '').split(/\s*[;；]\s*/).filter(Boolean);
       const translations = String(sense.collocation_zh || '').split(/\s*[;；]\s*/);
-      return `<section class="scenario-card"><div class="scenario-heading"><span class="sense-number">义项 ${String(index + 1).padStart(2, '0')}</span><span class="pos-tag ${posClass(sense.pos)}">${escapeHtml(posName(sense.pos))}</span><h3>${escapeHtml(sense.meaning_zh)}</h3></div><div class="context-grid">${sense.sentence_en ? `<div class="example-card"><div class="example-heading"><span>场景例句</span>${audioButton(sense.sentence_en, '听例句')}</div><p class="example-en" lang="en">${highlighted(sense.sentence_en, entry.word)}</p><p class="example-zh">${escapeHtml(sense.sentence_zh)}</p></div>` : ''}${collocations.length ? `<div class="collocations"><h4>高频搭配</h4>${collocations.map((phrase, i) => `<div class="collocation"><p class="example-en" lang="en">${highlighted(phrase, entry.word)}</p><p class="example-zh">${escapeHtml(translations[i] || '')}</p></div>`).join('')}</div>` : ''}</div></section>`;
+      const pos = posName(sense.pos);
+      return `<section id="sense-${index + 1}" class="sense-card" tabindex="-1" aria-label="Sense ${index + 1}"><div class="sense-heading"><span class="sense-number">${String(index + 1).padStart(2, '0')}</span><span class="pos-tag ${posClass(sense.pos)}">${escapeHtml(pos)}<span class="zh-content">${escapeHtml(String(sense.pos || '').slice(pos.length))}</span></span><h3 class="zh-content">${escapeHtml(sense.meaning_zh)}</h3></div><p class="definition" lang="en">${escapeHtml(sense.english_definition)}</p>
+      <div class="context-grid">${sense.sentence_en ? `<div class="example-card"><div class="example-heading"><span>${label('场景例句', 'Example')}</span>${audioButton(sense.sentence_en, '听例句')}</div><p class="example-en" lang="en">${highlighted(sense.sentence_en, entry.word)}</p><p class="example-zh zh-content">${escapeHtml(sense.sentence_zh)}</p></div>` : ''}${collocations.length ? `<div class="collocations"><h4>${label('高频搭配', 'Collocations')}</h4>${collocations.map((phrase, i) => `<div class="collocation"><p class="example-en" lang="en">${highlighted(phrase, entry.word)}</p><p class="example-zh zh-content">${escapeHtml(translations[i] || '')}</p></div>`).join('')}</div>` : ''}</div></section>`;
     }).join('')}</section>
-    <section class="dimension deep-card morphology" aria-label="要素三：现代公式化构词">${dimensionHeading('三', '现代公式化构词', '看懂构词联系，串起派生词族')}${formula ? `<p class="formula" lang="en">${escapeHtml(formula)}</p>` : ''}${String(entry.morphology_zh || '暂无构词说明').split(/(?=常用词族[：:]|派生词族?[：:]|复合词[：:])/u).map(text => `<p class="deep-copy">${escapeHtml(text)}</p>`).join('')}</section>
-    <section class="dimension deep-card etymology" aria-label="要素四：词源故事与高效记忆">${dimensionHeading('四', '词源故事与高效记忆', '沿着词的来处，找到记忆线索')}<p class="deep-copy">${escapeHtml(entry.etymology_zh || '暂无词源说明')}</p></section>`;
+    <div class="deep-grid"><section class="dimension deep-card morphology" aria-label="要素三：现代公式化构词">${dimensionHeading('三', '现代公式化构词', 'Word formation')}${formula ? `<p class="formula${/[\u3400-\u9fff]/.test(formula) ? ' zh-content' : ''}">${escapeHtml(formula)}</p>` : ''}${String(entry.morphology_zh || '暂无构词说明').split(/(?=常用词族[：:]|派生词族?[：:]|复合词[：:])/u).map(text => `<p class="deep-copy zh-content">${escapeHtml(text)}</p>`).join('')}<p class="label-en source-note" lang="en">Word formation notes are available in bilingual mode.</p></section>
+    <section class="dimension deep-card etymology" aria-label="要素四：词源故事与高效记忆">${dimensionHeading('四', '词源故事', 'Word origin')}<p class="deep-copy zh-content">${escapeHtml(entry.etymology_zh || '暂无词源说明')}</p><p class="label-en source-note" lang="en">Origin notes are available in bilingual mode.</p></section></div>`;
 }
 
 function stopSpeech() {
@@ -463,7 +550,16 @@ function speak(button) {
   utterance.onerror = event => { finish(); if (!['canceled', 'interrupted'].includes(event.error)) toast('暂时无法朗读，请检查设备的英语语音包'); };
   speechSynthesis.speak(utterance);
 }
-detail.onclick = event => { const button = event.target.closest('[data-speak]'); if (button) speak(button); };
+detail.onclick = event => {
+  const button = event.target.closest('[data-speak]');
+  if (button) { speak(button); return; }
+  const chip = event.target.closest('[data-sense]');
+  if (chip) {
+    const sense = $(`sense-${chip.dataset.sense}`);
+    sense?.scrollIntoView({ block: 'start', behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+    sense?.focus({ preventScroll: true });
+  }
+};
 pinnedWord.onclick = detail.onclick;
 window.addEventListener('pagehide', stopSpeech);
 $('copy').onclick = async () => {

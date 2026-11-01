@@ -40,6 +40,7 @@ function search(message) {
   const candidates = [];
   for (const entry of entries) {
     if (message.letter && !entry.key.startsWith(message.letter)) continue;
+    if (message.prefix && !entry.key.startsWith(message.prefix)) continue;
     if (message.tag && !entry.t.includes(message.tag)) continue;
     if (message.pos && !entry.s.some(sense => sense.p.split(/\s/)[0] === message.pos)) continue;
     if (saved && !saved.has(entry.key)) continue;
@@ -86,7 +87,14 @@ async function initialize() {
     if (!Array.isArray(data) || !data.length || !data.every(entry => typeof entry.w === 'string' && Array.isArray(entry.s))) throw new Error('词库索引格式不正确');
     entries = data.map(entry => ({ ...entry, t: normalizeTags(entry.t), key: entry.w.toLowerCase(), zh: entry.s.map(s => s.m).join('\n') }));
     if (cache && !fromCache) { try { await cache.put(url, copy); persistent = true; } catch { /* quota must not block search */ } }
-    postMessage({ type: 'ready', total: entries.length, elapsed: performance.now() - started, fromCache, persistent });
+    // Generate from the complete index, never from a truncated result page.
+    const prefixSets = {};
+    for (const entry of entries) {
+      if (!/^[a-z]{2}/.test(entry.key)) continue;
+      (prefixSets[entry.key[0]] ??= new Set()).add(entry.key.slice(0, 2));
+    }
+    const prefixes = Object.fromEntries(Object.entries(prefixSets).map(([letter, values]) => [letter, [...values].sort()]));
+    postMessage({ type: 'ready', total: entries.length, prefixes, elapsed: performance.now() - started, fromCache, persistent });
     if (pending) { search(pending); pending = null; }
   } catch (error) {
     // A damaged cached response must not make every subsequent retry fail.

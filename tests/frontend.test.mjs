@@ -19,6 +19,7 @@ let failWrites = false;
 let base;
 let server;
 let db;
+let prefixes;
 const report = { environment: `Node ${process.version}; ${process.arch}; module checks, not browser`, cpu: cpus()[0]?.model, scale: index.length, queries: [] };
 
 before(async () => {
@@ -96,6 +97,7 @@ test('loads all 25,006 entries asynchronously and runs only the latest queued se
   const ready = await waitForMessage('ready');
   assert.equal(ready.total, 25006);
   assert.equal(ready.fromCache, false);
+  prefixes = ready.prefixes;
   report.initialization = ready.elapsed;
   const result = await waitForMessage('results');
   assert.equal(result.requestId, 101);
@@ -157,6 +159,35 @@ test('alphabet prefix filtering reaches every letter and composes with search, e
   assert.equal(search('available', { letter: 'z' }).total, 0);
 });
 
+test('complete two-letter catalogue is derived from all words and every prefix strictly filters and paginates', () => {
+  const expected = new Map();
+  for (const entry of index) {
+    const key = entry.w.toLowerCase();
+    if (!/^[a-z]{2}/.test(key)) continue;
+    const prefix = key.slice(0, 2);
+    if (!expected.has(prefix)) expected.set(prefix, []);
+    expected.get(prefix).push(entry);
+  }
+  assert.deepEqual(Object.values(prefixes).flat().sort(), [...expected.keys()].sort());
+  for (const [letter, values] of Object.entries(prefixes)) {
+    assert.deepEqual(values, [...values].sort());
+    for (const prefix of values) {
+      assert.ok(prefix.startsWith(letter));
+      const result = search('', { letter, prefix });
+      const matches = expected.get(prefix);
+      assert.equal(result.total, matches.length, prefix);
+      assert.deepEqual(result.results.map(entry => entry.id), matches.slice(0, 50).map(entry => entry.id));
+      if (matches.length > 50) assert.equal(search('', { letter, prefix, offset: 50 }).results[0].id, matches[50].id);
+    }
+  }
+  const combined = search('available', { letter: 'a', prefix: 'av', tag: 'CET4', pos: 'adj.', bookmarks: ['available', 'abandon'] });
+  assert.deepEqual(combined.results.map(entry => entry.w), ['available']);
+  assert.equal(search('available', { letter: 'a', prefix: 'ab' }).total, 0);
+  assert.equal(search('', { letter: 'b', prefix: 'av' }).total, 0);
+  assert.equal(search('', { letter: 'a', prefix: 'av', bookmarks: [] }).total, 0);
+  report.prefixCatalogue = { count: expected.size, avWords: expected.get('av').length, largestGroup: Math.max(...[...expected.values()].map(entries => entries.length)) };
+});
+
 test('daily study is deterministic, filtered and capped, with valid empty decks', () => {
   function deck(tag = '', daily = false) {
     self.onmessage({ data: { type: 'study', tag, daily, day: 20758, requestId: 2 } });
@@ -177,6 +208,7 @@ test('cached index works with the network unavailable', async () => {
   self.onmessage({ data: { type: 'init' } });
   const ready = await waitForMessage('ready');
   assert.equal(ready.fromCache, true);
+  assert.deepEqual(ready.prefixes, prefixes);
   assert.equal(fetchCount, before);
   assert.equal(search('borrow').results[0].w, 'borrow');
   failNetwork = false;

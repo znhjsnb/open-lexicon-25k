@@ -7,10 +7,10 @@ import vm from 'node:vm';
 
 const source = await fs.readFile(new URL('../app/static/app.js', import.meta.url), 'utf8');
 
-function fixture(reduce = false) {
+function fixture(reduce = false, stored = []) {
   let now = 0, serial = 0;
   const frames = new Map(), timers = new Map(), animations = new Set(), elements = new Map();
-  const vibrations = [], storage = new Map(), workers = [];
+  const vibrations = [], storage = new Map(stored), workers = [];
   let document;
   const later = (fn, delay = 0) => { const id = ++serial; timers.set(id, { fn, due: now + delay }); return id; };
   class Element {
@@ -30,6 +30,14 @@ function fixture(reduce = false) {
       this.html = html;
       this.rows = [];
       this.appendRows(html);
+      this.buttons = [...html.matchAll(/<button\b([^>]*)>/g)].map((match, i) => {
+        const button = new Element(`${this.id}-button-${i}`);
+        for (const attr of match[1].matchAll(/([\w-]+)="([^"]*)"/g)) {
+          button.setAttribute(attr[1], attr[2]);
+          if (attr[1].startsWith('data-')) button.dataset[attr[1].slice(5)] = attr[2];
+        }
+        return button;
+      });
     }
     get innerHTML() { return this.html || ''; }
     appendRows(html) {
@@ -48,7 +56,7 @@ function fixture(reduce = false) {
       this.events.get(name)?.forEach(fn => fn(event)); return event;
     }
     querySelector(selector) { if (!this.children.has(selector)) this.children.set(selector, new Element(selector)); return this.children.get(selector); }
-    querySelectorAll(selector) { return selector === '[data-word]' ? this.rows : []; }
+    querySelectorAll(selector) { return selector === '[data-word]' ? this.rows : selector === 'button' ? (this.buttons || []) : []; }
     get lastElementChild() { return this.querySelector('last'); }
     getBoundingClientRect() { return this.rect || { left: 800, top: 12, right: 1280, bottom: 900, width: 480, height: 888 }; }
     getClientRects() { return [this.getBoundingClientRect()]; }
@@ -224,6 +232,96 @@ test('entry renderer keeps every sense, definition, sentence, scenario, formula 
   assert.doesNotMatch(html, /<details|<summary|aria-expanded|\shidden[\s=>]/);
   assert.equal((html.match(/class="dimension /g) || []).length, 4);
   for (const number of ['一', '二', '三', '四']) assert.ok(html.includes(`要素${number}`));
+  const cards = html.split(/<section id="sense-\d+"/).slice(1);
+  assert.equal(cards.length, 2);
+  cards.forEach((card, i) => {
+    for (const text of [`释义${i + 1}`, `Definition ${i + 1}`, `例句${i + 1}`, `场景A${i + 1}`, `场景B${i + 1}`, '听例句']) assert.ok(card.includes(text), text);
+    assert.match(card, /class="example-zh zh-content"/);
+  });
+  assert.equal((html.match(/data-sense="/g) || []).length, 2);
+});
+
+test('sidebar pointer resizing clamps, ignores other pointers, persists once and cleans up cancellation', () => {
+  const f = fixture(); const handle = f.element('resizer');
+  assert.equal(handle.getAttribute('aria-valuenow'), '340');
+  const pointer = (name, x, id = 7) => handle.dispatch(name, { clientX: x, pointerId: id, button: 0, isPrimary: true });
+  pointer('pointermove', 500); // Hover is harmless.
+  pointer('pointerdown', 340);
+  assert.ok(f.document.body.classList.contains('resizing'));
+  pointer('pointermove', 550, 8);
+  assert.equal(handle.getAttribute('aria-valuenow'), '340');
+  pointer('pointermove', 1400);
+  assert.equal(handle.getAttribute('aria-valuenow'), '640');
+  assert.equal(f.storage.has('open_lexicon_sidebar_width'), false);
+  pointer('pointermove', 0);
+  assert.equal(handle.getAttribute('aria-valuenow'), '240');
+  pointer('pointermove', 420); pointer('pointercancel', 420);
+  assert.equal(f.storage.get('open_lexicon_sidebar_width'), '420');
+  assert.equal(handle.hasPointerCapture(7), false);
+  assert.equal(f.document.body.classList.contains('resizing'), false);
+  pointer('pointermove', 500);
+  assert.equal(handle.getAttribute('aria-valuenow'), '420');
+  handle.dispatch('dblclick');
+  assert.equal(f.document.documentElement.style['--sidebar-width'], '340px');
+  assert.equal(f.storage.get('open_lexicon_sidebar_width'), '340');
+  pointer('pointerdown', 340); pointer('pointermove', 380); pointer('lostpointercapture', 380);
+  assert.equal(f.storage.get('open_lexicon_sidebar_width'), '380');
+  assert.equal(f.document.body.classList.contains('resizing'), false);
+});
+
+test('sidebar keyboard controls and restored preferences remain bounded with corrupt or denied storage', () => {
+  const f = fixture(false, [['open_lexicon_sidebar_width', '500']]);
+  const handle = f.element('resizer');
+  assert.equal(handle.getAttribute('aria-valuenow'), '500');
+  assert.equal(handle.dispatch('keydown', { key: 'ArrowLeft' }).defaultPrevented, true);
+  assert.equal(handle.getAttribute('aria-valuenow'), '490');
+  handle.dispatch('keydown', { key: 'ArrowRight', shiftKey: true });
+  assert.equal(handle.getAttribute('aria-valuenow'), '530');
+  for (const [key, expected] of [['Home', '240'], ['End', '640'], ['Enter', '340']]) {
+    handle.dispatch('keydown', { key }); assert.equal(handle.getAttribute('aria-valuenow'), expected);
+  }
+  for (const [stored, expected] of [['9999', '640'], ['0', '240'], ['"oops"', '340'], ['{}', '340'], ['broken', '340']]) {
+    assert.equal(fixture(false, [['open_lexicon_sidebar_width', stored]]).element('resizer').getAttribute('aria-valuenow'), expected);
+  }
+  f.context.localStorage.setItem = () => { throw new Error('quota'); };
+  assert.doesNotThrow(() => handle.dispatch('keydown', { key: 'ArrowRight' }));
+  assert.equal(handle.getAttribute('aria-valuenow'), '350');
+});
+
+test('language buttons restore, persist, expose selection and vibrate without replacing the current entry', () => {
+  const f = fixture();
+  assert.equal(f.element('lang-bilingual').getAttribute('aria-pressed'), 'true');
+  f.element('detail').innerHTML = '<p>Current entry</p>';
+  f.element('content').scrollTop = 250;
+  f.element('lang-en').onclick();
+  assert.ok(f.document.body.classList.contains('lang-en-only'));
+  assert.equal(f.element('lang-en').getAttribute('aria-pressed'), 'true');
+  assert.equal(f.element('lang-bilingual').getAttribute('aria-pressed'), 'false');
+  assert.equal(f.storage.get('open_lexicon_lang_mode'), '"en"');
+  assert.equal(f.element('detail').innerHTML, '<p>Current entry</p>');
+  assert.equal(f.element('content').scrollTop, 250);
+  assert.deepEqual(f.vibrations, [[8]]);
+  const restored = fixture(false, [...f.storage]);
+  assert.ok(restored.document.body.classList.contains('lang-en-only'));
+  assert.deepEqual(restored.vibrations, []);
+  restored.element('lang-bilingual').onclick();
+  assert.equal(restored.document.body.classList.contains('lang-en-only'), false);
+  assert.equal(restored.storage.get('open_lexicon_lang_mode'), '"bilingual"');
+  assert.equal(fixture(false, [['open_lexicon_lang_mode', '"invalid"']]).element('lang-bilingual').getAttribute('aria-pressed'), 'true');
+  restored.context.localStorage.setItem = () => { throw new Error('quota'); };
+  assert.doesNotThrow(() => restored.element('lang-en').onclick());
+});
+
+test('sense quick chips move focus to their own learning unit and renderer escapes source text', () => {
+  const f = fixture();
+  f.ui.renderDetail({ word: '<test>', tags: [], senses: [{ pos: 'n.', meaning_zh: '<script>', english_definition: 'A & B', sentence_en: 'a <test>', sentence_zh: '译文' }] });
+  assert.doesNotMatch(f.element('detail').innerHTML, /<script>/);
+  assert.match(f.element('detail').innerHTML, /&lt;script&gt;/);
+  assert.match(f.element('detail').innerHTML, /A &amp; B/);
+  const chip = f.element('sense-chip'); chip.dataset.sense = '1';
+  f.element('detail').onclick({ target: { closest: selector => selector === '[data-sense]' ? chip : null } });
+  assert.equal(f.document.activeElement, f.element('sense-1'));
+  assert.equal(f.element('sense-1').scrollCalls, 1);
 });
 
 function searchSession(f, total = 125) {
@@ -237,6 +335,36 @@ function searchSession(f, total = 125) {
   worker.reply(batch(0));
   return { worker, batch };
 }
+
+test('two-letter jumps reset pagination, retain other filters and discard stale replies; changing letters clears the prefix', () => {
+  const f = fixture(); const { worker, batch } = searchSession(f);
+  worker.reply({ type: 'ready', total: 125, elapsed: 1, prefixes: { a: ['ab', 'ac', 'av'], b: ['ba', 'bo'] } });
+  const alphabet = f.element('alphabet-bar');
+  const clickLetter = letter => alphabet.onclick({ target: { closest: () => alphabet.buttons.find(button => button.dataset.letter === letter) } });
+  clickLetter('a');
+  assert.equal(f.element('sub-prefix-bar').hidden, false);
+  assert.deepEqual(f.element('sub-prefix-bar').buttons.map(button => button.dataset.prefix), ['', 'ab', 'ac', 'av']);
+  assert.equal(alphabet.buttons.find(button => button.dataset.letter === 'a').getAttribute('aria-pressed'), 'true');
+  const stale = batch(50);
+  f.ui.state.tag = 'CET4'; f.ui.state.pos = 'adj.'; f.ui.state.savedOnly = true;
+  f.element('search').value = 'old'; f.element('word-list').scrollTop = 600;
+  const prefixBar = f.element('sub-prefix-bar');
+  const clickPrefix = prefix => prefixBar.onclick({ target: { closest: () => prefixBar.buttons.find(button => button.dataset.prefix === prefix) } });
+  clickPrefix('av');
+  const message = worker.messages.at(-1);
+  assert.equal(message.prefix, 'av'); assert.equal(message.letter, 'a');
+  assert.equal(message.query, ''); assert.equal(message.offset, 0);
+  assert.equal(message.tag, 'CET4'); assert.equal(message.pos, 'adj.');
+  assert.deepEqual([...message.bookmarks], []);
+  assert.equal(f.element('word-list').scrollTop, 0);
+  assert.equal(prefixBar.buttons.find(button => button.dataset.prefix === 'av').getAttribute('aria-pressed'), 'true');
+  worker.reply(stale); assert.equal(f.element('word-list').rows.length, 50);
+  clickPrefix(''); assert.equal(worker.messages.at(-1).prefix, ''); assert.equal(worker.messages.at(-1).letter, 'a');
+  clickPrefix('av'); clickLetter('b');
+  assert.equal(worker.messages.at(-1).prefix, '');
+  assert.deepEqual(prefixBar.buttons.map(button => button.dataset.prefix), ['', 'ba', 'bo']);
+  clickLetter(''); assert.equal(prefixBar.hidden, true);
+});
 
 test('infinite scrolling appends once, preserves rows, scroll position and an in-flight detail, and stops at the end', async () => {
   const f = fixture();
