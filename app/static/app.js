@@ -116,11 +116,24 @@ resizer.addEventListener('keydown', event => {
   updateScrollEdge();
 });
 
+const typographyLangs = { bilingual: '中英双语', en: '纯英沉浸' };
+const langContainer = $('typography-langs');
+if (langContainer) {
+  langContainer.innerHTML = Object.entries(typographyLangs).map(([value, label]) => `<button type="button" data-value="${value}" aria-pressed="false">${label}</button>`).join('');
+  langContainer.onclick = event => {
+    const button = event.target?.closest?.('button[data-value]') || (event.target?.dataset?.value ? event.target : null);
+    if (button?.dataset?.value && Object.hasOwn(typographyLangs, button.dataset.value)) setLangMode(button.dataset.value, true);
+  };
+}
+
 function setLangMode(mode, persist = false) {
   const english = mode === 'en';
   document.body.classList.toggle('lang-en-only', english);
   $('lang-bilingual').setAttribute('aria-pressed', String(!english));
   $('lang-en').setAttribute('aria-pressed', String(english));
+  $('typography-langs')?.querySelectorAll('button').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.value === (english ? 'en' : 'bilingual')));
+  });
   if (persist) { writeStorage('open_lexicon_lang_mode', english ? 'en' : 'bilingual'); haptic(); updateScrollEdge(); }
 }
 setLangMode(readStorage('open_lexicon_lang_mode', 'bilingual'));

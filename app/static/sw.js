@@ -1,5 +1,5 @@
 // Refresh the shell for the independent typography controls and reading styles.
-const SHELL_CACHE = 'open-lexicon-shell-v4.2';
+const SHELL_CACHE = 'open-lexicon-shell-v4.3';
 const SHELL = ['./', './index.html', './styles.css', './app.js', './worker.js', './db.js', './data.js'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(SHELL_CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
