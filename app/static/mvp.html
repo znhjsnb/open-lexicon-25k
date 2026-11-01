@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open-Lexicon 25K | 3-in-1 消费级前端 MVP 原型展厅</title>
+    <!-- Modern Editorial Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Emil Kowalski Spring Bezier */
+            --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-subtle: cubic-bezier(0.2, 0, 0, 1);
+            --duration-fast: 160ms;
+            --duration-normal: 240ms;
+
+            /* Light Editorial Theme (Default) */
+            --bg-page: #F8F9FA;
+            --bg-surface: #FFFFFF;
+            --bg-subtle: #F1F3F5;
+            --border-subtle: #E9ECEF;
+            --border-hover: #CED4DA;
+            --text-primary: #1A1F2C;
+            --text-secondary: #64748B;
+            --text-tertiary: #94A3B8;
+            --accent: #2563EB;
+            --accent-soft: rgba(37, 99, 235, 0.08);
+            --accent-border: rgba(37, 99, 235, 0.2);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+            --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04), 0 12px 32px rgba(0, 0, 0, 0.03);
+            --shadow-float: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --font-serif: 'Newsreader', 'Source Serif 4', Georgia, serif;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        .dark-theme {
+            --bg-page: #0B0F17;
+            --bg-surface: #131A26;
+            --bg-subtle: #1C2433;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.16);
+            --text-primary: #F8FAFC;
+            --text-secondary: #94A3B8;
+            --text-tertiary: #64748B;
+            --accent: #3B82F6;
+            --accent-soft: rgba(59, 130, 246, 0.15);
+            --accent-border: rgba(59, 130, 246, 0.3);
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --shadow-float: 0 12px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.5;
+            transition: background var(--duration-normal) var(--ease-spring), color var(--duration-normal) var(--ease-spring);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* 顶部全局导航与原型切换器 (Variant Switcher) */
+        .showcase-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(248, 249, 250, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .dark-theme .showcase-header {
+            background: rgba(11, 15, 23, 0.85);
+        }
+
+        .showcase-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .brand-pill {
+            font-size: 11px;
+            font-weight: 600;
+            background: var(--accent-soft);
+            color: var(--accent);
+            border: 1px solid var(--accent-border);
+            padding: 2px 8px;
+            border-radius: 999px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .brand-title {
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        /* Emil Kowalski 风格分段控制器 (Segmented Switcher) */
+        .segmented-control {
+            display: flex;
+            background: var(--bg-subtle);
+            padding: 3px;
+            border-radius: 10px;
+            border: 1px solid var(--border-subtle);
+            position: relative;
+        }
+        .segment-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-spring);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            user-select: none;
+        }
+        .segment-btn:active {
+            transform: scale(0.97);
+        }
+        .segment-btn.active {
+            background: var(--bg-surface);
+            color: var(--text-primary);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .icon-btn {
+            background: transparent;
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all var(--duration-fast) var(--ease-spring);
+        }
+        .icon-btn:hover {
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+            background: var(--bg-surface);
+        }
+        .icon-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* 主容器 */
+        .showcase-viewport {
+            flex: 1;
+            padding: 24px;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* 隐藏与显示动效 */
+        .variant-container {
+            display: none;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity var(--duration-normal) var(--ease-spring), transform var(--duration-normal) var(--ease-spring);
+        }
+        .variant-container.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========================================================
+           形态一：Linear / Raycast 键盘双栏分屏流 (Command-First)
+           ======================================================== */
+        .v1-layout {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 20px;
+            height: calc(100vh - 120px);
+            min-height: 600px;
+        }
+
+        .v1-sidebar {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .v1-search-bar {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-subtle);
+            position: relative;
+        }
+        .v1-search-input {
+            width: 100%;
+            background: var(--bg-subtle);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 8px 12px 8px 34px;
+            font-size: 13.5px;
+            font-family: inherit;
+            color: var(--text-primary);
+            outline: none;
+            transition: all var(--duration-fast) var(--ease-spring);
+        }
+        .v1-search-input:focus {
+            background: var(--bg-surface);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+        .v1-search-icon {
+            position: absolute;
+            left: 28px;
+            top: 23px;
+            color: var(--text-tertiary);
+            pointer-events: none;
+        }
+        .v1-kbd-hint {
+            position: absolute;
+            right: 26px;
+            top: 23px;
+            font-size: 11px;
+            font-family: var(--font-mono);
+            color: var(--text-tertiary);
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            padding: 1px 5px;
+            border-radius: 4px;
+        }
+
+        .v1-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+        .v1-item {
+            padding: 10px 12px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-spring);
+            margin-bottom: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            border: 1px solid transparent;
+        }
+        .v1-item:hover {
+            background: var(--bg-subtle);
+        }
+        .v1-item:active {
+            transform: scale(0.99);
+        }
+        .v1-item.active {
+            background: var(--accent-soft);
+            border-color: var(--accent-border);
+        }
+        .v1-item-top {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+        }
+        .v1-item-word {
+            font-size: 14.5px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .v1-item.active .v1-item-word {
+            color: var(--accent);
+        }
+        .v1-item-rank {
+            font-size: 11px;
+            font-family: var(--font-mono);
+            color: var(--text-tertiary);
+        }
+        .v1-item-meaning {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .v1-detail-pane {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
+            overflow-y: auto;
+            padding: 32px 40px;
+            position: relative;
+        }
+
+        /* 单词大标题区 */
+        .entry-hero {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 20px;
+            margin-bottom: 24px;
+        }
+        .entry-title {
+            font-family: var(--font-serif);
+            font-size: 44px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+        .entry-phonetic {
+            font-family: var(--font-sans);
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-left: 14px;
+            font-weight: 400;
+        }
+        .audio-trigger {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            color: var(--accent);
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all var(--duration-fast) var(--ease-spring);
+        }
+        .audio-trigger:hover {
+            background: var(--accent-soft);
+            border-color: var(--accent-border);
+            transform: scale(1.02);
+        }
+        .audio-trigger:active {
+            transform: scale(0.96);
+        }
+
+        .tag-pill {
+            display: inline-flex;
+            align-items: center;
+            font-size: 11px;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-weight: 500;
+            background: var(--bg-subtle);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+            margin-right: 6px;
+        }
+
+        /* 义项卡片群 (Senses) */
+        .sense-card {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 14px;
+            transition: border-color var(--duration-fast) var(--ease-spring);
+        }
+        .sense-card:hover {
+            border-color: var(--border-hover);
+        }
+        .sense-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .pos-badge {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent);
+            background: var(--accent-soft);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        .sense-meaning-zh {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .sense-meaning-en {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        .sense-cobuild {
+            font-size: 14px;
+            color: var(--text-primary);
+            line-height: 1.5;
+            margin: 6px 0 10px 0;
+            padding-left: 10px;
+            border-left: 2px solid var(--accent);
+            font-style: italic;
+        }
+        .sense-example {
+            font-size: 13.5px;
+            color: var(--text-primary);
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+        .sense-translation {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        /* 六维衍生区块 */
+        .dimension-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 24px;
+        }
+        .dimension-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            transition: all var(--duration-fast) var(--ease-spring);
+        }
+        .dimension-box:hover {
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-sm);
+        }
+        .dimension-box-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .dimension-box-content {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        /* ========================================================
+           形态二：Cambridge / Editorial 典雅沉浸画幅 (Immersive)
+           ======================================================== */
+        .v2-layout {
+            max-width: 860px;
+            margin: 0 auto;
+            padding-bottom: 60px;
+        }
+        .v2-hero-search {
+            text-align: center;
+            padding: 40px 0 32px 0;
+        }
+        .v2-hero-title {
+            font-family: var(--font-serif);
+            font-size: 38px;
+            font-weight: 400;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+        .v2-search-wrapper {
+            position: relative;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+        .v2-search-input {
+            width: 100%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 14px 20px 14px 44px;
+            font-size: 16px;
+            font-family: inherit;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-card);
+            outline: none;
+            transition: all var(--duration-fast) var(--ease-spring);
+        }
+        .v2-search-input:focus {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-float), 0 0 0 3px var(--accent-soft);
+        }
+        .v2-search-icon {
+            position: absolute;
+            left: 16px;
+            top: 18px;
+            color: var(--text-tertiary);
+        }
+
+        .v2-article {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 40px 48px;
+            box-shadow: var(--shadow-card);
+            margin-top: 24px;
+        }
+        .v2-morphology-tree {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+            padding: 12px 16px;
+            background: var(--bg-subtle);
+            border-radius: 8px;
+        }
+        .v2-tree-chip {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12.5px;
+            font-weight: 500;
+        }
+        .v2-tree-arrow {
+            color: var(--text-tertiary);
+            font-size: 12px;
+        }
+
+        /* ========================================================
+           形态三：Bento / 考纲探索学习看板 (Learning Bento)
+           ======================================================== */
+        .v3-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .v3-filters {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+        .v3-filter-chip {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-spring);
+            white-space: nowrap;
+        }
+        .v3-filter-chip:hover {
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+        }
+        .v3-filter-chip.active {
+            background: var(--text-primary);
+            color: var(--bg-page);
+            border-color: var(--text-primary);
+        }
+
+        .v3-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+        .v3-bento-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-spring);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 200px;
+            position: relative;
+        }
+        .v3-bento-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-card);
+        }
+        .v3-bento-card:active {
+            transform: scale(0.98);
+        }
+        .v3-bento-word {
+            font-family: var(--font-serif);
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+        .v3-bento-phonetic {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        .v3-bento-meaning {
+            font-size: 14px;
+            color: var(--text-primary);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+        .v3-bento-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-tertiary);
+            border-top: 1px solid var(--border-subtle);
+            padding-top: 10px;
+        }
+
+        /* 闪卡翻转卡片 (Flashcard Flip) */
+        .v3-featured-card {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(147, 51, 234, 0.05));
+            border: 1px solid var(--accent-border);
+            grid-column: 1 / -1;
+            padding: 24px 30px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* 空状态或响应式适配 */
+        @media (max-width: 900px) {
+            .v1-layout {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            .dimension-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航栏与 3 种 MVP 架构切换器 -->
+    <header class="showcase-header">
+        <div class="showcase-brand">
+            <span style="font-size: 20px;">📖</span>
+            <span class="brand-title">Open-Lexicon 25K</span>
+            <span class="brand-pill">Client-Side · 0 算力开销</span>
+        </div>
+
+        <!-- 3 种形态快速切换 -->
+        <div class="segmented-control">
+            <button class="segment-btn active" onclick="switchVariant('v1')">
+                <span>⚡ 形态一：Linear 键盘流</span>
+            </button>
+            <button class="segment-btn" onclick="switchVariant('v2')">
+                <span>🏛️ 形态二：Cambridge 典雅大画幅</span>
+            </button>
+            <button class="segment-btn" onclick="switchVariant('v3')">
+                <span>🍱 形态三：Bento 学习探索看板</span>
+            </button>
+        </div>
+
+        <div class="header-actions">
+            <button class="icon-btn" onclick="toggleTheme()" title="切换深浅主题">
+                <span id="themeEmoji">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- 交互视口 -->
+    <main class="showcase-viewport">
+
+        <!-- ==========================================
+             形态一：Linear / Raycast 键盘双栏分屏
+             ========================================== -->
+        <section id="variant-v1" class="variant-container active">
+            <div class="v1-layout">
+                <!-- 左栏：急速检索列表 -->
+                <aside class="v1-sidebar">
+                    <div class="v1-search-bar">
+                        <span class="v1-search-icon">🔍</span>
+                        <input type="text" id="v1-input" class="v1-search-input" placeholder="输入英文或中文释义..." autocomplete="off">
+                        <span class="v1-kbd-hint">/</span>
+                    </div>
+                    <div class="v1-list" id="v1-word-list">
+                        <!-- JS 动态注入 -->
+                    </div>
+                </aside>
+
+                <!-- 右栏：六维深度解析大卡片 -->
+                <article class="v1-detail-pane" id="v1-detail">
+                    <!-- JS 动态渲染所选词汇 -->
+                </article>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             形态二：Cambridge / Editorial 典雅沉浸大画幅
+             ========================================== -->
+        <section id="variant-v2" class="variant-container">
+            <div class="v2-layout">
+                <div class="v2-hero-search">
+                    <h1 class="v2-hero-title">Words, Defined with Depth.</h1>
+                    <div class="v2-search-wrapper">
+                        <span class="v2-search-icon">🔍</span>
+                        <input type="text" id="v2-input" class="v2-search-input" placeholder="检索 25,000 词库（柯林斯英文解释、现代公式构词、真实例句）...">
+                    </div>
+                </div>
+
+                <div class="v2-article" id="v2-detail">
+                    <!-- JS 动态渲染 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             形态三：Bento / 考纲学习探索看板
+             ========================================== -->
+        <section id="variant-v3" class="variant-container">
+            <div class="v3-layout">
+                <!-- 顶部分类胶囊 -->
+                <div class="v3-filters" id="v3-tag-filters">
+                    <button class="v3-filter-chip active" onclick="filterV3ByTag('')">全部单词 (All)</button>
+                    <button class="v3-filter-chip" onclick="filterV3ByTag('高考')">高考核心</button>
+                    <button class="v3-filter-chip" onclick="filterV3ByTag('CET4')">大学四级</button>
+                    <button class="v3-filter-chip" onclick="filterV3ByTag('CET6')">大学六级</button>
+                    <button class="v3-filter-chip" onclick="filterV3ByTag('考研')">考研必背</button>
+                    <button class="v3-filter-chip" onclick="filterV3ByTag('IELTS')">雅思核心</button>
+                    <button class="v3-filter-chip" onclick="filterV3ByTag('TOEFL')">托福高频</button>
+                </div>
+
+                <!-- 每日精选 / 随机认知卡 -->
+                <div class="v3-featured-card">
+                    <div>
+                        <div style="font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; margin-bottom: 4px;">✨ 每日认知微雕锚点</div>
+                        <h2 style="font-family: var(--font-serif); font-size: 28px; font-weight: 600;" id="v3-feature-word">resilience</h2>
+                        <div style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;" id="v3-feature-meaning">n. 恢复力；弹力；顺应力</div>
+                    </div>
+                    <button class="audio-trigger" onclick="pickRandomFeatured()">
+                        <span>🎲 换一个词</span>
+                    </button>
+                </div>
+
+                <!-- Bento 网格 -->
+                <div class="v3-grid" id="v3-grid-container">
+                    <!-- JS 动态注入 -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 加载纯客户端 300 核心精选词库 (0ms 离线检索) -->
+    <script src="sample_words.js"></script>
+    <script>
+        // 数据源与全局状态
+        const WORDS = window.OPEN_LEXICON_SAMPLE || [];
+        let currentWordIndex = 0;
+        let v3CurrentTag = '';
+
+        // 1. 切换 MVP 形态 (Variant Switcher)
+        function switchVariant(variantId) {
+            document.querySelectorAll('.segment-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.variant-container').forEach(c => c.classList.remove('active'));
+
+            event.currentTarget.classList.add('active');
+            const target = document.getElementById(`variant-${variantId}`);
+            if (target) {
+                target.classList.add('active');
+            }
+        }
+
+        // 2. 主题切换
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            document.getElementById('themeEmoji').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        // 3. 语音发音触发 (Web Speech API 纯前端无消耗)
+        function playPronunciation(word) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(word);
+                utter.lang = 'en-US';
+                utter.rate = 0.9;
+                window.speechSynthesis.speak(utter);
+            }
+        }
+
+        // 4. 形态一 (Linear 键盘流) 初始化与渲染
+        function renderV1List(filteredWords) {
+            const listEl = document.getElementById('v1-word-list');
+            listEl.innerHTML = '';
+
+            filteredWords.forEach((item, idx) => {
+                const el = document.createElement('div');
+                el.className = `v1-item ${idx === currentWordIndex ? 'active' : ''}`;
+                const m = item.senses && item.senses[0] ? item.senses[0].meaning_zh : '';
+                el.innerHTML = `
+                    <div class="v1-item-top">
+                        <span class="v1-item-word">${item.word}</span>
+                        <span class="v1-item-rank">#${idx + 1}</span>
+                    </div>
+                    <div class="v1-item-meaning">${m}</div>
+                `;
+                el.onclick = () => {
+                    currentWordIndex = idx;
+                    document.querySelectorAll('.v1-item').forEach(i => i.classList.remove('active'));
+                    el.classList.add('active');
+                    renderV1Detail(item);
+                };
+                listEl.appendChild(el);
+            });
+
+            if (filteredWords.length > 0) {
+                renderV1Detail(filteredWords[currentWordIndex] || filteredWords[0]);
+            }
+        }
+
+        function renderV1Detail(item) {
+            const detailEl = document.getElementById('v1-detail');
+            if (!item) {
+                detailEl.innerHTML = '<div style="color:var(--text-secondary);">未找到词条</div>';
+                return;
+            }
+
+            const tagsHtml = (item.exam_tags || []).map(t => `<span class="tag-pill">${t}</span>`).join('');
+            const sensesHtml = (item.senses || []).map((s, idx) => `
+                <div class="sense-card">
+                    <div class="sense-header">
+                        <span class="pos-badge">${s.pos || '释义'}</span>
+                        <span class="sense-meaning-zh">${s.meaning_zh || ''}</span>
+                        <span class="sense-meaning-en">(${s.meaning_en || ''})</span>
+                    </div>
+                    <div class="sense-cobuild">“${s.english_definition || ''}”</div>
+                    <div style="font-size: 13px; color: var(--accent); margin-top: 4px;">
+                        <b>地道搭配:</b> ${s.collocation_en || ''} <span style="color: var(--text-secondary);">(${s.collocation_zh || ''})</span>
+                    </div>
+                    <div class="sense-example">
+                        <b>例句:</b> ${s.sentence_en || ''}
+                    </div>
+                    <div class="sense-translation">${s.sentence_zh || ''}</div>
+                </div>
+            `).join('');
+
+            const etym = item.etymology_story?.zh || '暂无演变记录';
+            const morph = item.morphology_enriched?.zh || '暂无构词记录';
+            const syn = item.synonyms_and_nuances?.zh || '暂无辨析记录';
+            const mnem = item.mnemonic_anchor?.zh || '暂无助记记录';
+
+            detailEl.innerHTML = `
+                <div class="entry-hero">
+                    <div>
+                        <span class="entry-title">${item.word}</span>
+                        <span class="entry-phonetic">/${item.phonetic || ''}/</span>
+                    </div>
+                    <button class="audio-trigger" onclick="playPronunciation('${item.word}')">
+                        <span>🔊 朗读</span>
+                    </button>
+                </div>
+
+                <div style="margin-bottom: 20px;">${tagsHtml}</div>
+
+                <h3 style="font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 12px;">
+                    多词性义项 (${(item.senses || []).length})
+                </h3>
+                ${sensesHtml}
+
+                <div class="dimension-grid">
+                    <div class="dimension-box">
+                        <div class="dimension-box-title">🧩 现代公式化构词</div>
+                        <div class="dimension-box-content">${morph}</div>
+                    </div>
+                    <div class="dimension-box">
+                        <div class="dimension-box-title">🏛️ 历史词源演化</div>
+                        <div class="dimension-box-content">${etym}</div>
+                    </div>
+                    <div class="dimension-box">
+                        <div class="dimension-box-title">⚖️ 微观近义辨析</div>
+                        <div class="dimension-box-content">${syn}</div>
+                    </div>
+                    <div class="dimension-box">
+                        <div class="dimension-box-title">💡 秒记锚点与钩子</div>
+                        <div class="dimension-box-content">${mnem}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 5. 形态二 (Cambridge 典雅沉浸大画幅)
+        function renderV2(item) {
+            const v2El = document.getElementById('v2-detail');
+            if (!item) return;
+
+            const tagsHtml = (item.exam_tags || []).map(t => `<span class="tag-pill">${t}</span>`).join('');
+            const sensesHtml = (item.senses || []).map(s => `
+                <div style="border-bottom: 1px solid var(--border-subtle); padding: 18px 0;">
+                    <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:6px;">
+                        <span class="pos-badge">${s.pos}</span>
+                        <span style="font-size:18px; font-weight:600; color:var(--text-primary);">${s.meaning_zh}</span>
+                    </div>
+                    <p style="font-size: 15px; color: var(--text-secondary); margin: 6px 0; font-style: italic;">
+                        ${s.english_definition}
+                    </p>
+                    <div style="background:var(--bg-subtle); border-radius:6px; padding:10px 14px; margin-top:8px;">
+                        <div style="color:var(--text-primary); font-size:14px;"><b>Example:</b> ${s.sentence_en}</div>
+                        <div style="color:var(--text-secondary); font-size:13px; margin-top:2px;">${s.sentence_zh}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            v2El.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div>
+                        <h2 style="font-family: var(--font-serif); font-size: 48px; font-weight: 500; color: var(--text-primary); line-height: 1;">${item.word}</h2>
+                        <div style="font-size: 18px; color: var(--text-secondary); margin-top: 8px;">/${item.phonetic}/</div>
+                    </div>
+                    <button class="audio-trigger" style="font-size: 14px; padding: 6px 14px;" onclick="playPronunciation('${item.word}')">
+                        <span>🔊 发音朗读</span>
+                    </button>
+                </div>
+
+                <div style="margin: 16px 0 24px 0;">${tagsHtml}</div>
+
+                <!-- 现代构词族链 -->
+                <div class="v2-morphology-tree">
+                    <span style="font-size: 12px; color: var(--text-secondary); font-weight: 600;">构词族链:</span>
+                    <span class="v2-tree-chip">${item.word}</span>
+                    <span class="v2-tree-arrow">→</span>
+                    <span class="v2-tree-chip" style="color: var(--accent);">${item.morphology_enriched?.zh?.slice(0, 30) || '衍生词族'}...</span>
+                </div>
+
+                <div style="margin-top: 24px;">
+                    ${sensesHtml}
+                </div>
+            `;
+        }
+
+        // 6. 形态三 (Bento 学习探索看板)
+        function renderV3Grid(tagFilter = '') {
+            const gridEl = document.getElementById('v3-grid-container');
+            gridEl.innerHTML = '';
+
+            const filtered = WORDS.filter(w => {
+                if (!tagFilter) return true;
+                return (w.exam_tags || []).some(t => t.includes(tagFilter));
+            });
+
+            filtered.slice(0, 30).forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'v3-bento-card';
+                const m = item.senses && item.senses[0] ? item.senses[0].meaning_zh : '';
+                const pos = item.senses && item.senses[0] ? item.senses[0].pos : '';
+                const tags = (item.exam_tags || []).slice(0, 2).map(t => `<span class="tag-pill">${t}</span>`).join('');
+
+                card.innerHTML = `
+                    <div>
+                        <div class="v3-bento-word">${item.word}</div>
+                        <div class="v3-bento-phonetic">/${item.phonetic}/</div>
+                        <div class="v3-bento-meaning">
+                            <span class="pos-badge" style="font-size:11px; margin-right:4px;">${pos}</span>
+                            ${m}
+                        </div>
+                    </div>
+                    <div class="v3-bento-footer">
+                        <div>${tags}</div>
+                        <span>${(item.senses || []).length} 词性</span>
+                    </div>
+                `;
+                card.onclick = () => {
+                    // 点击卡片直接快速跳到形态一或弹出详情
+                    currentWordIndex = WORDS.findIndex(w => w.word === item.word);
+                    renderV1Detail(item);
+                    document.querySelectorAll('.segment-btn')[0].click();
+                };
+                gridEl.appendChild(card);
+            });
+        }
+
+        function filterV3ByTag(tag) {
+            v3CurrentTag = tag;
+            document.querySelectorAll('.v3-filter-chip').forEach(c => c.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            renderV3Grid(tag);
+        }
+
+        function pickRandomFeatured() {
+            if (WORDS.length === 0) return;
+            const rand = WORDS[Math.floor(Math.random() * WORDS.length)];
+            document.getElementById('v3-feature-word').textContent = rand.word;
+            document.getElementById('v3-feature-meaning').textContent = rand.senses && rand.senses[0] ? rand.senses[0].meaning_zh : '';
+        }
+
+        // 7. 纯前端零延迟即时搜索 (0ms Client-Side Instant Search)
+        document.getElementById('v1-input').addEventListener('input', (e) => {
+            const q = e.target.value.trim().toLowerCase();
+            if (!q) {
+                renderV1List(WORDS);
+                return;
+            }
+            const filtered = WORDS.filter(w => {
+                if (w.word.toLowerCase().startsWith(q)) return true;
+                if (w.word.toLowerCase().includes(q)) return true;
+                return (w.senses || []).some(s => (s.meaning_zh || '').includes(q));
+            });
+            currentWordIndex = 0;
+            renderV1List(filtered);
+        });
+
+        document.getElementById('v2-input').addEventListener('input', (e) => {
+            const q = e.target.value.trim().toLowerCase();
+            const found = WORDS.find(w => w.word.toLowerCase() === q || w.word.toLowerCase().startsWith(q));
+            if (found) {
+                renderV2(found);
+            }
+        });
+
+        // 全局键盘快捷键 (快捷键 / 聚焦搜索)
+        window.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+                e.preventDefault();
+                const activeContainer = document.querySelector('.variant-container.active');
+                const inp = activeContainer ? activeContainer.querySelector('input') : null;
+                if (inp) inp.focus();
+            }
+        });
+
+        // 初始装载
+        renderV1List(WORDS);
+        renderV2(WORDS[0]);
+        renderV3Grid();
+        pickRandomFeatured();
+    </script>
+</body>
+</html>
