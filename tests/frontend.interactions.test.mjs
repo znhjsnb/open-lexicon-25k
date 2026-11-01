@@ -229,24 +229,42 @@ test('speech, bookmark, flip and check-in issue only 8ms haptics; unsupported vi
   assert.doesNotThrow(() => f.element('save').onclick());
 });
 
-test('entry renderer keeps every sense, definition, sentence, scenario, formula and origin flat', () => {
+test('entry renderer keeps short sense navigation and every complete definition and learning unit flat', () => {
   const f = fixture();
+  const definition = i => `You use a before a singular countable noun when referring to something that has not been mentioned before, as in a book or a question about sense ${i}.`;
   f.ui.renderDetail({ word: 'test', phonetic: 'test', tags: ['CET4'], morphology_zh: 'test + -ing → testing', etymology_zh: '词源故事', senses: [1, 2].map(i => ({
-    pos: 'n.', meaning_zh: `释义${i}`, english_definition: `Definition ${i}`, sentence_en: `test sentence ${i}`, sentence_zh: `例句${i}`,
+    pos: 'art. 冠词', meaning_zh: `释义${i}`, english_definition: definition(i), sentence_en: `test sentence ${i}`, sentence_zh: `例句${i}`,
     collocation_en: `test A${i}; test B${i}`, collocation_zh: `场景A${i}；场景B${i}`,
   })) });
   const html = f.element('detail').innerHTML;
-  for (const text of ['释义1', '释义2', 'Definition 1', 'Definition 2', '例句1', '例句2', '场景A1', '场景B2', 'test + -ing → testing', '词源故事']) assert.ok(html.includes(text), text);
+  for (const text of ['释义1', '释义2', definition(1), definition(2), '例句1', '例句2', '场景A1', '场景B2', 'test + -ing → testing', '词源故事']) assert.ok(html.includes(text), text);
   assert.doesNotMatch(html, /<details|<summary|aria-expanded|\shidden[\s=>]/);
   assert.equal((html.match(/class="dimension /g) || []).length, 4);
   for (const number of ['一', '二', '三', '四']) assert.ok(html.includes(`要素${number}`));
   const cards = html.split(/<section id="sense-\d+"/).slice(1);
   assert.equal(cards.length, 2);
   cards.forEach((card, i) => {
-    for (const text of [`释义${i + 1}`, `Definition ${i + 1}`, `例句${i + 1}`, `场景A${i + 1}`, `场景B${i + 1}`, '听例句']) assert.ok(card.includes(text), text);
+    for (const text of [`释义${i + 1}`, definition(i + 1), `例句${i + 1}`, `场景A${i + 1}`, `场景B${i + 1}`, '听例句']) assert.ok(card.includes(text), text);
     assert.match(card, /class="example-zh zh-content"/);
+    assert.equal(card.match(/<p class="definition" lang="en">([^<]*)<\/p>/)[1], definition(i + 1));
   });
   assert.equal((html.match(/data-sense="/g) || []).length, 2);
+  const navigation = html.match(/<nav class="sense-quick-chips"[^>]*>([\s\S]*?)<\/nav>/)[1];
+  const chips = [...navigation.matchAll(/<button class="sense-chip" data-sense="(\d+)">([\s\S]*?)<\/button>/g)];
+  assert.equal(chips.length, 2);
+  for (const [i, chip] of chips.entries()) {
+    const number = String(i + 1).padStart(2, '0');
+    assert.equal(chip[1], String(i + 1));
+    assert.ok(chip[2].includes(`<span class="sense-chip-number">${number}</span> 释义${i + 1}`));
+    assert.equal(chip[2].match(/<span class="label-en" lang="en">([^<]*)<\/span>/)[1], `Sense ${number}`);
+    assert.ok(!chip[2].includes(definition(i + 1)));
+  }
+  f.element('lang-en').onclick();
+  assert.equal(f.document.body.classList.contains('lang-en-only'), true);
+  assert.equal(f.element('detail').innerHTML, html);
+  f.element('lang-bilingual').onclick();
+  assert.equal(f.document.body.classList.contains('lang-en-only'), false);
+  assert.equal(f.element('detail').innerHTML, html);
 });
 
 test('sidebar pointer resizing clamps, ignores other pointers, persists once and cleans up cancellation', () => {
@@ -310,7 +328,7 @@ test('language buttons restore, persist, expose selection and vibrate without re
   assertLanguage(f, 'bilingual');
   assert.equal(f.storage.has('open_lexicon_lang_mode'), false);
   assert.deepEqual(f.vibrations, []);
-  assert.match(f.element('typography-langs').innerHTML, />中英双语<\/button>.*>纯英沉浸<\/button>/);
+  assert.match(f.element('typography-langs').innerHTML, />中英双语<\/button>.*>English<\/button>/);
   f.element('detail').innerHTML = '<p>Current entry</p>';
   f.element('content').scrollTop = 250;
   f.element('lang-en').onclick();
@@ -363,7 +381,7 @@ test('sense quick chips move focus to their own learning unit and renderer escap
   f.ui.renderDetail({ word: '<test>', tags: [], senses: [{ pos: 'n.', meaning_zh: '<script>', english_definition: 'A & B', sentence_en: 'a <test>', sentence_zh: '译文' }] });
   assert.doesNotMatch(f.element('detail').innerHTML, /<script>/);
   assert.match(f.element('detail').innerHTML, /&lt;script&gt;/);
-  assert.match(f.element('detail').innerHTML, /A &amp; B/);
+  assert.match(f.element('detail').innerHTML, /<p class="definition" lang="en">A &amp; B<\/p>/);
   const chip = f.element('sense-chip'); chip.dataset.sense = '1';
   f.element('detail').onclick({ target: { closest: selector => selector === '[data-sense]' ? chip : null } });
   assert.equal(f.document.activeElement, f.element('sense-1'));
@@ -641,7 +659,7 @@ test('shipped typography entry has readable Chinese labels and one accessible na
   assert.match(html, /<span>排版<\/span>/);
   assert.match(html, /<dialog id="typography-panel" class="typography-popover" aria-labelledby="typography-title">/);
   assert.match(html, /id="lang-bilingual" class="lang-pill" aria-pressed="true" title="中英双语对照">中英双语<\/button>/);
-  assert.match(html, /id="lang-en" class="lang-pill" aria-pressed="false" title="纯英文沉浸阅读">纯英沉浸<\/button>/);
+  assert.match(html, /id="lang-en" class="lang-pill" aria-pressed="false" title="纯英文沉浸阅读">English<\/button>/);
   const firstFieldset = html.slice(html.indexOf('<dialog id="typography-panel"')).match(/<fieldset>([\s\S]*?)<\/fieldset>/)[1];
   assert.match(firstFieldset, /^<legend>语言显示模式<\/legend><div id="typography-langs" class="typography-segments" role="group" aria-label="语言显示模式"><\/div>$/);
   for (const id of ['typography-btn', 'typography-panel', 'typography-title', 'typography-close', 'typography-handle', 'typography-reset', 'typography-langs']) {

@@ -116,7 +116,7 @@ resizer.addEventListener('keydown', event => {
   updateScrollEdge();
 });
 
-const typographyLangs = { bilingual: '中英双语', en: '纯英沉浸' };
+const typographyLangs = { bilingual: '中英双语', en: 'English' };
 const typographyLangControls = $('typography-langs');
 function setLangMode(mode, persist = false) {
   const english = mode === 'en';
@@ -689,7 +689,10 @@ function renderDetail(entry) {
   pinnedWord.innerHTML = `<span class="toolbar-word-badge"><strong lang="en">${escapeHtml(entry.word)}</strong><span class="pinned-phonetic">${escapeHtml(phonetic(entry.phonetic))}</span></span><span class="pinned-audio">${audioButton(entry.word, '英音', false, 'en-GB')}${audioButton(entry.word, '美音', true)}</span>`;
   pinnedWord.hidden = true;
   detail.innerHTML = `<header class="word-header"><div class="word-headline"><h1 class="word-heading" lang="en">${escapeHtml(entry.word)}</h1><div class="pronunciations"><span class="phonetic">${escapeHtml(phonetic(entry.phonetic))}</span>${audioButton(entry.word, '英音', false, 'en-GB')}${audioButton(entry.word, '美音', true)}</div></div><div class="tag-line">${tags.map(tag => `<span class="exam-tag ${tag.startsWith('CEFR') ? 'cefr-tag' : ''}">${escapeHtml(tag)}</span>`).join('')}</div>
-    <nav class="sense-quick-chips" aria-label="义项速览">${entry.senses.map((sense, index) => `<button class="sense-chip" data-sense="${index + 1}"><span>${String(index + 1).padStart(2, '0')}</span> ${label(escapeHtml(sense.meaning_zh), escapeHtml(sense.english_definition || posName(sense.pos)))}</button>`).join('')}</nav></header>
+    <nav class="sense-quick-chips" aria-label="义项速览">${entry.senses.map((sense, index) => {
+      const number = String(index + 1).padStart(2, '0');
+      return `<button class="sense-chip" data-sense="${index + 1}">${label(`<span class="sense-chip-number">${number}</span> ${escapeHtml(sense.meaning_zh)}`, `Sense ${number}`)}</button>`;
+    }).join('')}</nav></header>
     <section class="sense-learning" aria-label="释义、例句与搭配">
     ${entry.senses.map((sense, index) => {
       const collocations = String(sense.collocation_en || '').split(/\s*[;；]\s*/).filter(Boolean);

@@ -173,7 +173,7 @@ kbd { font: .6875rem/1.5 var(--sans); border: 1px solid var(--line); border-radi
 .pinned-audio .audio-pill { padding: .4rem .75rem; }
 .toolbar-actions { display: flex; align-items: center; gap: .15rem; flex-shrink: 0; }
 .lang-switch { display: flex; flex-shrink: 0; margin-left: auto; padding: 3px; border: 1px solid var(--line); border-radius: 99px; background: var(--example); }
-.lang-pill { min-height: 36px; padding: .375rem .875rem; border-radius: 99px; font-size: .8125rem; font-weight: 550; white-space: nowrap; cursor: pointer; }
+.lang-pill { min-height: 36px; padding: .375rem .875rem; border-radius: 99px; font-size: .8125rem; font-weight: 550; line-height: 1.5; letter-spacing: .01em; white-space: nowrap; cursor: pointer; }
 .lang-pill, #typography-langs button { position: relative; isolation: isolate; }
 /* Fade the selection surface, keeping background and shadow off the animation path. */
 .lang-pill::before, #typography-langs button::before {
@@ -260,9 +260,10 @@ body.immersive .entry { max-width: 76rem; }
 .resizer:hover::after, .resizer:focus-visible::after, .resizing .resizer::after { background: var(--accent); }
 body.resizing, body.resizing * { cursor: col-resize !important; user-select: none; }
 .sense-quick-chips { display: flex; flex-wrap: wrap; gap: .375rem; margin-top: .625rem; }
-.sense-chip { max-width: min(100%, 18rem); display: inline-flex; align-items: baseline; gap: .35rem; padding: .2rem .625rem; border-radius: 99px; color: var(--accent); background: var(--accent-soft); font-size: calc(.75rem * var(--font-scale)); text-align: left; }
-.sense-chip > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sense-chip > span:first-child { flex-shrink: 0; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sense-chip { max-width: 100%; min-height: 2rem; display: inline-flex; align-items: center; justify-content: center; padding: .25rem .75rem; border-radius: 99px; color: var(--accent); background: var(--accent-soft); font-size: calc(.75rem * var(--font-scale)); font-weight: 550; line-height: 1.5; letter-spacing: .01em; text-align: center; }
+.sense-chip > .label-zh { min-width: 0; overflow-wrap: anywhere; }
+.sense-chip > .label-en { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.sense-chip-number { margin-right: .35em; font-variant-numeric: tabular-nums; font-weight: 700; }
 .core-definitions, .real-scenarios { border: 0; padding: 0; border-radius: 0; }
 .deep-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: calc(.75rem * var(--reading-padding-scale)); margin-top: calc(.75rem * var(--reading-padding-scale)); }
 .label-en { display: none; }
