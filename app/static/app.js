@@ -1,4 +1,4 @@
-﻿import { normalizeTags } from './data.js';
+import { normalizeTags } from './data.js';
 import { getWord, cacheStatus, prepareOffline } from './db.js';
 
 const $ = id => document.getElementById(id);
@@ -57,6 +57,10 @@ function toast(message) {
   toastTimer = setTimeout(() => { $('toast').hidden = true; }, 3500);
 }
 
+function haptic(ms = 8) {
+  try { if ('vibrate' in navigator) navigator.vibrate(ms); } catch {}
+}
+
 function setTheme(theme) {
   document.documentElement.dataset.theme = theme;
   $('theme').setAttribute('aria-label', theme === 'dark' ? '切换浅色主题' : '切换深色主题');
@@ -93,6 +97,7 @@ $('bookmarks').onclick = () => {
 };
 $('save').onclick = () => {
   if (!state.selected) return;
+  haptic(12);
   const key = state.selected.word.toLowerCase();
   if (bookmarks.has(key)) bookmarks.delete(key); else bookmarks.add(key);
   writeStorage('open_lexicon_bookmarks', [...bookmarks]);
@@ -315,6 +320,7 @@ function stopSpeech() {
 }
 function speak(button) {
   if (!('speechSynthesis' in window)) { toast('当前浏览器不支持朗读，请使用 Chrome、Edge 或 Safari'); return; }
+  haptic(8);
   const wasPlaying = speechButton === button;
   stopSpeech();
   if (wasPlaying) return;
@@ -423,9 +429,10 @@ $('practice').onclick = () => openStudy(false);
 $('close-study').onclick = () => studyDialog.close();
 studyDialog.addEventListener('click', event => { if (event.target === studyDialog && event.clientX < studyDialog.getBoundingClientRect().left) studyDialog.close(); });
 studyDialog.addEventListener('close', () => { state.studyId++; studyTrigger?.focus(); });
-$('flashcard').onclick = () => setFlipped(!state.flipped);
+$('flashcard').onclick = () => { haptic(10); setFlipped(!state.flipped); };
 $('study-known').onclick = () => {
   if (!state.flipped || state.studyDone) return;
+  haptic(15);
   const card = state.study[state.cardIndex];
   if (!card) return;
   progress[localDay()] = [...new Set([...todayWords(), card.w])];
