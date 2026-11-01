@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f7f9f8">
+  <meta name="theme-color" content="#f5f5f7">
   <meta name="description" content="Open-Lexicon：25,006 个英语词汇的双语学习词典。查释义，听例句，理解构词与词源。">
   <title>Open-Lexicon · 把单词读懂</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23245d50'/%3E%3Ctext x='8' y='24' font-size='25' font-family='Georgia' fill='white'%3El%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230071e3'/%3E%3Cpath d='M7 9q5-2 9 1 4-3 9-1v15q-5-2-9 1-4-3-9-1Zm9 1v15' fill='none' stroke='white' stroke-width='1.7' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="./styles.css">
   <script type="module" src="./app.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">跳至词条内容</a>
   <header class="topbar">
-    <a class="brand" href="./" aria-label="Open-Lexicon 首页"><span class="brand-mark" aria-hidden="true">l<span>·</span></span><span>Open-Lexicon<small>把单词读懂</small></span><span class="edition">25K</span></a>
+    <a class="brand" href="./" aria-label="Open-Lexicon 首页"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 4.5c3-1 6-.5 9 1.5 3-2 6-2.5 9-1.5v15c-3-1-6-.5-9 1.5-3-2-6-2.5-9-1.5Z"/><path d="M12 6v15"/></svg></span><span>Open-Lexicon<small>把单词读懂</small></span><span class="edition">25K</span></a>
     <nav aria-label="学习工具">
-      <button class="nav-button" id="daily" aria-label="每日一词"><span aria-hidden="true">☀</span> 每日一词</button>
-      <button class="nav-button" id="practice"><span aria-hidden="true">▱</span> 备考抽认</button>
+      <button class="nav-button" id="daily" aria-label="每日一词" aria-haspopup="dialog" aria-controls="study" title="每日一词"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><span class="nav-label">每日一词</span></button>
+      <button class="nav-button" id="practice" aria-label="备考抽认" aria-haspopup="dialog" aria-controls="study" title="备考抽认"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="7" width="16" height="14" rx="3"/><path d="M17 3H6a3 3 0 0 0-3 3v11M9 12h8m-8 4h5"/></svg><span class="nav-label">备考抽认</span></button>
       <span class="nav-divider"></span>
-      <button class="icon-button" id="theme" aria-label="切换深色主题" title="切换主题">◐</button>
-      <button class="nav-button focus-button" id="focus" aria-pressed="false"><span aria-hidden="true">⛶</span> <span>沉浸阅读</span></button>
+      <button class="icon-button" id="theme" aria-label="切换深色主题" title="切换主题"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 14A9 9 0 0 1 10 3.2 9 9 0 1 0 20.8 14Z"/></svg></button>
+      <button class="nav-button focus-button" id="focus" aria-label="沉浸阅读" aria-pressed="false" title="沉浸阅读"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg><span class="nav-label">沉浸阅读</span></button>
     </nav>
   </header>
   <main class="workspace">
@@ -33,7 +33,7 @@
         </div>
         <p id="search-help">↑↓ 切换词条 · Enter 开始阅读</p>
         <div id="filters" class="filters" role="group" aria-label="考试范围"></div>
-        <button id="bookmarks" class="bookmark-filter" aria-pressed="false">☆ 我的收藏 <span id="bookmark-count">0</span></button>
+        <button id="bookmarks" class="bookmark-filter" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9Z"/></svg>我的收藏 <span id="bookmark-count">0</span></button>
       </div>
       <div class="results-meta"><span id="result-count" role="status">正在准备词库…</span><select id="pos-filter" aria-label="词性筛选"><option value="">全部词性</option value="n.">名词</option><option value="v.">动词</option><option value="adj.">形容词</option><option value="adv.">副词</option><option value="prep.">介词</option><option value="conj.">连词</option><option value="pron.">代词</option></select><span id="search-time"></span></div>
       <div id="word-list" class="word-list" role="listbox" aria-label="词条结果" tabindex="0" aria-busy="true"></div>
@@ -41,19 +41,20 @@
       <footer class="sidebar-footer"><span id="connection"><i></i> 正在载入</span><button id="offline-download" title="下载全部字母分片，约 45 MiB，可随时暂停">准备离线词库</button></footer>
     </aside>
     <section id="content" class="content" tabindex="-1" aria-label="词条详情" aria-busy="true">
-      <div class="content-toolbar"><button id="back" class="text-button mobile-only">← 返回词表</button><span id="breadcrumb">词典 / 开始探索</span><span class="toolbar-actions"><button id="save" class="icon-button" aria-label="收藏单词" aria-pressed="false" disabled>☆</button><button id="copy" class="icon-button" aria-label="复制词条 Markdown" title="复制词条" disabled>⧉</button><button id="copy-anki" class="text-button" title="复制 Anki TSV" disabled>Anki</button></span></div>
+      <div class="content-toolbar" role="group" aria-label="词条工具"><button id="back" class="text-button mobile-only"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg>返回词表</button><span id="breadcrumb">词典 / 开始探索</span><span class="toolbar-actions"><button id="save" class="icon-button" aria-label="收藏单词" aria-pressed="false" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9Z"/></svg></button><button id="copy" class="icon-button" aria-label="复制词条 Markdown" title="复制词条" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M15 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3"/></svg></button><button id="copy-anki" class="text-button" aria-label="复制 Anki TSV" title="复制 Anki TSV" disabled>Anki</button></span></div>
       <article id="detail" class="entry"><div class="welcome"><span class="welcome-glyph">Aa</span><h2>每一个词，都有来处。</h2><p>正在为你打开 25,006 个词的世界…</p></div></article>
       <footer class="reading-footer"><span>Open-Lexicon 25K</span><span>读懂 · 听见 · 记住</span></footer>
     </section>
   </main>
-  <dialog id="study" class="study-dialog" aria-labelledby="study-title">
-    <div class="drawer-heading"><div><span class="small-label" id="study-kind">留一点时间给学习</span><h2 id="study-title">今日的词语练习</h2></div><button id="close-study" class="icon-button" aria-label="关闭学习抽屉">×</button></div>
+  <dialog id="study" class="study-dialog" aria-labelledby="study-title" aria-describedby="study-note">
+    <button id="sheet-handle" class="sheet-handle" aria-label="关闭学习抽屉，也可向右拖动关闭" title="向右拖动关闭" tabindex="-1"></button>
+    <div class="drawer-heading"><div><span class="small-label" id="study-kind">留一点时间给学习</span><h2 id="study-title">今日的词语练习</h2></div><button id="close-study" class="icon-button" aria-label="关闭学习抽屉" autofocus><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg></button></div>
     <div class="study-stats"><div><strong id="studied">0</strong><span>今日已记住</span></div><div><strong id="streak">0</strong><span>连续学习天数</span></div></div>
     <p id="study-progress" class="study-progress" role="status"></p>
-    <button id="flashcard" class="flashcard" aria-label="翻开释义" aria-pressed="false"><span class="flip-inner"><span class="card-front"><span class="small-label">先想一想它的意思</span><strong id="card-word">…</strong><span id="card-phonetic"></span><span class="flip-hint">点击翻开释义 <span aria-hidden="true">↻</span></span></span><span class="card-back" aria-hidden="true"><span class="small-label">你想起来了吗？</span><span id="card-meaning"></span><span class="flip-hint">点击回到词面 ↻</span></span></span></button>
+    <button id="flashcard" class="flashcard" aria-label="翻开释义" aria-pressed="false"><span class="flip-inner"><span class="card-front"><span class="small-label">先想一想它的意思</span><strong id="card-word" lang="en">…</strong><span id="card-phonetic"></span><span class="flip-hint">点击翻开释义 <span aria-hidden="true">↻</span></span></span><span class="card-back" aria-hidden="true"><span class="small-label">你想起来了吗？</span><span id="card-meaning"></span><span class="flip-hint">点击回到词面 <span aria-hidden="true">↻</span></span></span></button>
     <div class="study-controls"><button id="study-again" class="secondary-button">再看一次</button><button id="study-known" class="primary-button">记住了 ✓</button></div>
     <button id="study-open" class="text-button study-open">在词典中细读</button>
-    <p class="drawer-note">每天一点，让词汇慢慢成为你的语言。<br>学习进度仅保存在这台设备。</p>
+    <p class="drawer-note" id="study-note">每天一点，让词汇慢慢成为你的语言。<br>学习进度仅保存在这台设备。</p>
   </dialog>
   <div id="toast" class="toast" role="status" hidden></div>
   <noscript>请启用 JavaScript 以使用本地词典检索。</noscript>

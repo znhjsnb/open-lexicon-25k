@@ -57,18 +57,77 @@ function toast(message) {
   toastTimer = setTimeout(() => { $('toast').hidden = true; }, 3500);
 }
 
-function haptic(ms = 8) {
-  try { if ('vibrate' in navigator) navigator.vibrate(ms); } catch {}
+function haptic() {
+  try { navigator.vibrate?.([8]); } catch { /* Unsupported or disallowed: visual feedback remains. */ }
 }
+
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+// Integrate a damped spring from its live position AND velocity. Retargeting never
+// restarts a scripted transition. Substeps keep the physics stable on slow frames.
+function createSpring(paint, { damping = 1, response = .3 } = {}) {
+  let value = 0, target = 0, velocity = 0, frame = 0, last = 0, complete;
+  function stop() { cancelAnimationFrame(frame); frame = 0; complete = undefined; }
+  function tick(now) {
+    let remaining = Math.min((now - last) / 1000, .04);
+    last = now;
+    const omega = 2 * Math.PI / response;
+    while (remaining > 0) {
+      const dt = Math.min(remaining, 1 / 240);
+      velocity += (-omega * omega * (value - target) - 2 * damping * omega * velocity) * dt;
+      value += velocity * dt;
+      remaining -= dt;
+    }
+    if (Math.abs(value - target) < .1 && Math.abs(velocity) < .5) {
+      value = target; velocity = 0; frame = 0; paint(value);
+      const done = complete; complete = undefined; done?.();
+    } else { paint(value); frame = requestAnimationFrame(tick); }
+  }
+  return {
+    get value() { return value; },
+    get velocity() { return velocity; },
+    stop,
+    jump(next) { stop(); value = target = next; velocity = 0; paint(value); },
+    to(next, options = {}) {
+      target = next;
+      damping = options.damping ?? damping;
+      velocity = options.velocity ?? velocity;
+      complete = options.complete;
+      if (!frame) { last = performance.now(); frame = requestAnimationFrame(tick); }
+    },
+  };
+}
+
+let scrollFrame = 0;
+function updateScrollEdge() {
+  scrollFrame = 0;
+  const scrolled = content.scrollTop > 2 && content.getClientRects().length > 0;
+  content.classList.toggle('is-scrolled', scrolled);
+}
+content.addEventListener('scroll', () => {
+  if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScrollEdge);
+}, { passive: true });
 
 function setTheme(theme) {
   document.documentElement.dataset.theme = theme;
   $('theme').setAttribute('aria-label', theme === 'dark' ? '切换浅色主题' : '切换深色主题');
+  document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#1c1c1e' : '#f5f5f7';
 }
-setTheme(readStorage('open_lexicon_theme', 'light') === 'dark' ? 'dark' : 'light');
+const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+setTheme(readStorage('open_lexicon_theme', systemTheme.matches ? 'dark' : 'light') === 'dark' ? 'dark' : 'light');
+systemTheme.addEventListener('change', event => {
+  if (!readStorage('open_lexicon_theme', null)) {
+    chosenTheme = event.matches ? 'dark' : 'light';
+    setTheme(chosenTheme);
+  }
+});
+let themeTransition;
+let chosenTheme = document.documentElement.dataset.theme;
 $('theme').onclick = () => {
-  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-  setTheme(next);
+  const next = chosenTheme = chosenTheme === 'dark' ? 'light' : 'dark';
+  themeTransition?.skipTransition();
+  if (document.startViewTransition && !reducedMotion.matches) {
+    themeTransition = document.startViewTransition(() => setTheme(next));
+  } else setTheme(next);
   writeStorage('open_lexicon_theme', next);
 };
 
@@ -85,7 +144,6 @@ $('pos-filter').onchange = () => { state.pos = $('pos-filter').value; requestSea
 function updateBookmarks() {
   $('bookmark-count').textContent = bookmarks.size;
   const saved = bookmarks.has(state.selectedKey.toLowerCase());
-  $('save').textContent = saved ? '★' : '☆';
   $('save').setAttribute('aria-pressed', String(saved));
   $('save').setAttribute('aria-label', saved ? '取消收藏单词' : '收藏单词');
 }
@@ -97,7 +155,7 @@ $('bookmarks').onclick = () => {
 };
 $('save').onclick = () => {
   if (!state.selected) return;
-  haptic(12);
+  haptic();
   const key = state.selected.word.toLowerCase();
   if (bookmarks.has(key)) bookmarks.delete(key); else bookmarks.add(key);
   writeStorage('open_lexicon_bookmarks', [...bookmarks]);
@@ -275,6 +333,7 @@ async function selectWord(word, openMobile = false) {
   // Avoid a flickering loading card on memory hits, while never leaving the old word visible.
   detail.innerHTML = `<header class="word-header"><h1 class="word-heading" lang="en">${escapeHtml(word)}</h1><p class="small-label">正在打开词条…</p></header>`;
   content.scrollTop = 0;
+  updateScrollEdge();
   try {
     const result = await getWord(word);
     if (token !== state.selectionId) return;
@@ -303,7 +362,7 @@ function renderDetail(entry) {
   const tags = normalizeTags(entry.tags);
   // Pull out an existing formula only; never invent a morphological split.
   const formula = String(entry.morphology_zh || '').match(/[A-Za-z][A-Za-z -]*(?:\s*\+\s*[-A-Za-z]+)+\s*→\s*[^；。\n]+/)?.[0];
-  detail.innerHTML = `<header class="word-header"><div class="word-headline"><h1 class="word-heading" lang="en">${escapeHtml(entry.word)}</h1></div><div class="pronunciations"><span class="phonetic">${escapeHtml(phonetic(entry.phonetic))}</span>${audioButton(entry.word, '英音', false, 'en-GB')}${audioButton(entry.word, '美音', true)}</div><div class="tag-line">${tags.map(tag => `<span class="exam-tag ${tag.startsWith('CEFR') ? 'cefr-tag' : ''}">${escapeHtml(tag)}</span>`).join('')}</div></header>
+  detail.innerHTML = `<header class="word-header"><p class="entry-kicker">词语档案 · ENGLISH–CHINESE</p><div class="word-headline"><h1 class="word-heading" lang="en">${escapeHtml(entry.word)}</h1></div><div class="pronunciations"><span class="phonetic">${escapeHtml(phonetic(entry.phonetic))}</span>${audioButton(entry.word, '英音', false, 'en-GB')}${audioButton(entry.word, '美音', true)}</div><div class="tag-line">${tags.map(tag => `<span class="exam-tag ${tag.startsWith('CEFR') ? 'cefr-tag' : ''}">${escapeHtml(tag)}</span>`).join('')}</div></header>
     <section aria-label="释义与语境"><div class="section-heading"><h2>释义与语境</h2><span>${entry.senses.length} 个义项</span></div>${entry.senses.map((sense, index) => {
       const collocations = String(sense.collocation_en || '').split(/\s*[;；]\s*/).filter(Boolean);
       const translations = String(sense.collocation_zh || '').split(/\s*[;；]\s*/);
@@ -320,7 +379,6 @@ function stopSpeech() {
 }
 function speak(button) {
   if (!('speechSynthesis' in window)) { toast('当前浏览器不支持朗读，请使用 Chrome、Edge 或 Safari'); return; }
-  haptic(8);
   const wasPlaying = speechButton === button;
   stopSpeech();
   if (wasPlaying) return;
@@ -336,6 +394,7 @@ function speak(button) {
   speechButton = button;
   button.classList.add('playing');
   button.setAttribute('aria-busy', 'true');
+  haptic();
   const finish = () => {
     if (generation !== speechGeneration) return;
     button.classList.remove('playing');
@@ -363,13 +422,30 @@ $('copy-anki').onclick = async () => {
   try { await navigator.clipboard.writeText(`${front.replace(/[\t\r\n]/g, ' ')}\t${back.replace(/[\t\r\n]/g, ' ')}`); toast('已复制 Anki TSV，可导入为正反面'); }
   catch { toast('复制未成功，请允许浏览器访问剪贴板'); }
 };
+const focusAnimations = new Map();
 function setImmersive(enabled) {
+  if (document.body.classList.contains('immersive') === enabled) return;
+  const moving = [detail, document.querySelector('.toolbar-actions')];
+  const previous = moving.map(element => element.getBoundingClientRect());
+  focusAnimations.forEach(animation => animation.cancel());
+  focusAnimations.clear();
   document.body.classList.toggle('immersive', enabled);
   $('focus').setAttribute('aria-pressed', String(enabled));
   $('focus').lastElementChild.textContent = enabled ? '退出沉浸' : '沉浸阅读';
+  $('focus').setAttribute('aria-label', enabled ? '退出沉浸阅读' : '沉浸阅读');
+  $('focus').title = enabled ? '退出沉浸阅读' : '沉浸阅读';
+  moving.forEach((element, index) => {
+    const next = element.getBoundingClientRect();
+    if (!next.width || !previous[index].width) return;
+    const from = reducedMotion.matches ? { opacity: .65 } : { opacity: .75, transform: `translate(${previous[index].left - next.left}px, ${previous[index].top - next.top}px)` };
+    const animation = element.animate([from, { opacity: 1, transform: 'none' }], { duration: reducedMotion.matches ? 120 : 320, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+    focusAnimations.set(element, animation);
+    animation.onfinish = () => { if (focusAnimations.get(element) === animation) focusAnimations.delete(element); };
+  });
+  updateScrollEdge();
 }
 $('focus').onclick = () => setImmersive(!document.body.classList.contains('immersive'));
-$('back').onclick = () => { document.body.classList.remove('reading'); setImmersive(false); searchInput.focus(); };
+$('back').onclick = () => { document.body.classList.remove('reading'); setImmersive(false); updateScrollEdge(); searchInput.focus(); };
 
 function updateStudyStats() {
   $('studied').textContent = new Set(todayWords()).size;
@@ -383,7 +459,10 @@ function updateStudyStats() {
   }
   $('streak').textContent = streak;
 }
-function setFlipped(flipped) {
+const cardSpring = createSpring(value => {
+  $('flashcard').querySelector('.flip-inner').style.transform = `rotateY(${value}deg)`;
+}, { damping: .8, response: .4 });
+function setFlipped(flipped, immediate = false) {
   state.flipped = flipped;
   $('flashcard').classList.toggle('flipped', flipped);
   $('flashcard').setAttribute('aria-pressed', String(flipped));
@@ -391,10 +470,12 @@ function setFlipped(flipped) {
   $('flashcard').querySelector('.card-front').setAttribute('aria-hidden', String(flipped));
   $('flashcard').querySelector('.card-back').setAttribute('aria-hidden', String(!flipped));
   $('study-known').disabled = !flipped || state.studyDone;
+  if (reducedMotion.matches || immediate) cardSpring.jump(flipped ? 180 : 0);
+  else cardSpring.to(flipped ? 180 : 0);
 }
 function renderCard() {
   updateStudyStats();
-  setFlipped(false);
+  setFlipped(false, true);
   const card = state.study[state.cardIndex];
   $('flashcard').disabled = !card || state.studyDone;
   $('study-again').disabled = !card;
@@ -412,29 +493,140 @@ function renderCard() {
   if (state.studyDone) $('study-again').textContent = '再复习一轮';
   else $('study-again').textContent = '再看一次';
 }
+let sheetExtent = 500;
+let sheetClosing = false;
+let sheetFade;
+let afterSheetClose;
+const workspace = document.querySelector('.workspace');
+const sheetSpring = createSpring(value => {
+  const presence = Math.max(0, Math.min(1, 1 - value / sheetExtent));
+  studyDialog.style.transform = reducedMotion.matches ? 'none' : `translate3d(${value}px, 0, 0) scale(${.985 + presence * .015})`;
+  studyDialog.style.opacity = reducedMotion.matches ? '1' : String(.75 + presence * .25);
+  studyDialog.classList.toggle('is-present', presence > .02 && !sheetClosing);
+  workspace.style.transform = reducedMotion.matches ? '' : `translateY(${presence * 2}px) scale(${1 - presence * .005})`;
+}, { damping: .8, response: .3 });
+function settleSheet(open, velocity) {
+  sheetClosing = !open;
+  const currentOpacity = Number(getComputedStyle(studyDialog).opacity);
+  sheetFade?.cancel();
+  studyDialog.style.willChange = 'transform, opacity';
+  const complete = () => {
+    studyDialog.style.willChange = '';
+    if (!open && sheetClosing) {
+      studyDialog.close();
+    }
+  };
+  if (reducedMotion.matches) {
+    sheetSpring.stop();
+    studyDialog.style.transform = 'none';
+    workspace.style.transform = '';
+    studyDialog.classList.toggle('is-present', open);
+    sheetFade = studyDialog.animate([{ opacity: currentOpacity }, { opacity: open ? 1 : 0 }], { duration: 120, easing: 'ease-out' });
+    sheetFade.onfinish = () => { sheetSpring.jump(open ? 0 : sheetExtent); complete(); };
+  } else {
+    if (!open) studyDialog.classList.remove('is-present');
+    sheetSpring.to(open ? 0 : sheetExtent, { damping: .8, velocity, complete });
+  }
+}
+function closeStudy(afterClose) {
+  if (!studyDialog.open) { afterClose?.(); return; }
+  if (typeof afterClose === 'function') afterSheetClose = afterClose;
+  settleSheet(false);
+}
 function openStudy(daily) {
   if (!state.ready) { toast('词库正在准备，请稍候'); return; }
-  studyTrigger = document.activeElement;
+  const wasOpen = studyDialog.open;
+  if (!wasOpen) studyTrigger = document.activeElement;
   state.studyId++;
   state.study = [];
   state.studyDone = false;
   $('study-title').textContent = daily ? '今天，认识一个新词' : '让词汇成为你的表达';
   $('study-kind').textContent = daily ? '每日一词' : `备考抽认 · ${state.tag || '全部词汇'}`;
-  studyDialog.showModal();
+  if (!wasOpen) {
+    studyDialog.showModal();
+    sheetExtent = studyDialog.getBoundingClientRect().width + 24;
+    sheetSpring.jump(sheetExtent);
+    if (reducedMotion.matches) studyDialog.style.opacity = '0';
+  }
+  afterSheetClose = undefined;
+  settleSheet(true);
   renderCard();
   worker.postMessage({ type: 'study', requestId: state.studyId, day: dayNumber(), tag: daily ? '' : state.tag, daily });
 }
 $('daily').onclick = () => openStudy(true);
 $('practice').onclick = () => openStudy(false);
-$('close-study').onclick = () => studyDialog.close();
-studyDialog.addEventListener('click', event => { if (event.target === studyDialog && event.clientX < studyDialog.getBoundingClientRect().left) studyDialog.close(); });
-studyDialog.addEventListener('close', () => { state.studyId++; studyTrigger?.focus(); });
-$('flashcard').onclick = () => { haptic(10); setFlipped(!state.flipped); };
+$('close-study').onclick = () => closeStudy();
+studyDialog.addEventListener('cancel', event => { event.preventDefault(); closeStudy(); });
+// A backdrop click must start AND end outside the sheet (dragging out is not a click).
+let backdropDown = false;
+function outsideSheet(event) {
+  const rect = studyDialog.getBoundingClientRect();
+  return event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom;
+}
+studyDialog.addEventListener('pointerdown', event => { backdropDown = event.target === studyDialog && outsideSheet(event); });
+studyDialog.addEventListener('click', event => { if (backdropDown && event.target === studyDialog && outsideSheet(event)) closeStudy(); backdropDown = false; });
+studyDialog.addEventListener('close', () => {
+  state.studyId++; sheetSpring.stop(); sheetFade?.cancel(); cardSpring.stop();
+  workspace.style.transform = ''; studyDialog.style.willChange = '';
+  sheetClosing = false;
+  if (studyTrigger?.isConnected) studyTrigger.focus({ preventScroll: true });
+  const next = afterSheetClose; afterSheetClose = undefined; next?.();
+});
+
+// The dedicated grabber leaves vertical reading and text selection untouched.
+const sheetHandle = $('sheet-handle');
+let grab;
+let suppressHandleClick = false;
+function rubberband(distance) { return distance * sheetExtent * .55 / (sheetExtent + .55 * Math.abs(distance)); }
+sheetHandle.addEventListener('pointerdown', event => {
+  if (!event.isPrimary || event.button !== 0) return;
+  const velocity = sheetSpring.velocity;
+  sheetSpring.stop(); sheetFade?.cancel();
+  grab = { id: event.pointerId, x: event.clientX, y: event.clientY, start: sheetSpring.value, velocity, samples: [{ x: event.clientX, time: event.timeStamp }], dragging: false };
+  sheetHandle.setPointerCapture(event.pointerId);
+});
+sheetHandle.addEventListener('pointermove', event => {
+  if (!grab || grab.id !== event.pointerId) return;
+  const dx = event.clientX - grab.x;
+  if (!grab.dragging && Math.abs(dx) < 10) return;
+  if (!grab.dragging && Math.abs(event.clientY - grab.y) > Math.abs(dx)) { finishGrab(event, true); return; }
+  grab.dragging = true;
+  if (!reducedMotion.matches) {
+    const next = grab.start + dx;
+    sheetSpring.jump(next < 0 ? rubberband(next) : next > sheetExtent ? sheetExtent + rubberband(next - sheetExtent) : next);
+  }
+  grab.samples.push({ x: event.clientX, time: event.timeStamp });
+  grab.samples = grab.samples.filter(sample => event.timeStamp - sample.time < 100);
+});
+function finishGrab(event, canceled = false) {
+  if (!grab || grab.id !== event.pointerId) return;
+  const current = grab; grab = undefined;
+  if (sheetHandle.hasPointerCapture(event.pointerId)) sheetHandle.releasePointerCapture(event.pointerId);
+  if (!current.dragging) { settleSheet(!sheetClosing, current.velocity); return; }
+  suppressHandleClick = true;
+  setTimeout(() => { suppressHandleClick = false; }, 0);
+  const first = current.samples[0];
+  const velocity = (event.clientX - first.x) / Math.max(1, event.timeStamp - first.time) * 1000;
+  const projected = sheetSpring.value + (velocity / 1000) * .998 / (1 - .998);
+  const close = !canceled && (reducedMotion.matches ? event.clientX - current.x > 70 : Math.abs(velocity) > 150 ? velocity > 0 : projected > sheetExtent * .45);
+  settleSheet(!close, canceled ? 0 : velocity);
+}
+sheetHandle.addEventListener('pointerup', event => finishGrab(event));
+sheetHandle.addEventListener('pointercancel', event => finishGrab(event, true));
+sheetHandle.addEventListener('lostpointercapture', event => finishGrab(event, true));
+sheetHandle.onclick = () => { if (!suppressHandleClick) closeStudy(); };
+reducedMotion.addEventListener('change', () => {
+  themeTransition?.skipTransition();
+  focusAnimations.forEach(animation => animation.cancel()); focusAnimations.clear();
+  cardSpring.jump(state.flipped ? 180 : 0);
+  if (studyDialog.open) settleSheet(!sheetClosing);
+});
+$('flashcard').onclick = () => { setFlipped(!state.flipped); haptic(); };
 $('study-known').onclick = () => {
   if (!state.flipped || state.studyDone) return;
-  haptic(15);
   const card = state.study[state.cardIndex];
   if (!card) return;
+  haptic();
   progress[localDay()] = [...new Set([...todayWords(), card.w])];
   const dates = Object.keys(progress).sort();
   dates.slice(0, Math.max(0, dates.length - 365)).forEach(day => delete progress[day]);
@@ -451,21 +643,23 @@ $('study-again').onclick = () => {
 $('study-open').onclick = () => {
   const card = state.study[state.cardIndex];
   if (!card) return;
-  studyDialog.close();
-  searchInput.value = card.w;
-  state.savedOnly = false;
-  state.tag = '';
-  state.pos = '';
-  $('pos-filter').value = '';
-  $('bookmarks').setAttribute('aria-pressed', 'false');
-  $('filters').querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed', String(!button.dataset.tag)));
-  requestSearch(true);
-  document.body.classList.add('reading');
+  closeStudy(() => {
+    searchInput.value = card.w;
+    state.savedOnly = false;
+    state.tag = '';
+    state.pos = '';
+    $('pos-filter').value = '';
+    $('bookmarks').setAttribute('aria-pressed', 'false');
+    $('filters').querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed', String(!button.dataset.tag)));
+    requestSearch(true);
+    document.body.classList.add('reading');
+    content.focus({ preventScroll: true });
+  });
 };
 
 window.addEventListener('keydown', event => {
   if (event.isComposing || composing || event.altKey || (event.ctrlKey && event.key !== 'k') || (event.metaKey && event.key !== 'k')) return;
-  if (studyDialog.open) return; // Native dialog traps focus and handles Escape.
+  if (studyDialog.open) return; // Native focus trap; cancel event animates Escape.
   const editable = event.target instanceof Element && event.target.matches('input, textarea, [contenteditable="true"]');
   if ((event.key === '/' && !editable) || ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k')) {
     event.preventDefault();

@@ -2,7 +2,7 @@
 
 > **文档定位**：本项目完整交接报告（Handoff）、分工边界与职责矩阵（RACI）、公库（GitHub）最终呈现架构规范，以及从内部检验向顶级开源项目转化的执行路线图。
 
-> **当前客户端状态（2026-11-01，优先于下文历史规划）**：纯静态客户端已实现：原生 ES Modules、Worker 检索、IndexedDB 字母分片缓存、Service Worker 离线页面、全词库离线准备、平铺词条、沉浸阅读和抽认打卡。16 项模块测试已通过，25,006 词 / 58,574 义项 / 27 分片对齐；输入数据与后端未改动。浏览器冷启动、视觉与真实交互验收仍未通过执行：Chrome 子进程启动被拒绝，浏览器宿主不可用，原生 Chrome 工具未获批准。不得把 Node 模块耗时写成浏览器实测。下一步在获准的浏览器环境运行 `tests/frontend.browser.cjs`，按 [FRONTEND_ACCEPTANCE.md](FRONTEND_ACCEPTANCE.md) 记录结果。当前 `.git` 为只读，本批未提交。
+> **当前客户端状态（2026-11-01，优先于下文历史规划）**：已由 Codex 按工作区 Apple Design 技能重构系统字体、明暗材质、滚动边缘、可打断抽屉/翻牌弹簧、拖动关闭、8ms 触觉与三类辅助偏好。核心词条仍默认完整平铺，Worker 检索与 IndexedDB 分片缓存保持原样。原有 16 项模块测试及新增 9 项隔离交互测试通过；25,006 词 / 58,574 义项 / 27 分片对齐；输入数据与后端未改动。静态预览 `http://127.0.0.1:8876/` 的页面和全部模块均经 HTTP 200 / 磁盘字节核验，Service Worker 外壳版本已升至 v2。详见 [Apple Design 重构验收报告](../.tmp/apple_design_rewrite_report.md)。浏览器冷启动、视觉与真实交互验收仍受权限阻断：Chrome 子进程启动被拒绝，浏览器宿主不可用，原生 Chrome 工具未获批准。不得把隔离控制器测试、Node 耗时或 HTTP 200 当作浏览器验收。下一步在获准的浏览器环境运行已扩展的 `tests/frontend.browser.cjs`，按 [FRONTEND_ACCEPTANCE.md](FRONTEND_ACCEPTANCE.md) 与本轮报告记录结果。当前 `.git` 为只读，本批未提交。
 
 ---
 

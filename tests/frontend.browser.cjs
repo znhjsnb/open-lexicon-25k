@@ -53,7 +53,7 @@ async function find(page, query, word) {
   browser = await chromium.launch({ headless: true, ...(executable ? { executablePath: executable } : {}) });
   report.browser = browser.version();
   report.base = base;
-  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, colorScheme: 'light' });
   context.setDefaultTimeout(15000);
   const page = await context.newPage();
   const network = [];
@@ -86,6 +86,30 @@ async function find(page, query, word) {
     assert.ok((await page.locator('.word-row').count()) > 0);
     await find(page, 'ab');
     assert.equal(await page.locator('.word-row').count(), 50);
+  });
+  await runCase('Apple materials, optical type and a real scroll edge with flat content', async () => {
+    await find(page, 'available', 'available');
+    const styles = await page.evaluate(() => {
+      const style = selector => getComputedStyle(document.querySelector(selector));
+      return {
+        optical: style('html').fontOpticalSizing,
+        topbarBlur: style('.topbar').backdropFilter,
+        toolbarBlur: style('.content-toolbar').backdropFilter,
+        headingTracking: parseFloat(style('.word-heading').letterSpacing),
+        headingLeading: parseFloat(style('.word-heading').lineHeight) / parseFloat(style('.word-heading').fontSize),
+        toolbarBorder: style('.content-toolbar').borderBottomWidth,
+      };
+    });
+    assert.equal(styles.optical, 'auto');
+    assert.equal(styles.topbarBlur, 'blur(20px) saturate(1.8)');
+    assert.equal(styles.toolbarBlur, styles.topbarBlur);
+    assert.ok(styles.headingTracking < 0 && styles.headingLeading >= 1.05 && styles.headingLeading <= 1.1);
+    assert.equal(styles.toolbarBorder, '0px');
+    await page.locator('#content').evaluate(element => { element.scrollTop = 180; });
+    await page.waitForFunction(() => document.querySelector('#content').classList.contains('is-scrolled'));
+    assert.equal(await page.locator('#detail [hidden], #detail details').count(), 0);
+    await page.screenshot({ path: path.join(output, 'apple-scroll-edge.png') });
+    await page.locator('#content').evaluate(element => { element.scrollTop = 0; });
   });
   await runCase('exam, POS, bookmark filters and keyboard navigation', async () => {
     await page.locator('[data-tag="CET4"]').click();
@@ -155,6 +179,7 @@ async function find(page, query, word) {
     assert.ok(Number(await page.locator('#studied').textContent()) > 0);
     await page.screenshot({ path: path.join(output, 'drawer.png') });
     await page.keyboard.press('Escape');
+    await page.locator('#study').waitFor({ state: 'hidden' });
     assert.equal(await page.locator('#study').isVisible(), false);
     assert.ok(await page.evaluate(() => Boolean(localStorage.getItem('open_lexicon_progress'))));
   });
@@ -173,9 +198,11 @@ async function find(page, query, word) {
   });
   await runCase('desktop dark theme and mobile navigation without horizontal overflow', async () => {
     await page.locator('#theme').click();
+    await page.waitForFunction(() => document.documentElement.dataset.theme === 'dark');
     assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
     await page.screenshot({ path: path.join(output, 'dark.png') });
     await page.locator('#theme').click();
+    await page.waitForFunction(() => document.documentElement.dataset.theme === 'light');
     await page.setViewportSize({ width: 390, height: 844 });
     assert.equal(await page.locator('.sidebar').isVisible(), true);
     await page.locator('.word-row').first().click();
@@ -185,6 +212,29 @@ async function find(page, query, word) {
     await page.locator('#back').click();
     assert.equal(await page.locator('.sidebar').isVisible(), true);
     await page.setViewportSize({ width: 1440, height: 1000 });
+  });
+  await runCase('reduced motion, reduced transparency and increased contrast independently', async () => {
+    const cdp = await context.newCDPSession(page);
+    try {
+      await cdp.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
+      await page.locator('#daily').click();
+      await page.waitForFunction(() => document.querySelector('#flashcard').disabled === false);
+      assert.equal(await page.locator('#study').evaluate(element => getComputedStyle(element).transform), 'none');
+      await page.locator('#flashcard').click();
+      assert.equal(await page.locator('.flip-inner').evaluate(element => getComputedStyle(element).transform), 'none');
+      await page.keyboard.press('Escape');
+      await page.locator('#study').waitFor({ state: 'hidden' });
+      await cdp.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-transparency', value: 'reduce' }] });
+      await page.waitForFunction(() => getComputedStyle(document.querySelector('.topbar')).backdropFilter === 'none');
+      assert.equal(await page.locator('.topbar').evaluate(element => getComputedStyle(element).backgroundColor), 'rgb(255, 255, 255)');
+      await cdp.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-contrast', value: 'more' }] });
+      await page.waitForFunction(() => getComputedStyle(document.querySelector('.content-toolbar')).borderBottomWidth === '1px');
+      assert.equal(await page.locator('.content-toolbar').evaluate(element => getComputedStyle(element).backdropFilter), 'none');
+      await page.screenshot({ path: path.join(output, 'apple-increased-contrast.png') });
+    } finally {
+      await cdp.send('Emulation.setEmulatedMedia', { features: [] });
+      await cdp.detach();
+    }
   });
   await runCase('full offline preparation, reload, uncached-in-memory letter via IndexedDB', async () => {
     await page.locator('#offline-download').click();
