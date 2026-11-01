@@ -116,11 +116,17 @@
 python src/export_databases.py --all
 ```
 
-### 2. 启动本地零依赖极速查词服务
+### 2. 启动纯静态词典客户端
 ```bash
-python app/server.py
+python -m http.server 8765 --bind 127.0.0.1 --directory app/static
 ```
-在浏览器中打开 `http://127.0.0.1:8765` 即可使用本地内置的查词工作台。
+在浏览器中打开 `http://127.0.0.1:8765`。检索在 Web Worker 中运行，详细词条按字母下载并保存在 IndexedDB，无需启动数据库 API。
+
+静态数据位于 `app/static/data/`；若尚未生成，先运行 `python src/export_web_shards.py`（需已有 SQLite 导出）。发布时将 **`app/static/` 整个目录连同 data 上传**，可放在静态站点子目录。数据目录受 `.gitignore` 保护，提交源码不会自动包含它。
+
+页面左下角“准备离线词库”可缓存全部 27 个分片，完成后可离线刷新与查词。首次访问需要联网；离线朗读还需设备已安装英语语音包。旧 `app/server.py` 仍供其他 API 使用方调用。
+
+实现边界、测试命令及尚待完成的浏览器验收见 [前端验收记录](docs/FRONTEND_ACCEPTANCE.md)。
 
 ---
 

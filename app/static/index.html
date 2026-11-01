@@ -1,200 +1,61 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open-Lexicon 25K | 现代化全双语多词性词典工作台</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%3E<text y=%2226%22 font-size=%2226%22>📖</text></svg>">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f9f8">
+  <meta name="description" content="Open-Lexicon：25,006 个英语词汇的双语学习词典。查释义，听例句，理解构词与词源。">
+  <title>Open-Lexicon · 把单词读懂</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23245d50'/%3E%3Ctext x='8' y='24' font-size='25' font-family='Georgia' fill='white'%3El%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
 </head>
-<body class="dark-theme">
-    <div id="app">
-        <!-- Top Navigation -->
-        <header class="navbar">
-            <div class="nav-left">
-                <span class="logo-icon">📖</span>
-                <span class="brand-title">Open-Lexicon <span class="brand-accent">25K</span></span>
-                <span class="badge live-badge">本地极速版 · 25,006 词</span>
-            </div>
-            <div class="nav-right">
-                <button id="btnRandom" class="nav-btn" title="随机抽选一个词 (R)">
-                    <span>🎲 随机抽词</span>
-                </button>
-                <button id="btnBookmarks" class="nav-btn" title="查看收藏词汇">
-                    <span>⭐️ 收藏夹 (<span id="bookmarkCount">0</span>)</span>
-                </button>
-                <button id="btnTheme" class="nav-btn theme-toggle" title="切换深浅主题">
-                    <span id="themeIcon">☀️</span>
-                </button>
-            </div>
-        </header>
-
-        <!-- Main Workspace -->
-        <div class="workspace">
-            <!-- Sidebar / Search & Word List -->
-            <aside class="sidebar">
-                <div class="search-box-wrapper">
-                    <div class="search-input-group">
-                        <span class="search-icon">🔍</span>
-                        <input type="text" id="searchInput" placeholder="搜索英文单词或中文释义... (快捷键 /)" autocomplete="off" spellcheck="false">
-                        <button id="btnClearSearch" class="btn-clear hidden">&times;</button>
-                    </div>
-                </div>
-
-                <!-- Filters -->
-                <div class="filters-container">
-                    <div class="filter-group">
-                        <span class="filter-label">考试分类:</span>
-                        <div class="tag-chips" id="tagFilters">
-                            <span class="chip active" data-tag="">全部</span>
-                            <span class="chip" data-tag="高考">高考</span>
-                            <span class="chip" data-tag="四级">四级</span>
-                            <span class="chip" data-tag="六级">六级</span>
-                            <span class="chip" data-tag="考研">考研</span>
-                            <span class="chip" data-tag="雅思">雅思</span>
-                            <span class="chip" data-tag="托福">托福</span>
-                            <span class="chip" data-tag="GRE">GRE</span>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <span class="filter-label">词性筛选:</span>
-                        <div class="pos-chips" id="posFilters">
-                            <span class="chip active" data-pos="">全部</span>
-                            <span class="chip" data-pos="n.">名词 n.</span>
-                            <span class="chip" data-pos="v.">动词 v.</span>
-                            <span class="chip" data-pos="adj.">形容词 a.</span>
-                            <span class="chip" data-pos="adv.">副词 ad.</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Results Counter -->
-                <div class="results-header">
-                    <span id="resultsCount">检索中...</span>
-                    <span id="pageInfo">第 1 页</span>
-                </div>
-
-                <!-- Word List -->
-                <div class="word-list" id="wordList">
-                    <!-- Word list items rendered via JS -->
-                </div>
-
-                <!-- Pagination Footer -->
-                <div class="pagination">
-                    <button id="btnPrevPage" class="page-btn" disabled>&laquo; 上一页</button>
-                    <span id="pageCurrent">1 / 1</span>
-                    <button id="btnNextPage" class="page-btn">下一页 &raquo;</button>
-                </div>
-            </aside>
-
-            <!-- Main Detail Panel -->
-            <main class="content-panel" id="detailPanel">
-                <div class="empty-state" id="emptyState">
-                    <div class="empty-icon">📖</div>
-                    <h2>请在左侧列表选择单词</h2>
-                    <p>支持按英文词头前缀、中文释义全文模糊搜索，或点击上方「🎲 随机抽词」开始探索。</p>
-                </div>
-
-                <div class="word-detail hidden" id="wordDetail">
-                    <!-- Word Header -->
-                    <div class="detail-header">
-                        <div class="word-title-row">
-                            <h1 id="detailWord" class="word-heading">word</h1>
-                            <div class="audio-controls">
-                                <button class="btn-audio" id="btnAudioUK" title="播放英音发音">
-                                    <span>🔊 英音</span> <span class="phonetic-text" id="detailPhoneticUK"></span>
-                                </button>
-                                <button class="btn-audio" id="btnAudioUS" title="播放美音发音">
-                                    <span>🔊 美音</span> <span class="phonetic-text" id="detailPhoneticUS"></span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="detail-actions">
-                            <div class="exam-badges" id="detailExamTags"></div>
-                            <div class="action-buttons">
-                                <button id="btnToggleBookmark" class="action-btn" title="收藏/取消收藏 (B)">
-                                    <span id="bookmarkStar">☆</span> 收藏
-                                </button>
-                                <button id="btnCopyMarkdown" class="action-btn" title="复制完整 Markdown">
-                                    📋 复制 Markdown
-                                </button>
-                                <button id="btnCopyAnki" class="action-btn" title="复制 Anki 闪卡格式">
-                                    🎴 复制 Anki
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Multi-POS Senses Grid -->
-                    <section class="section-block">
-                        <div class="section-title">
-                            <span>多词性双语精雕释义 (Multi-POS Parallel Senses)</span>
-                            <span class="senses-badge" id="sensesCountBadge">3 义项</span>
-                        </div>
-                        <div class="senses-list" id="detailSenses">
-                            <!-- Senses populated by JS -->
-                        </div>
-                    </section>
-
-                    <!-- Deep Lexical Foundations (Etymology, Morphology, Nuances, Mnemonics) -->
-                    <section class="section-block deep-lexical-grid">
-                        <!-- Etymology -->
-                        <div class="lexical-card card-etym">
-                            <div class="card-title">
-                                <span class="icon">🏛️</span>
-                                <span>词源追溯 (Etymology Story)</span>
-                            </div>
-                            <div class="card-body">
-                                <p class="text-zh" id="etymZh"></p>
-                                <p class="text-en" id="etymEn"></p>
-                            </div>
-                        </div>
-
-                        <!-- Morphology -->
-                        <div class="lexical-card card-morph">
-                            <div class="card-title">
-                                <span class="icon">🧩</span>
-                                <span>构词衍生 (Morphology & Family)</span>
-                            </div>
-                            <div class="card-body">
-                                <p class="text-zh" id="morphZh"></p>
-                                <p class="text-en" id="morphEn"></p>
-                            </div>
-                        </div>
-
-                        <!-- Synonyms & Nuances -->
-                        <div class="lexical-card card-synonym">
-                            <div class="card-title">
-                                <span class="icon">⚖️</span>
-                                <span>近义微雕辨析 (Synonyms & Nuances)</span>
-                            </div>
-                            <div class="card-body">
-                                <p class="text-zh" id="synZh"></p>
-                                <p class="text-en" id="synEn"></p>
-                            </div>
-                        </div>
-
-                        <!-- Mnemonic Anchor -->
-                        <div class="lexical-card card-mnemonic">
-                            <div class="card-title">
-                                <span class="icon">💡</span>
-                                <span>记忆锚点 (Mnemonic Anchor)</span>
-                            </div>
-                            <div class="card-body">
-                                <p class="text-zh" id="mnemZh"></p>
-                                <p class="text-en" id="mnemEn"></p>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </main>
+<body>
+  <a class="skip-link" href="#content">跳至词条内容</a>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Open-Lexicon 首页"><span class="brand-mark" aria-hidden="true">l<span>·</span></span><span>Open-Lexicon<small>把单词读懂</small></span><span class="edition">25K</span></a>
+    <nav aria-label="学习工具">
+      <button class="nav-button" id="daily" aria-label="每日一词"><span aria-hidden="true">☀</span> 每日一词</button>
+      <button class="nav-button" id="practice"><span aria-hidden="true">▱</span> 备考抽认</button>
+      <span class="nav-divider"></span>
+      <button class="icon-button" id="theme" aria-label="切换深色主题" title="切换主题">◐</button>
+      <button class="nav-button focus-button" id="focus" aria-pressed="false"><span aria-hidden="true">⛶</span> <span>沉浸阅读</span></button>
+    </nav>
+  </header>
+  <main class="workspace">
+    <aside class="sidebar" aria-label="查词">
+      <div class="search-area">
+        <div class="sidebar-heading"><h1>发现一个词</h1><span>英汉双语词典</span></div>
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+          <input id="search" type="search" placeholder="搜索单词或中文释义" aria-label="搜索单词或中文释义" autocomplete="off" spellcheck="false" maxlength="120" aria-controls="word-list" aria-describedby="search-help">
+          <button id="clear" class="clear-button" aria-label="清除搜索" hidden>×</button><kbd id="search-key">/</kbd>
         </div>
-    </div>
-
-    <!-- Notification Toast -->
-    <div id="toast" class="toast hidden">已复制到剪贴板！</div>
-
-    <script src="app.js"></script>
+        <p id="search-help">↑↓ 切换词条 · Enter 开始阅读</p>
+        <div id="filters" class="filters" role="group" aria-label="考试范围"></div>
+        <button id="bookmarks" class="bookmark-filter" aria-pressed="false">☆ 我的收藏 <span id="bookmark-count">0</span></button>
+      </div>
+      <div class="results-meta"><span id="result-count" role="status">正在准备词库…</span><select id="pos-filter" aria-label="词性筛选"><option value="">全部词性</option value="n.">名词</option><option value="v.">动词</option><option value="adj.">形容词</option><option value="adv.">副词</option><option value="prep.">介词</option><option value="conj.">连词</option><option value="pron.">代词</option></select><span id="search-time"></span></div>
+      <div id="word-list" class="word-list" role="listbox" aria-label="词条结果" tabindex="0" aria-busy="true"></div>
+      <div class="list-paging"><button id="previous" aria-label="上一页">←</button><span id="page-label">每页 50 词</span><button id="next" aria-label="下一页">→</button></div>
+      <footer class="sidebar-footer"><span id="connection"><i></i> 正在载入</span><button id="offline-download" title="下载全部字母分片，约 45 MiB，可随时暂停">准备离线词库</button></footer>
+    </aside>
+    <section id="content" class="content" tabindex="-1" aria-label="词条详情" aria-busy="true">
+      <div class="content-toolbar"><button id="back" class="text-button mobile-only">← 返回词表</button><span id="breadcrumb">词典 / 开始探索</span><span class="toolbar-actions"><button id="save" class="icon-button" aria-label="收藏单词" aria-pressed="false" disabled>☆</button><button id="copy" class="icon-button" aria-label="复制词条 Markdown" title="复制词条" disabled>⧉</button><button id="copy-anki" class="text-button" title="复制 Anki TSV" disabled>Anki</button></span></div>
+      <article id="detail" class="entry"><div class="welcome"><span class="welcome-glyph">Aa</span><h2>每一个词，都有来处。</h2><p>正在为你打开 25,006 个词的世界…</p></div></article>
+      <footer class="reading-footer"><span>Open-Lexicon 25K</span><span>读懂 · 听见 · 记住</span></footer>
+    </section>
+  </main>
+  <dialog id="study" class="study-dialog" aria-labelledby="study-title">
+    <div class="drawer-heading"><div><span class="small-label" id="study-kind">留一点时间给学习</span><h2 id="study-title">今日的词语练习</h2></div><button id="close-study" class="icon-button" aria-label="关闭学习抽屉">×</button></div>
+    <div class="study-stats"><div><strong id="studied">0</strong><span>今日已记住</span></div><div><strong id="streak">0</strong><span>连续学习天数</span></div></div>
+    <p id="study-progress" class="study-progress" role="status"></p>
+    <button id="flashcard" class="flashcard" aria-label="翻开释义" aria-pressed="false"><span class="flip-inner"><span class="card-front"><span class="small-label">先想一想它的意思</span><strong id="card-word">…</strong><span id="card-phonetic"></span><span class="flip-hint">点击翻开释义 <span aria-hidden="true">↻</span></span></span><span class="card-back" aria-hidden="true"><span class="small-label">你想起来了吗？</span><span id="card-meaning"></span><span class="flip-hint">点击回到词面 ↻</span></span></span></button>
+    <div class="study-controls"><button id="study-again" class="secondary-button">再看一次</button><button id="study-known" class="primary-button">记住了 ✓</button></div>
+    <button id="study-open" class="text-button study-open">在词典中细读</button>
+    <p class="drawer-note">每天一点，让词汇慢慢成为你的语言。<br>学习进度仅保存在这台设备。</p>
+  </dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <noscript>请启用 JavaScript 以使用本地词典检索。</noscript>
 </body>
 </html>
