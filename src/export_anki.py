@@ -11,7 +11,7 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8")
 
-ROOT = Path(r"C:\Users\d\Documents\dict")
+ROOT = Path(__file__).resolve().parent.parent
 ENRICHED_DIR = ROOT / "data" / "enriched"
 EXPORT_DIR = ROOT / "data" / "exports"
 EXPORT_DIR.mkdir(parents=True, exist_ok=True)
