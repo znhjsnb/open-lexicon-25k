@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open-Lexicon 25K | 现代化全双语多词性词典工作台</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%3E<text y=%2226%22 font-size=%2226%22>📖</text></svg>">
+</head>
+<body class="dark-theme">
+    <div id="app">
+        <!-- Top Navigation -->
+        <header class="navbar">
+            <div class="nav-left">
+                <span class="logo-icon">📖</span>
+                <span class="brand-title">Open-Lexicon <span class="brand-accent">25K</span></span>
+                <span class="badge live-badge">本地极速版 · 25,006 词</span>
+            </div>
+            <div class="nav-right">
+                <button id="btnRandom" class="nav-btn" title="随机抽选一个词 (R)">
+                    <span>🎲 随机抽词</span>
+                </button>
+                <button id="btnBookmarks" class="nav-btn" title="查看收藏词汇">
+                    <span>⭐️ 收藏夹 (<span id="bookmarkCount">0</span>)</span>
+                </button>
+                <button id="btnTheme" class="nav-btn theme-toggle" title="切换深浅主题">
+                    <span id="themeIcon">☀️</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <div class="workspace">
+            <!-- Sidebar / Search & Word List -->
+            <aside class="sidebar">
+                <div class="search-box-wrapper">
+                    <div class="search-input-group">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="searchInput" placeholder="搜索英文单词或中文释义... (快捷键 /)" autocomplete="off" spellcheck="false">
+                        <button id="btnClearSearch" class="btn-clear hidden">&times;</button>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <span class="filter-label">考试分类:</span>
+                        <div class="tag-chips" id="tagFilters">
+                            <span class="chip active" data-tag="">全部</span>
+                            <span class="chip" data-tag="高考">高考</span>
+                            <span class="chip" data-tag="四级">四级</span>
+                            <span class="chip" data-tag="六级">六级</span>
+                            <span class="chip" data-tag="考研">考研</span>
+                            <span class="chip" data-tag="雅思">雅思</span>
+                            <span class="chip" data-tag="托福">托福</span>
+                            <span class="chip" data-tag="GRE">GRE</span>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <span class="filter-label">词性筛选:</span>
+                        <div class="pos-chips" id="posFilters">
+                            <span class="chip active" data-pos="">全部</span>
+                            <span class="chip" data-pos="n.">名词 n.</span>
+                            <span class="chip" data-pos="v.">动词 v.</span>
+                            <span class="chip" data-pos="adj.">形容词 a.</span>
+                            <span class="chip" data-pos="adv.">副词 ad.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Counter -->
+                <div class="results-header">
+                    <span id="resultsCount">检索中...</span>
+                    <span id="pageInfo">第 1 页</span>
+                </div>
+
+                <!-- Word List -->
+                <div class="word-list" id="wordList">
+                    <!-- Word list items rendered via JS -->
+                </div>
+
+                <!-- Pagination Footer -->
+                <div class="pagination">
+                    <button id="btnPrevPage" class="page-btn" disabled>&laquo; 上一页</button>
+                    <span id="pageCurrent">1 / 1</span>
+                    <button id="btnNextPage" class="page-btn">下一页 &raquo;</button>
+                </div>
+            </aside>
+
+            <!-- Main Detail Panel -->
+            <main class="content-panel" id="detailPanel">
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">📖</div>
+                    <h2>请在左侧列表选择单词</h2>
+                    <p>支持按英文词头前缀、中文释义全文模糊搜索，或点击上方「🎲 随机抽词」开始探索。</p>
+                </div>
+
+                <div class="word-detail hidden" id="wordDetail">
+                    <!-- Word Header -->
+                    <div class="detail-header">
+                        <div class="word-title-row">
+                            <h1 id="detailWord" class="word-heading">word</h1>
+                            <div class="audio-controls">
+                                <button class="btn-audio" id="btnAudioUK" title="播放英音发音">
+                                    <span>🔊 英音</span> <span class="phonetic-text" id="detailPhoneticUK"></span>
+                                </button>
+                                <button class="btn-audio" id="btnAudioUS" title="播放美音发音">
+                                    <span>🔊 美音</span> <span class="phonetic-text" id="detailPhoneticUS"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="detail-actions">
+                            <div class="exam-badges" id="detailExamTags"></div>
+                            <div class="action-buttons">
+                                <button id="btnToggleBookmark" class="action-btn" title="收藏/取消收藏 (B)">
+                                    <span id="bookmarkStar">☆</span> 收藏
+                                </button>
+                                <button id="btnCopyMarkdown" class="action-btn" title="复制完整 Markdown">
+                                    📋 复制 Markdown
+                                </button>
+                                <button id="btnCopyAnki" class="action-btn" title="复制 Anki 闪卡格式">
+                                    🎴 复制 Anki
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Multi-POS Senses Grid -->
+                    <section class="section-block">
+                        <div class="section-title">
+                            <span>多词性双语精雕释义 (Multi-POS Parallel Senses)</span>
+                            <span class="senses-badge" id="sensesCountBadge">3 义项</span>
+                        </div>
+                        <div class="senses-list" id="detailSenses">
+                            <!-- Senses populated by JS -->
+                        </div>
+                    </section>
+
+                    <!-- Deep Lexical Foundations (Etymology, Morphology, Nuances, Mnemonics) -->
+                    <section class="section-block deep-lexical-grid">
+                        <!-- Etymology -->
+                        <div class="lexical-card card-etym">
+                            <div class="card-title">
+                                <span class="icon">🏛️</span>
+                                <span>词源追溯 (Etymology Story)</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-zh" id="etymZh"></p>
+                                <p class="text-en" id="etymEn"></p>
+                            </div>
+                        </div>
+
+                        <!-- Morphology -->
+                        <div class="lexical-card card-morph">
+                            <div class="card-title">
+                                <span class="icon">🧩</span>
+                                <span>构词衍生 (Morphology & Family)</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-zh" id="morphZh"></p>
+                                <p class="text-en" id="morphEn"></p>
+                            </div>
+                        </div>
+
+                        <!-- Synonyms & Nuances -->
+                        <div class="lexical-card card-synonym">
+                            <div class="card-title">
+                                <span class="icon">⚖️</span>
+                                <span>近义微雕辨析 (Synonyms & Nuances)</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-zh" id="synZh"></p>
+                                <p class="text-en" id="synEn"></p>
+                            </div>
+                        </div>
+
+                        <!-- Mnemonic Anchor -->
+                        <div class="lexical-card card-mnemonic">
+                            <div class="card-title">
+                                <span class="icon">💡</span>
+                                <span>记忆锚点 (Mnemonic Anchor)</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-zh" id="mnemZh"></p>
+                                <p class="text-en" id="mnemEn"></p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">已复制到剪贴板！</div>
+
+    <script src="app.js"></script>
+</body>
+</html>
