@@ -10,7 +10,7 @@ const source = await fs.readFile(new URL('../app/static/app.js', import.meta.url
 function fixture(reduce = false) {
   let now = 0, serial = 0;
   const frames = new Map(), timers = new Map(), animations = new Set(), elements = new Map();
-  const vibrations = [], storage = new Map();
+  const vibrations = [], storage = new Map(), workers = [];
   let document;
   const later = (fn, delay = 0) => { const id = ++serial; timers.set(id, { fn, due: now + delay }); return id; };
   class Element {
@@ -24,7 +24,21 @@ function fixture(reduce = false) {
         add: name => classes.add(name), remove: name => classes.delete(name),
       };
       this.dataset = {}; this.value = ''; this.scrollTop = 0; this.isConnected = true;
+      this.rows = []; this.hidden = false;
     }
+    set innerHTML(html) {
+      this.html = html;
+      this.rows = [];
+      this.appendRows(html);
+    }
+    get innerHTML() { return this.html || ''; }
+    appendRows(html) {
+      for (const match of html.matchAll(/<button id="(result-[^"]+)"[^>]*data-word="([^"]+)"/g)) {
+        const row = new Element(match[1]); row.dataset.word = match[2]; this.rows.push(row);
+      }
+    }
+    insertAdjacentHTML(position, html) { assert.equal(position, 'beforeend'); this.html += html; this.appendRows(html); }
+    scrollIntoView() { this.scrollCalls = (this.scrollCalls || 0) + 1; }
     setAttribute(name, value) { this.attributes.set(name, String(value)); }
     getAttribute(name) { return this.attributes.get(name) ?? null; }
     removeAttribute(name) { this.attributes.delete(name); }
@@ -34,9 +48,9 @@ function fixture(reduce = false) {
       this.events.get(name)?.forEach(fn => fn(event)); return event;
     }
     querySelector(selector) { if (!this.children.has(selector)) this.children.set(selector, new Element(selector)); return this.children.get(selector); }
-    querySelectorAll() { return []; }
+    querySelectorAll(selector) { return selector === '[data-word]' ? this.rows : []; }
     get lastElementChild() { return this.querySelector('last'); }
-    getBoundingClientRect() { return { left: 800, top: 12, right: 1280, bottom: 900, width: 480, height: 888 }; }
+    getBoundingClientRect() { return this.rect || { left: 800, top: 12, right: 1280, bottom: 900, width: 480, height: 888 }; }
     getClientRects() { return [this.getBoundingClientRect()]; }
     focus() { document.activeElement = this; }
     showModal() { this.open = true; }
@@ -64,6 +78,13 @@ function fixture(reduce = false) {
     navigator: { onLine: true, vibrate: pattern => vibrations.push([...pattern]) },
     location: { hash: '', href: 'https://lexicon.test/' }, history: { replaceState() {} },
     normalizeTags: tags => tags || [], cacheStatus: { persistent: true },
+    getWord: async word => ({ entry: { word, phonetic: 'test', tags: [], senses: [] }, source: 'memory', elapsed: 0 }),
+    Worker: class {
+      constructor() { this.messages = []; workers.push(this); }
+      postMessage(data) { this.messages.push(data); }
+      terminate() {}
+      reply(data) { this.onmessage({ data }); }
+    },
     speechSynthesis: speech, SpeechSynthesisUtterance: class { constructor(text) { this.text = text; } },
     setTimeout: later, clearTimeout: id => timers.delete(id),
     requestAnimationFrame: fn => { const id = ++serial; frames.set(id, fn); return id; },
@@ -78,8 +99,8 @@ function fixture(reduce = false) {
   });
   // Only import loading and boot are replaced; handlers/physics are unmodified.
   const executable = source.replace(/^import .*;\r?\n/gm, '').replaceAll('import.meta.url', "'https://lexicon.test/app.js'").replace(/\r?\nstartWorker\(\);\s*$/, '');
-  vm.runInContext(`${executable}\nworker = { postMessage() {} }; state.ready = true;
-    globalThis.ui = { createSpring, sheetSpring, cardSpring, openStudy, closeStudy, setFlipped, renderDetail, state, reducedMotion, settleSheet };`, context);
+  vm.runInContext(`${executable}\nworker = { postMessage() {}, terminate() {} }; state.ready = true;
+    globalThis.ui = { createSpring, sheetSpring, cardSpring, openStudy, closeStudy, setFlipped, renderDetail, state, reducedMotion, settleSheet, startWorker, requestSearch, loadMore, navigate, selectWord, updateScrollEdge };`, context);
   function advance(milliseconds) {
     for (let elapsed = 0; elapsed < milliseconds; elapsed += 16) {
       now += 16;
@@ -93,7 +114,7 @@ function fixture(reduce = false) {
   function pointer(name, x, time, extra = {}) {
     element('sheet-handle').dispatch(name, { clientX: x, clientY: 30, timeStamp: time, pointerId: 1, button: 0, isPrimary: true, ...extra });
   }
-  return { ui: context.ui, context, element, advance, pointer, media, vibrations, document, storage, animations };
+  return { ui: context.ui, context, element, advance, pointer, media, vibrations, document, storage, animations, workers };
 }
 
 test('spring retargeting preserves presentation and velocity; critical damping settles without overshoot', () => {
@@ -201,4 +222,115 @@ test('entry renderer keeps every sense, definition, sentence, scenario, formula 
   const html = f.element('detail').innerHTML;
   for (const text of ['释义1', '释义2', 'Definition 1', 'Definition 2', '例句1', '例句2', '场景A1', '场景B2', 'test + -ing → testing', '词源故事']) assert.ok(html.includes(text), text);
   assert.doesNotMatch(html, /<details|<summary|aria-expanded|\shidden[\s=>]/);
+  assert.equal((html.match(/class="dimension /g) || []).length, 4);
+  for (const number of ['一', '二', '三', '四']) assert.ok(html.includes(`要素${number}`));
+});
+
+function searchSession(f, total = 125) {
+  f.ui.startWorker();
+  const worker = f.workers.at(-1);
+  worker.reply({ type: 'ready', total, elapsed: 1 });
+  const batch = (offset, count = Math.min(50, total - offset)) => ({
+    type: 'results', requestId: worker.messages.at(-1).requestId, offset, total, elapsed: 1,
+    results: Array.from({ length: count }, (_, i) => ({ id: offset + i, w: `word${offset + i}`, s: [{ p: 'n.', m: `释义${offset + i}` }] })),
+  });
+  worker.reply(batch(0));
+  return { worker, batch };
+}
+
+test('infinite scrolling appends once, preserves rows, scroll position and an in-flight detail, and stops at the end', async () => {
+  const f = fixture();
+  let release;
+  f.context.getWord = () => new Promise(resolve => { release = resolve; });
+  const { worker, batch } = searchSession(f);
+  const list = f.element('word-list');
+  const firstRow = list.rows[0], selectionId = f.ui.state.selectionId;
+  list.clientHeight = 400; list.scrollHeight = 4000; list.scrollTop = 3350;
+  list.dispatch('scroll'); list.dispatch('scroll');
+  assert.equal(worker.messages.filter(message => message.type === 'search').length, 2);
+  assert.equal(worker.messages.at(-1).offset, 50);
+  worker.reply(batch(50));
+  assert.equal(f.ui.state.selectionId, selectionId);
+  assert.equal(list.rows.length, 100); assert.equal(list.rows[0], firstRow);
+  assert.equal(list.scrollTop, 3350); assert.equal(firstRow.scrollCalls, 1);
+  assert.match(f.element('list-status').textContent, /100 \/ 125/);
+  release({ entry: { word: 'word0', tags: [], senses: [] }, source: 'memory', elapsed: 0 });
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(f.ui.state.selected.word, 'word0');
+  f.ui.loadMore(); worker.reply(batch(100));
+  const messages = worker.messages.length;
+  f.ui.loadMore(); list.dispatch('scroll');
+  assert.equal(worker.messages.length, messages);
+  assert.equal(list.rows.length, 125);
+  assert.match(f.element('list-status').textContent, /已全部载入/);
+});
+
+test('a new alphabet filter rejects an old append response and resets the continuous list', () => {
+  const f = fixture(); const { worker, batch } = searchSession(f);
+  f.ui.loadMore(); const stale = batch(50);
+  f.element('search').value = 'old query';
+  f.element('word-list').scrollTop = 800;
+  f.element('alphabet-bar').onclick({ target: { closest: () => ({ dataset: { letter: 'b' } }) } });
+  assert.equal(worker.messages.at(-1).letter, 'b');
+  assert.equal(worker.messages.at(-1).query, '');
+  assert.equal(worker.messages.at(-1).offset, 0);
+  assert.equal(f.element('word-list').scrollTop, 0);
+  worker.reply(stale);
+  assert.equal(f.element('word-list').rows.length, 50);
+  const fresh = batch(0, 1); fresh.results[0].w = 'borrow'; fresh.total = 1;
+  worker.reply(fresh);
+  assert.equal(f.element('word-list').rows.length, 1);
+  assert.equal(f.element('word-list').rows[0].dataset.word, 'borrow');
+  assert.equal(f.ui.state.appending, false);
+});
+
+test('keyboard navigation continues into a new batch and can return to previously loaded words', async () => {
+  const f = fixture(); const { worker, batch } = searchSession(f);
+  await f.ui.selectWord('word49');
+  f.ui.navigate(1);
+  assert.equal(worker.messages.at(-1).offset, 50);
+  worker.reply(batch(50));
+  await Promise.resolve();
+  assert.equal(f.ui.state.selectedKey, 'word50');
+  f.ui.navigate(-1); await Promise.resolve();
+  assert.equal(f.ui.state.selectedKey, 'word49');
+  assert.equal(f.element('word-list').rows.length, 100);
+});
+
+test('switching words resets reading before and after loading and ignores an older detail', async () => {
+  const f = fixture(); const pending = new Map();
+  f.context.getWord = word => new Promise(resolve => pending.set(word, resolve));
+  f.element('content').scrollTop = 900;
+  const old = f.ui.selectWord('old');
+  assert.equal(f.element('content').scrollTop, 0);
+  const latest = f.ui.selectWord('latest');
+  f.element('content').scrollTop = 300;
+  pending.get('latest')({ entry: { word: 'latest', phonetic: 'latest', tags: [], senses: [] }, source: 'memory' });
+  await latest;
+  assert.equal(f.element('content').scrollTop, 0);
+  pending.get('old')({ entry: { word: 'old', tags: [], senses: [] } });
+  await old;
+  assert.equal(f.ui.state.selected.word, 'latest');
+  assert.match(f.element('toolbar-pinned-word').innerHTML, /latest/);
+  assert.doesNotMatch(f.element('toolbar-pinned-word').innerHTML, />old</);
+});
+
+test('the pinned identity appears past the word header, offers both accents and hides on return to top', async () => {
+  const f = fixture(); await f.ui.selectWord('available');
+  const badge = f.element('toolbar-pinned-word');
+  f.element('detail').querySelector('.word-header').rect = { bottom: 80 };
+  f.element('.content-toolbar').rect = { bottom: 140 };
+  f.element('content').scrollTop = 400;
+  f.ui.updateScrollEdge();
+  assert.equal(badge.hidden, false);
+  assert.equal(f.element('breadcrumb').hidden, true);
+  assert.match(badge.innerHTML, /data-speak="available" data-lang="en-GB"/);
+  assert.match(badge.innerHTML, /data-speak="available" data-lang="en-US"/);
+  let spoken;
+  f.context.speechSynthesis.speak = utterance => { spoken = utterance; };
+  const audio = f.element('pinned-audio'); audio.dataset = { speak: 'available', lang: 'en-GB' };
+  badge.onclick({ target: { closest: () => audio } });
+  assert.equal(spoken.text, 'available'); assert.equal(spoken.lang, 'en-GB');
+  f.element('content').scrollTop = 0; f.ui.updateScrollEdge();
+  assert.equal(badge.hidden, true); assert.equal(f.element('breadcrumb').hidden, false);
 });

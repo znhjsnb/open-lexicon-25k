@@ -6,16 +6,16 @@ const searchInput = $('search');
 const list = $('word-list');
 const content = $('content');
 const detail = $('detail');
+const pinnedWord = $('toolbar-pinned-word');
 const studyDialog = $('study');
 const metrics = window.lexiconMetrics = { startup: {}, searches: [], details: [] };
-const state = { ready: false, query: '', tag: '', pos: '', savedOnly: false, offset: 0, total: 0, results: [], selected: null, selectedKey: '', requestId: 0, selectionId: 0, studyId: 0, study: [], cardIndex: 0, flipped: false, studyDone: false };
+const state = { ready: false, query: '', letter: '', tag: '', pos: '', savedOnly: false, offset: 0, total: 0, results: [], appending: false, pendingNavigation: '', selected: null, selectedKey: '', requestId: 0, selectionId: 0, studyId: 0, study: [], cardIndex: 0, flipped: false, studyDone: false };
 let worker;
 let toastTimer;
 let speechButton;
 let speechGeneration = 0;
 let searchStarted = 0;
 let studyTrigger;
-let pageDirection = 1;
 let preparingOffline = false;
 let pauseOffline = false;
 let offlineShellReady = Promise.resolve(false);
@@ -38,7 +38,10 @@ function pushMetric(key, value) { metrics[key].push(value); if (metrics[key].len
 function escapeHtml(value) { return String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]); }
 function phonetic(value) { return value ? `/${String(value).replace(/^\/+|\/+$/g, '')}/` : ''; }
 function posName(value) { return String(value || '').split(/\s/)[0]; }
-function posClass(value) { return value?.startsWith('n.') ? 'noun' : value?.startsWith('adj.') ? 'adjective' : ''; }
+function posClass(value) {
+  const pos = posName(value);
+  return ({ 'n.': 'noun', 'v.': 'verb', 'vt.': 'verb', 'vi.': 'verb', 'adj.': 'adjective', 'adv.': 'adverb' })[pos] || 'other';
+}
 const speaker = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 5 10H2v4h3l6 5V5Z"/><path d="M15 8c3 2 3 6 0 8m3-11c5 4 5 10 0 14"/></svg>';
 function audioButton(text, label, light = false, lang = 'en-US') {
   return `<button class="audio-pill${light ? ' light' : ''}" data-speak="${escapeHtml(text)}" data-lang="${lang}" aria-label="${escapeHtml(label)}">${speaker}<span>${escapeHtml(label)}</span><span class="wave" aria-hidden="true"><span></span><span></span><span></span></span></button>`;
@@ -102,10 +105,19 @@ function updateScrollEdge() {
   scrollFrame = 0;
   const scrolled = content.scrollTop > 2 && content.getClientRects().length > 0;
   content.classList.toggle('is-scrolled', scrolled);
+  const header = detail.querySelector('.word-header');
+  const toolbar = document.querySelector('.content-toolbar');
+  const show = Boolean(state.selected && scrolled && header && header.getBoundingClientRect().bottom <= toolbar.getBoundingClientRect().bottom);
+  if (show && pinnedWord.hidden) {
+    pinnedWord.hidden = false;
+    pinnedWord.animate([{ opacity: 0 }, { opacity: 1 }], { duration: reducedMotion.matches ? 120 : 180, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+  } else if (!show) pinnedWord.hidden = true;
+  $('breadcrumb').hidden = show;
 }
 content.addEventListener('scroll', () => {
   if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScrollEdge);
 }, { passive: true });
+window.addEventListener('resize', updateScrollEdge);
 
 function setTheme(theme) {
   document.documentElement.dataset.theme = theme;
@@ -138,6 +150,18 @@ $('filters').onclick = event => {
   if (!button) return;
   state.tag = button.dataset.tag;
   $('filters').querySelectorAll('button').forEach(item => item.setAttribute('aria-pressed', item === button));
+  requestSearch(true);
+};
+function setLetter(letter) {
+  state.letter = letter;
+  $('alphabet-bar').querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.letter === letter)));
+}
+$('alphabet-bar').innerHTML = ['', ...'abcdefghijklmnopqrstuvwxyz'].map(letter => `<button class="alphabet-button" data-letter="${letter}" aria-label="${letter ? `${letter.toUpperCase()} 开头的词` : '全部字母'}" aria-pressed="${!letter}">${letter.toUpperCase() || '全部'}</button>`).join('');
+$('alphabet-bar').onclick = event => {
+  const button = event.target.closest('[data-letter]');
+  if (!button) return;
+  setLetter(button.dataset.letter);
+  searchInput.value = '';
   requestSearch(true);
 };
 $('pos-filter').onchange = () => { state.pos = $('pos-filter').value; requestSearch(true); };
@@ -196,7 +220,9 @@ function indexError(message) {
   state.ready = false;
   state.results = [];
   state.total = 0;
-  $('previous').disabled = $('next').disabled = true;
+  state.appending = false;
+  state.pendingNavigation = '';
+  $('list-status').textContent = '词库未能载入';
   $('connection').innerHTML = '<i></i>词库未就绪';
   list.removeAttribute('aria-activedescendant');
   list.setAttribute('aria-busy', 'false');
@@ -221,17 +247,25 @@ function startWorker() {
         requestSearch(true);
       } else if (data.type === 'results' && data.requestId === state.requestId) {
         const listHadFocus = document.activeElement === list;
-        state.results = data.results;
+        const append = state.appending;
+        const previousLength = state.results.length;
+        const navigateFrom = state.pendingNavigation;
+        state.results = append ? [...state.results, ...data.results] : data.results;
+        state.appending = false;
+        state.pendingNavigation = '';
         state.offset = data.offset;
         state.total = data.total;
-        renderList(data);
+        renderList(data, append);
         if (listHadFocus) list.focus({ preventScroll: true });
-        pushMetric('searches', { query: state.query, tag: state.tag, total: data.total, worker: data.elapsed, endToEnd: performance.now() - searchStarted });
-        if (!state.selected || !state.selectedKey || !data.results.some(entry => entry.w === state.selectedKey)) {
-          const first = pageDirection < 0 ? data.results.at(-1) : data.results[0];
-          pageDirection = 1;
+        pushMetric('searches', { query: state.query, letter: state.letter, tag: state.tag, offset: data.offset, appended: append, total: data.total, worker: data.elapsed, endToEnd: performance.now() - searchStarted });
+        if (append) {
+          if (navigateFrom && navigateFrom === state.selectedKey && state.results[previousLength]) selectWord(state.results[previousLength].w, false);
+          else markSelected(false);
+        } else if (!state.selected || !state.selectedKey || !data.results.some(entry => entry.w === state.selectedKey)) {
+          const first = data.results[0];
           if (first) selectWord(first.w, false); else clearDetail();
         } else { markSelected(); content.setAttribute('aria-busy', 'false'); }
+        requestAnimationFrame(maybeLoadMore);
       } else if (data.type === 'study' && data.requestId === state.studyId && studyDialog.open) {
         state.study = data.results;
         state.cardIndex = 0;
@@ -247,35 +281,43 @@ function startWorker() {
 }
 function requestSearch(reset = false) {
   state.requestId++;
-  state.selectionId++; // Invalidate an in-flight detail as soon as the query changes.
-  state.query = searchInput.value.trim();
-  if (reset) state.offset = 0;
+  if (reset) {
+    state.selectionId++; // A new query invalidates detail loading; appending does not.
+    state.query = searchInput.value.trim();
+    state.offset = 0;
+    state.pendingNavigation = '';
+    list.scrollTop = 0;
+  }
+  state.appending = !reset;
   $('clear').hidden = !searchInput.value;
   $('search-key').hidden = Boolean(searchInput.value);
   list.setAttribute('aria-busy', 'true');
-  if (state.ready) $('result-count').textContent = '正在检索…';
+  if (state.ready && reset) $('result-count').textContent = '正在检索…';
+  $('list-status').textContent = reset ? '正在检索…' : `已载入 ${state.results.length.toLocaleString()} / ${state.total.toLocaleString()} 词 · 正在加载…`;
   searchStarted = performance.now();
   if (!state.ready) return;
-  worker.postMessage({ type: 'search', requestId: state.requestId, query: state.query, tag: state.tag, pos: state.pos, offset: state.offset, bookmarks: state.savedOnly ? [...bookmarks] : null });
+  worker.postMessage({ type: 'search', requestId: state.requestId, query: state.query, letter: state.letter, tag: state.tag, pos: state.pos, offset: state.offset, bookmarks: state.savedOnly ? [...bookmarks] : null });
 }
 let composing = false;
 searchInput.addEventListener('compositionstart', () => { composing = true; });
 searchInput.addEventListener('compositionend', () => { composing = false; requestSearch(true); });
 searchInput.addEventListener('input', () => { if (!composing) requestSearch(true); });
-function clearSearch() { searchInput.value = ''; requestSearch(true); searchInput.focus(); }
+function clearSearch() { searchInput.value = ''; setLetter(''); requestSearch(true); searchInput.focus(); }
 $('clear').onclick = clearSearch;
-function renderList(data) {
+function renderList(data, append = false) {
   list.setAttribute('aria-busy', 'false');
   $('result-count').textContent = `${data.total.toLocaleString()} 个词${data.fuzzy ? ' · 相近拼写' : ''}`;
   $('search-time').textContent = `${data.elapsed.toFixed(1)} ms`;
   $('search-time').title = 'Web Worker 内部检索耗时';
-  $('page-label').textContent = data.total ? `${data.offset + 1}–${Math.min(data.offset + 50, data.total)} / ${data.total.toLocaleString()}` : '0 个结果';
-  $('previous').disabled = data.offset === 0;
-  $('next').disabled = data.offset + 50 >= data.total;
-  list.innerHTML = data.results.length ? data.results.map((entry, index) => `<button id="result-${entry.id}" class="word-row" role="option" aria-selected="false" aria-posinset="${data.offset + index + 1}" aria-setsize="${data.total}" data-word="${escapeHtml(entry.w)}" tabindex="-1"><span class="word-row-top"><strong lang="en">${escapeHtml(entry.w)}</strong><span class="row-pos">${escapeHtml([...new Set(entry.s.map(s => posName(s.p)))].join(' / '))}</span><span class="row-chevron" aria-hidden="true">›</span></span><span class="row-meaning">${escapeHtml(entry.s.map(s => s.m).join('；'))}</span></button>`).join('') : '<div class="empty-results"><strong>没有找到匹配的词</strong>试试更短的英文或中文释义，<br>也可以切换考试范围或关闭收藏筛选。</div>';
-  list.scrollTop = 0;
+  $('list-status').textContent = `已载入 ${state.results.length.toLocaleString()} / ${data.total.toLocaleString()} 词${state.results.length < data.total ? '（向下滚动加载更多）' : ' · 已全部载入'}`;
+  const rows = data.results.map((entry, index) => `<button id="result-${entry.id}" class="word-row" role="option" aria-selected="false" aria-posinset="${data.offset + index + 1}" aria-setsize="${data.total}" data-word="${escapeHtml(entry.w)}" tabindex="-1"><span class="word-row-top"><strong lang="en">${escapeHtml(entry.w)}</strong><span class="row-pos">${escapeHtml([...new Set(entry.s.map(s => posName(s.p)))].join(' / '))}</span><span class="row-chevron" aria-hidden="true">›</span></span><span class="row-meaning">${escapeHtml(entry.s.map(s => s.m).join('；'))}</span></button>`).join('');
+  if (append) list.insertAdjacentHTML('beforeend', rows);
+  else {
+    list.innerHTML = rows || '<div class="empty-results"><strong>没有找到匹配的词</strong>试试更短的英文或中文释义，<br>也可以切换字母、考试范围或关闭收藏筛选。</div>';
+    list.scrollTop = 0;
+  }
 }
-function markSelected() {
+function markSelected(scroll = true) {
   let selected;
   list.querySelectorAll('[data-word]').forEach(row => {
     const active = row.dataset.word === state.selectedKey;
@@ -284,32 +326,36 @@ function markSelected() {
   });
   if (selected) {
     list.setAttribute('aria-activedescendant', selected.id);
-    selected.scrollIntoView({ block: 'nearest' });
+    if (scroll) selected.scrollIntoView({ block: 'nearest' });
   } else list.removeAttribute('aria-activedescendant');
 }
 list.onclick = event => {
   const button = event.target.closest('[data-word]');
   if (button) selectWord(button.dataset.word, true);
 };
-function paginate(direction) {
-  if ((direction < 0 && state.offset === 0) || (direction > 0 && state.offset + 50 >= state.total)) return;
-  state.offset += direction * 50;
-  state.selectedKey = '';
-  pageDirection = direction;
+function loadMore(navigateFrom = '') {
+  if (!state.ready || list.getAttribute('aria-busy') === 'true' || state.results.length >= state.total) return;
+  state.pendingNavigation = navigateFrom;
+  state.offset = state.results.length;
   requestSearch();
 }
-$('previous').onclick = () => paginate(-1);
-$('next').onclick = () => paginate(1);
+function maybeLoadMore() {
+  if (list.clientHeight > 0 && list.scrollTop + list.clientHeight >= list.scrollHeight - 300) loadMore();
+}
+list.addEventListener('scroll', maybeLoadMore, { passive: true });
 function navigate(direction) {
   if (!state.results.length || list.getAttribute('aria-busy') === 'true') return;
   const current = state.results.findIndex(entry => entry.w === state.selectedKey);
   const next = current < 0 ? 0 : current + direction;
-  if (next < 0 || next >= state.results.length) { paginate(direction); return; }
+  if (next < 0) return;
+  if (next >= state.results.length) { loadMore(state.selectedKey); return; }
   selectWord(state.results[next].w, false);
 }
 function clearDetail() {
   state.selected = null;
   state.selectedKey = '';
+  pinnedWord.hidden = true;
+  $('breadcrumb').hidden = false;
   stopSpeech();
   content.setAttribute('aria-busy', 'false');
   detail.innerHTML = '<div class="welcome"><span class="welcome-glyph">Aa</span><h2>下一个好词，等你发现。</h2><p>调整搜索或筛选条件，继续探索。</p></div>';
@@ -323,6 +369,10 @@ async function selectWord(word, openMobile = false) {
   const started = performance.now();
   state.selectedKey = word;
   state.selected = null;
+  state.pendingNavigation = '';
+  pinnedWord.hidden = true;
+  $('breadcrumb').hidden = false;
+  content.scrollTop = 0;
   stopSpeech();
   markSelected();
   updateBookmarks();
@@ -339,6 +389,8 @@ async function selectWord(word, openMobile = false) {
     if (token !== state.selectionId) return;
     state.selected = result.entry;
     renderDetail(result.entry);
+    content.scrollTop = 0;
+    updateScrollEdge();
     $('save').disabled = $('copy').disabled = $('copy-anki').disabled = false;
     content.setAttribute('aria-busy', 'false');
     updateConnection();
@@ -362,12 +414,18 @@ function renderDetail(entry) {
   const tags = normalizeTags(entry.tags);
   // Pull out an existing formula only; never invent a morphological split.
   const formula = String(entry.morphology_zh || '').match(/[A-Za-z][A-Za-z -]*(?:\s*\+\s*[-A-Za-z]+)+\s*→\s*[^；。\n]+/)?.[0];
+  const dimensionHeading = (number, title, caption) => `<div class="dimension-heading"><span class="dimension-number">要素${number}</span><div><h2>${title}</h2><p>${caption}</p></div></div>`;
+  pinnedWord.innerHTML = `<span class="toolbar-word-badge"><strong lang="en">${escapeHtml(entry.word)}</strong><span class="pinned-phonetic">${escapeHtml(phonetic(entry.phonetic))}</span></span><span class="pinned-audio">${audioButton(entry.word, '英音', false, 'en-GB')}${audioButton(entry.word, '美音', true)}</span>`;
+  pinnedWord.hidden = true;
   detail.innerHTML = `<header class="word-header"><p class="entry-kicker">词语档案 · ENGLISH–CHINESE</p><div class="word-headline"><h1 class="word-heading" lang="en">${escapeHtml(entry.word)}</h1></div><div class="pronunciations"><span class="phonetic">${escapeHtml(phonetic(entry.phonetic))}</span>${audioButton(entry.word, '英音', false, 'en-GB')}${audioButton(entry.word, '美音', true)}</div><div class="tag-line">${tags.map(tag => `<span class="exam-tag ${tag.startsWith('CEFR') ? 'cefr-tag' : ''}">${escapeHtml(tag)}</span>`).join('')}</div></header>
-    <section aria-label="释义与语境"><div class="section-heading"><h2>释义与语境</h2><span>${entry.senses.length} 个义项</span></div>${entry.senses.map((sense, index) => {
+    <section class="dimension core-definitions" aria-label="要素一：核心释义与多词性">${dimensionHeading('一', '核心释义与多词性', `${entry.senses.length} 个义项 · 中文抓住核心，英文读懂用法`)}${entry.senses.map((sense, index) => `<section class="sense-card"><div class="sense-heading"><span class="sense-number">${String(index + 1).padStart(2, '0')}</span><span class="pos-tag ${posClass(sense.pos)}">${escapeHtml(sense.pos)}</span><h3>${escapeHtml(sense.meaning_zh)}</h3></div><p class="definition" lang="en">${escapeHtml(sense.english_definition)}</p></section>`).join('')}</section>
+    <section class="dimension real-scenarios" aria-label="要素二：双场景例句与高频搭配">${dimensionHeading('二', '双场景例句与高频搭配', '跟着例句听读，用场景搭配练习表达')}${entry.senses.map((sense, index) => {
       const collocations = String(sense.collocation_en || '').split(/\s*[;；]\s*/).filter(Boolean);
       const translations = String(sense.collocation_zh || '').split(/\s*[;；]\s*/);
-      return `<section class="sense-card"><div class="sense-heading"><span class="pos-tag ${posClass(sense.pos)}">${escapeHtml(posName(sense.pos))}</span><span class="sense-number">${String(index + 1).padStart(2, '0')}</span><h3>${escapeHtml(sense.meaning_zh)}</h3></div><p class="definition" lang="en">${escapeHtml(sense.english_definition)}</p><div class="context-grid">${sense.sentence_en ? `<div class="example-card"><div class="example-heading"><span>例句</span>${audioButton(sense.sentence_en, '听例句', true)}</div><p class="example-en" lang="en">${highlighted(sense.sentence_en, entry.word)}</p><p class="example-zh">${escapeHtml(sense.sentence_zh)}</p></div>` : ''}${collocations.length ? `<div class="example-card"><div class="example-heading"><span>场景搭配</span></div>${collocations.map((phrase, i) => `<div class="collocation"><p class="example-en" lang="en">${highlighted(phrase, entry.word)}</p><p class="example-zh">${escapeHtml(translations[i] || '')}</p></div>`).join('')}</div>` : ''}</div></section>`;
-    }).join('')}</section><div class="deep-grid"><section class="deep-card morphology"><h2><span aria-hidden="true">ƒ</span>现代构词</h2>${formula ? `<p class="formula">${escapeHtml(formula)}</p>` : ''}<p>${escapeHtml(entry.morphology_zh || '暂无构词说明')}</p></section><section class="deep-card etymology"><h2><span aria-hidden="true">↳</span>词源故事</h2><p>${escapeHtml(entry.etymology_zh || '暂无词源说明')}</p></section></div>`;
+      return `<section class="scenario-card"><div class="scenario-heading"><span class="sense-number">义项 ${String(index + 1).padStart(2, '0')}</span><span class="pos-tag ${posClass(sense.pos)}">${escapeHtml(posName(sense.pos))}</span><h3>${escapeHtml(sense.meaning_zh)}</h3></div><div class="context-grid">${sense.sentence_en ? `<div class="example-card"><div class="example-heading"><span>场景例句</span>${audioButton(sense.sentence_en, '听例句')}</div><p class="example-en" lang="en">${highlighted(sense.sentence_en, entry.word)}</p><p class="example-zh">${escapeHtml(sense.sentence_zh)}</p></div>` : ''}${collocations.length ? `<div class="collocations"><h4>高频搭配</h4>${collocations.map((phrase, i) => `<div class="collocation"><p class="example-en" lang="en">${highlighted(phrase, entry.word)}</p><p class="example-zh">${escapeHtml(translations[i] || '')}</p></div>`).join('')}</div>` : ''}</div></section>`;
+    }).join('')}</section>
+    <section class="dimension deep-card morphology" aria-label="要素三：现代公式化构词">${dimensionHeading('三', '现代公式化构词', '看懂构词联系，串起派生词族')}${formula ? `<p class="formula" lang="en">${escapeHtml(formula)}</p>` : ''}${String(entry.morphology_zh || '暂无构词说明').split(/(?=常用词族[：:]|派生词族?[：:]|复合词[：:])/u).map(text => `<p class="deep-copy">${escapeHtml(text)}</p>`).join('')}</section>
+    <section class="dimension deep-card etymology" aria-label="要素四：词源故事与高效记忆">${dimensionHeading('四', '词源故事与高效记忆', '沿着词的来处，找到记忆线索')}<p class="deep-copy">${escapeHtml(entry.etymology_zh || '暂无词源说明')}</p></section>`;
 }
 
 function stopSpeech() {
@@ -406,6 +464,7 @@ function speak(button) {
   speechSynthesis.speak(utterance);
 }
 detail.onclick = event => { const button = event.target.closest('[data-speak]'); if (button) speak(button); };
+pinnedWord.onclick = detail.onclick;
 window.addEventListener('pagehide', stopSpeech);
 $('copy').onclick = async () => {
   const entry = state.selected;
@@ -645,6 +704,7 @@ $('study-open').onclick = () => {
   if (!card) return;
   closeStudy(() => {
     searchInput.value = card.w;
+    setLetter('');
     state.savedOnly = false;
     state.tag = '';
     state.pos = '';
@@ -683,7 +743,7 @@ window.addEventListener('keydown', event => {
 // Restore shareable words without an API request; malformed fragments are harmless.
 try { searchInput.value = decodeURIComponent(location.hash.slice(1)).slice(0, 120); } catch { searchInput.value = ''; }
 window.addEventListener('hashchange', () => {
-  try { searchInput.value = decodeURIComponent(location.hash.slice(1)).slice(0, 120); requestSearch(true); } catch { /* ignore malformed URL */ }
+  try { searchInput.value = decodeURIComponent(location.hash.slice(1)).slice(0, 120); setLetter(''); requestSearch(true); } catch { /* ignore malformed URL */ }
 });
 if ('serviceWorker' in navigator && window.isSecureContext) {
   offlineShellReady = navigator.serviceWorker.register(new URL('./sw.js', import.meta.url), { scope: './' }).then(async () => {

@@ -111,6 +111,48 @@ async function find(page, query, word) {
     await page.screenshot({ path: path.join(output, 'apple-scroll-edge.png') });
     await page.locator('#content').evaluate(element => { element.scrollTop = 0; });
   });
+  await runCase('continuous list appends in place, alphabet jumps are strict and all letters can be restored', async () => {
+    await find(page, '', 'available');
+    const before = await page.locator('#word-list').evaluate(element => {
+      window.__firstResult = element.firstElementChild;
+      element.scrollTop = element.scrollHeight;
+      return element.scrollTop;
+    });
+    await page.waitForFunction(() => document.querySelectorAll('.word-row').length === 100);
+    assert.equal(await page.evaluate(() => window.__firstResult === document.querySelector('.word-row')), true);
+    assert.equal(await page.locator('#word-list').evaluate(element => element.scrollTop), before);
+    assert.match(await page.locator('#list-status').textContent(), /100 \/ 25,006/);
+    assert.equal(await page.locator('.word-heading').textContent(), 'available');
+    assert.equal(await page.locator('#previous, #next').count(), 0);
+    for (const letter of ['b', 'z']) {
+      await page.locator(`[data-letter="${letter}"]`).click();
+      await page.waitForFunction(letter => document.querySelector('#word-list').getAttribute('aria-busy') === 'false' && [...document.querySelectorAll('.word-row')].every(row => row.dataset.word.toLowerCase().startsWith(letter)), letter);
+      assert.ok(await page.locator('.word-row').count());
+      assert.equal(await page.locator('#word-list').evaluate(element => element.scrollTop), 0);
+    }
+    await page.locator('[data-letter=""]').click();
+    await page.waitForFunction(() => document.querySelector('.word-heading')?.textContent === 'available' && document.querySelector('#content').getAttribute('aria-busy') === 'false');
+    assert.equal(await page.locator('.word-row').count(), 50);
+  });
+  await runCase('four expanded dimensions, readable single-column examples and a pinned speaking identity', async () => {
+    assert.equal(await page.locator('#detail > .dimension').count(), 4);
+    const type = await page.evaluate(() => {
+      const style = selector => getComputedStyle(document.querySelector(selector));
+      return { ink: style('body').color, zh: parseFloat(style('.sense-heading h3').fontSize), en: parseFloat(style('.example-en').fontSize), translation: parseFloat(style('.example-zh').fontSize), columns: style('.context-grid').gridTemplateColumns.split(' ').length };
+    });
+    assert.equal(type.ink, 'rgb(17, 24, 39)');
+    assert.ok(type.zh >= 19 && type.en >= 15 && type.translation >= 14);
+    assert.equal(type.columns, 1);
+    await page.locator('#content').evaluate(element => { element.scrollTop = element.scrollHeight; });
+    await page.locator('#toolbar-pinned-word').waitFor({ state: 'visible' });
+    assert.equal(await page.locator('.toolbar-word-badge strong').textContent(), 'available');
+    assert.equal(await page.locator('#toolbar-pinned-word [data-lang="en-GB"]').count(), 1);
+    assert.equal(await page.locator('#toolbar-pinned-word [data-lang="en-US"]').count(), 1);
+    await page.screenshot({ path: path.join(output, 'four-dimensions-pinned.png') });
+    await find(page, 'borrow', 'borrow');
+    assert.equal(await page.locator('#content').evaluate(element => element.scrollTop), 0);
+    assert.equal(await page.locator('#toolbar-pinned-word').isVisible(), false);
+  });
   await runCase('exam, POS, bookmark filters and keyboard navigation', async () => {
     await page.locator('[data-tag="CET4"]').click();
     await find(page, 'borrow', 'borrow');

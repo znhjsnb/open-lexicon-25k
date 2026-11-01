@@ -39,6 +39,7 @@ function search(message) {
   const buckets = [[], [], [], [], [], []];
   const candidates = [];
   for (const entry of entries) {
+    if (message.letter && !entry.key.startsWith(message.letter)) continue;
     if (message.tag && !entry.t.includes(message.tag)) continue;
     if (message.pos && !entry.s.some(sense => sense.p.split(/\s/)[0] === message.pos)) continue;
     if (saved && !saved.has(entry.key)) continue;

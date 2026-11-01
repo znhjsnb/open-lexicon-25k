@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -33,15 +33,16 @@
         </div>
         <p id="search-help">↑↓ 切换词条 · Enter 开始阅读</p>
         <div id="filters" class="filters" role="group" aria-label="考试范围"></div>
+        <div id="alphabet-bar" class="alphabet-bar" role="group" aria-label="字母快速直达"></div>
         <button id="bookmarks" class="bookmark-filter" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9Z"/></svg>我的收藏 <span id="bookmark-count">0</span></button>
       </div>
       <div class="results-meta"><span id="result-count" role="status">正在准备词库…</span><select id="pos-filter" aria-label="词性筛选"><option value="">全部词性</option value="n.">名词</option><option value="v.">动词</option><option value="adj.">形容词</option><option value="adv.">副词</option><option value="prep.">介词</option><option value="conj.">连词</option><option value="pron.">代词</option></select><span id="search-time"></span></div>
       <div id="word-list" class="word-list" role="listbox" aria-label="词条结果" tabindex="0" aria-busy="true"></div>
-      <div class="list-paging"><button id="previous" aria-label="上一页">←</button><span id="page-label">每页 50 词</span><button id="next" aria-label="下一页">→</button></div>
+      <div class="list-status" role="status"><span id="list-status">正在准备词库…</span></div>
       <footer class="sidebar-footer"><span id="connection"><i></i> 正在载入</span><button id="offline-download" title="下载全部字母分片，约 45 MiB，可随时暂停">准备离线词库</button></footer>
     </aside>
     <section id="content" class="content" tabindex="-1" aria-label="词条详情" aria-busy="true">
-      <div class="content-toolbar" role="group" aria-label="词条工具"><button id="back" class="text-button mobile-only"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg>返回词表</button><span id="breadcrumb">词典 / 开始探索</span><span class="toolbar-actions"><button id="save" class="icon-button" aria-label="收藏单词" aria-pressed="false" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9Z"/></svg></button><button id="copy" class="icon-button" aria-label="复制词条 Markdown" title="复制词条" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M15 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3"/></svg></button><button id="copy-anki" class="text-button" aria-label="复制 Anki TSV" title="复制 Anki TSV" disabled>Anki</button></span></div>
+      <div class="content-toolbar" role="group" aria-label="词条工具"><button id="back" class="text-button mobile-only"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg>返回词表</button><span id="breadcrumb">词典 / 开始探索</span><div id="toolbar-pinned-word" class="toolbar-pinned-word" hidden></div><span class="toolbar-actions"><button id="save" class="icon-button" aria-label="收藏单词" aria-pressed="false" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9Z"/></svg></button><button id="copy" class="icon-button" aria-label="复制词条 Markdown" title="复制词条" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M15 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3"/></svg></button><button id="copy-anki" class="text-button" aria-label="复制 Anki TSV" title="复制 Anki TSV" disabled>Anki</button></span></div>
       <article id="detail" class="entry"><div class="welcome"><span class="welcome-glyph">Aa</span><h2>每一个词，都有来处。</h2><p>正在为你打开 25,006 个词的世界…</p></div></article>
       <footer class="reading-footer"><span>Open-Lexicon 25K</span><span>读懂 · 听见 · 记住</span></footer>
     </section>

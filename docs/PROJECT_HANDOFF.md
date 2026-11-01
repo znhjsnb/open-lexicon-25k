@@ -2,7 +2,7 @@
 
 > **文档定位**：本项目完整交接报告（Handoff）、分工边界与职责矩阵（RACI）、公库（GitHub）最终呈现架构规范，以及从内部检验向顶级开源项目转化的执行路线图。
 
-> **当前客户端状态（2026-11-01，优先于下文历史规划）**：已由 Codex 按工作区 Apple Design 技能重构系统字体、明暗材质、滚动边缘、可打断抽屉/翻牌弹簧、拖动关闭、8ms 触觉与三类辅助偏好。核心词条仍默认完整平铺，Worker 检索与 IndexedDB 分片缓存保持原样。原有 16 项模块测试及新增 9 项隔离交互测试通过；25,006 词 / 58,574 义项 / 27 分片对齐；输入数据与后端未改动。静态预览 `http://127.0.0.1:8876/` 的页面和全部模块均经 HTTP 200 / 磁盘字节核验，Service Worker 外壳版本已升至 v2。详见 [Apple Design 重构验收报告](../.tmp/apple_design_rewrite_report.md)。浏览器冷启动、视觉与真实交互验收仍受权限阻断：Chrome 子进程启动被拒绝，浏览器宿主不可用，原生 Chrome 工具未获批准。不得把隔离控制器测试、Node 耗时或 HTTP 200 当作浏览器验收。下一步在获准的浏览器环境运行已扩展的 `tests/frontend.browser.cjs`，按 [FRONTEND_ACCEPTANCE.md](FRONTEND_ACCEPTANCE.md) 与本轮报告记录结果。当前 `.git` 为只读，本批未提交。
+> **当前客户端状态（2026-11-01，优先于下文历史规划）**：已完成本轮阅读与导航重构：23.5rem 侧栏、76rem 阅读区、高对比度大字号、四要素独立卡片全部展开、整行双语例句与搭配、金棕词源卡；滚过词头后常驻词名/音标/英美朗读，切词加载前后回顶。词表改为每批 50 词连续追加，保留滚动位置与选词，键盘可跨批次；新增 A–Z 严格首字母筛选，可组合考试/词性/收藏。Worker 仅新增首字母条件，源数据 Schema、后端、分片与学习进度存储未改；Service Worker 外壳为 v3。原有 25 项测试与新增 6 项回归共 **31/31 通过**，命令为 `node --test --test-isolation=none tests/frontend.test.mjs tests/frontend.interactions.test.mjs`；用户指定的原命令因沙箱禁止测试子进程返回 `spawn EPERM`，并非已通过该原命令。全量 25,006 词 / 58,574 义项 / 27 分片检查通过。实际在线入口 `http://127.0.0.1:8765/` 的 HTML/JS/CSS/Worker/SW 均 HTTP 200 且与磁盘一致。真实浏览器验收仍未完成：Playwright 启动 Chrome 返回 EPERM，浏览器宿主不可用，原生 Chrome 访问未获审批；没有绕过权限。浏览器脚本已补连续加载、字母跳转、四要素字号与常驻栏场景，待获准环境执行。验收证据见 [FRONTEND_ACCEPTANCE.md](FRONTEND_ACCEPTANCE.md)。当前 `.git` 为只读，本批未提交。
 
 ---
 

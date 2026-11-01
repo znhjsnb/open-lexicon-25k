@@ -144,6 +144,19 @@ test('all 501 pages are reachable, bounded, and cannot run beyond the last page'
   assert.equal(search('', { offset: -1 }).offset, 0);
 });
 
+test('alphabet prefix filtering reaches every letter and composes with search, exams, POS and bookmarks', () => {
+  for (const letter of 'abcdefghijklmnopqrstuvwxyz') {
+    const result = search('', { letter });
+    const expected = index.filter(entry => entry.w.toLowerCase().startsWith(letter));
+    assert.equal(result.total, expected.length);
+    assert.deepEqual(result.results.map(entry => entry.id), expected.slice(0, 50).map(entry => entry.id));
+    if (expected.length > 50) assert.equal(search('', { letter, offset: 50 }).results[0].id, expected[50].id);
+  }
+  const combined = search('bo', { letter: 'b', tag: 'CET4', pos: 'v.', bookmarks: ['borrow', 'abandon'] });
+  assert.deepEqual(combined.results.map(entry => entry.w), ['borrow']);
+  assert.equal(search('available', { letter: 'z' }).total, 0);
+});
+
 test('daily study is deterministic, filtered and capped, with valid empty decks', () => {
   function deck(tag = '', daily = false) {
     self.onmessage({ data: { type: 'study', tag, daily, day: 20758, requestId: 2 } });
