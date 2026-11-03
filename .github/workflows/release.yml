@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Build SQLite, Anki, JSONL and Zip Releases
+      - name: Build SQLite, Anki, JSONL, Static Web and Zip Releases
         run: |
           python src/export_databases.py --all
 
@@ -38,3 +38,4 @@ jobs:
             data/exports/open_lexicon_25k_sqlite.zip
             data/exports/open_lexicon_25k_anki.zip
             data/exports/open_lexicon_25k_jsonl.zip
+            data/exports/open_lexicon_25k_web_static.zip

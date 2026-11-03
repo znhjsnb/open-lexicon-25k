@@ -129,6 +129,9 @@
    - 114MB 制式 TSV 文件，自带现代 CSS 美化卡片样式，导入 Anki 即可背诵。
 3. **JSONL 语料库 (`open_lexicon_25k.jsonl`)**：
    - 180MB 单行 JSON 语料，适配 LLM 微调、向量检索与 RAG 知识库构建。
+4. **纯静态网页发布包 (`open_lexicon_25k_web_static.zip`)**：
+   - 包含完整网页资源、搜索索引与 27 个详情分片（`a`–`z` 与 `other`），解压后根目录即为 `index.html`，并保留 `data/search_index.json` 与 `data/shards/*.json` 相对路径。
+   - 可直接部署到 GitHub Pages / Cloudflare Pages 等静态托管；本地使用时从解压目录运行 `python -m http.server 8765 --bind 127.0.0.1`，再打开 `http://127.0.0.1:8765`。
 
 > **注**：因为大型二进制及压缩文件已被 `.gitignore` 保护，正式编译文件可通过 **GitHub Releases** 或运行构建脚本生成。
 
@@ -138,7 +141,7 @@
 
 ### 1. 重新构建所有衍生数据库与发布包
 ```bash
-# 一键编译 SQLite + Anki TSV + JSONL 并打包为 Releases ZIP 包
+# 一键编译 SQLite + Anki TSV + JSONL + 网页分片并生成四个 Releases ZIP 包
 python src/export_databases.py --all
 ```
 
@@ -147,7 +150,7 @@ python src/export_databases.py --all
 先准备静态数据：若 `app/static/data/search_index.json` 或 `app/static/data/shards/*.json` 尚未生成，在已有 SQLite 导出的基础上运行：
 
 ```bash
-python src/export_web_shards.py
+python src/export_databases.py --web
 ```
 
 然后从项目根目录启动：
@@ -159,7 +162,7 @@ python -m http.server 8765 --bind 127.0.0.1 --directory app/static
 
 ### 3. 部署到 GitHub Pages / Cloudflare Pages
 
-将 **`app/static/` 整个目录作为静态站点内容发布**，保留以下相对目录结构，也可部署在站点子目录：
+从 GitHub Releases 下载 `open_lexicon_25k_web_static.zip`，解压后将其内容直接作为静态站点发布；也可将 **`app/static/` 整个目录作为静态站点内容发布**，保留以下相对目录结构，支持部署在站点子目录：
 
 ```text
 app/static/
@@ -170,6 +173,8 @@ app/static/
 ```
 
 `app/static/data/` 是被 `.gitignore` 忽略的派生产物，**只推送源码不会带上搜索索引和 27 个分片**。通过 Pages 发布时，须在构建/上传发布产物前生成或补齐这些文件，再发布完整目录；仅上传 HTML/CSS/JS 无法提供全库查询。线上使用 HTTPS，以支持 Service Worker 离线缓存。
+
+已有数据库与静态数据时，运行 `python src/export_databases.py --zip` 可重新生成四个发布压缩包，包括完整的纯静态网页发布包。
 
 页面左下角“准备离线词库”用于缓存全部分片。旧 `app/server.py` 仍供其他 API 使用方调用。实现边界、测试命令与浏览器验收结果见 [前端验收记录](docs/FRONTEND_ACCEPTANCE.md)。
 
@@ -220,7 +225,7 @@ dict/
 │   └── API_GUIDE.md                    # Python / Node.js 接入开发指南
 ├── reports/                            # 26 个批次自动化门禁报告与生产审计日志
 ├── src/                                # 数据重建与流水线工具集
-│   ├── export_databases.py             # 统一导出调度器 (SQLite, Anki, JSONL, ZIP)
+│   ├── export_databases.py             # 统一导出调度器 (SQLite, Anki, JSONL, 网页分片, ZIP)
 │   ├── export_sqlite.py                # SQLite + FTS5 编译脚本
 │   ├── export_anki.py                  # Anki 牌组导出脚本
 │   ├── export_jsonl.py                 # JSONL 语料导出脚本
