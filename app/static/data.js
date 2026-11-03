@@ -1,5 +1,5 @@
 // Bump when publishing new data: index and shard caches share this version.
-export const DATA_VERSION = '25k-2026-11-01';
+export const DATA_VERSION = '25k-2026-11-03';
 export const INDEX_CACHE = `open-lexicon-index-${DATA_VERSION}`;
 
 export function normalizeTags(tags) {

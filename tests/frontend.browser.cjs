@@ -35,7 +35,11 @@ async function openStaticServer() {
 }
 async function ready(page, word) {
   await page.waitForFunction(() => window.lexiconMetrics?.details.length > 0);
-  await page.waitForFunction(() => document.querySelector('#content').getAttribute('aria-busy') === 'false');
+  if (word) {
+    await page.waitForFunction(word => document.querySelector('.word-heading')?.textContent === word && document.querySelector('#content').getAttribute('aria-busy') === 'false' && document.querySelector('#word-list').getAttribute('aria-busy') === 'false', word);
+  } else {
+    await page.waitForFunction(() => document.querySelector('#content').getAttribute('aria-busy') === 'false' && document.querySelector('#word-list').getAttribute('aria-busy') === 'false');
+  }
   if (word) assert.equal(await page.locator('.word-heading').textContent(), word);
 }
 async function find(page, query, word) {
@@ -172,6 +176,14 @@ async function find(page, query, word) {
     assert.equal(await page.locator('.example-zh').first().isVisible(), false);
     assert.equal(await page.locator('.definition').first().isVisible(), true);
     assert.equal(await page.locator('.example-en').first().isVisible(), true);
+    assert.equal(await page.locator('.lexical-meta-grid').isVisible(), false);
+    assert.equal(await page.locator('.sense-phonetic').first().isVisible(), true);
+    assert.equal(await page.locator('.sense-meaning-en').first().isVisible(), true);
+    for (const section of ['morphology', 'etymology', 'synonyms', 'mnemonic']) {
+      assert.equal(await page.locator(`.${section} .deep-copy.en-content`).isVisible(), true);
+      assert.equal(await page.locator(`.${section} .deep-copy.zh-content`).first().isVisible(), false);
+    }
+    assert.doesNotMatch((await page.locator('#detail .sense-learning, #detail .deep-grid').allInnerTexts()).join('\n'), /[\u3400-\u9fff]/);
     assert.ok(await page.locator('.definition').first().evaluate(element => parseFloat(getComputedStyle(element).fontSize) >= 16));
     await page.screenshot({ path: path.join(output, 'english-mode.png') });
     await page.reload(); await ready(page, 'available');
@@ -180,6 +192,15 @@ async function find(page, query, word) {
     assert.equal(await page.locator('.example-zh').first().isVisible(), false);
     await page.locator('#lang-bilingual').click();
     assert.equal(await page.locator('.example-zh').first().isVisible(), true);
+    assert.equal(await page.locator('.lexical-meta-grid').isVisible(), true);
+    for (const section of ['morphology', 'etymology', 'synonyms', 'mnemonic']) assert.equal(await page.locator(`.${section} .deep-copy.en-content`).isVisible(), true);
+    await find(page, 'schedule', 'schedule');
+    assert.ok(await page.locator('.sense-phonetic .label-zh').count());
+    assert.equal(await page.locator('.sense-phonetic .label-zh').first().isVisible(), true);
+    await page.locator('#lang-en').click();
+    assert.equal(await page.locator('.sense-phonetic .label-en').first().isVisible(), true);
+    assert.doesNotMatch((await page.locator('#detail .sense-learning, #detail .deep-grid').allInnerTexts()).join('\n'), /[\u3400-\u9fff]|\/\//);
+    await page.locator('#lang-bilingual').click();
   });
   await runCase('exact, prefix, typo and Chinese searches', async () => {
     await find(page, 'abandon', 'abandon');
@@ -243,9 +264,12 @@ async function find(page, query, word) {
     await page.waitForFunction(word => document.querySelector('.word-heading')?.textContent === word && document.querySelector('#content').getAttribute('aria-busy') === 'false', firstWord);
     assert.equal(await page.locator('.word-row').count(), 50);
   });
-  await runCase('four expanded dimensions, cohesive senses, compact two-column examples and a pinned speaking identity', async () => {
+  await runCase('six expanded dimensions, lexical forms and family, complete senses and a pinned speaking identity', async () => {
     await find(page, 'available', 'available');
-    assert.equal(await page.locator('#detail .dimension').count(), 4);
+    assert.equal(await page.locator('#detail .dimension').count(), 6);
+    assert.equal(await page.locator('#detail details, #detail [hidden]').count(), 0);
+    for (const selector of ['.synonyms', '.mnemonic', '.sense-meaning-en', '.sense-phonetic', '.lexical-meta-grid']) assert.equal(await page.locator(selector).first().isVisible(), true);
+    for (const formula of await page.locator('.formula.en-content').all()) assert.equal(await formula.isVisible(), false);
     const type = await page.evaluate(() => {
       const style = selector => getComputedStyle(document.querySelector(selector));
       return { ink: style('body').color, zh: parseFloat(style('.sense-heading h3').fontSize), en: parseFloat(style('.example-en').fontSize), translation: parseFloat(style('.example-zh').fontSize), columns: style('.context-grid').gridTemplateColumns.split(' ').length };
@@ -267,7 +291,7 @@ async function find(page, query, word) {
     assert.equal(await page.locator('.toolbar-word-badge strong').textContent(), 'available');
     assert.equal(await page.locator('#toolbar-pinned-word [data-lang="en-GB"]').count(), 1);
     assert.equal(await page.locator('#toolbar-pinned-word [data-lang="en-US"]').count(), 1);
-    await page.screenshot({ path: path.join(output, 'four-dimensions-pinned.png') });
+    await page.screenshot({ path: path.join(output, 'six-dimensions-pinned.png') });
     await find(page, 'borrow', 'borrow');
     assert.equal(await page.locator('#content').evaluate(element => element.scrollTop), 0);
     assert.equal(await page.locator('#toolbar-pinned-word').isVisible(), false);
@@ -359,7 +383,7 @@ async function find(page, query, word) {
   });
   await runCase('typography scales real reading text, changes density and restores settings across reload', async () => {
     await ready(page, 'available');
-    const selectors = ['.word-heading', '.phonetic', '.sense-heading h3', '.definition', '.example-en', '.example-zh', '.formula'];
+    const selectors = ['.word-heading', '.phonetic', '.sense-heading h3', '.definition', '.example-en', '.example-zh', '.formula', '.sense-phonetic', '.sense-meaning-en', '.lexical-meta-copy', '.deep-copy.en-content'];
     const sizes = () => page.evaluate(selectors => selectors.map(selector => parseFloat(getComputedStyle(document.querySelector(selector)).fontSize)), selectors);
     const original = await sizes();
     const rowHeight = await page.locator('.word-row').first().evaluate(element => element.getBoundingClientRect().height);
@@ -391,6 +415,13 @@ async function find(page, query, word) {
         await page.locator(`#typography-papers [data-value="${paper}"]`).click();
         const colors = await page.locator('#content').evaluate(element => { const css = getComputedStyle(element); return [css.backgroundColor, css.color]; });
         assert.deepEqual(colors, [background, ink]);
+        const readingColors = await page.locator('#detail').evaluate(element => {
+          const style = selector => getComputedStyle(element.querySelector(selector));
+          return { ink: style('.lexical-meta-copy').color, muted: style('.deep-copy.en-content').color, phonetic: style('.sense-phonetic').color, shortMeaning: style('.sense-meaning-en').color };
+        });
+        assert.equal(readingColors.ink, ink);
+        assert.equal(readingColors.phonetic, readingColors.muted);
+        assert.equal(readingColors.shortMeaning, readingColors.muted);
       }
       await page.keyboard.press('Escape'); await page.locator('#typography-panel').waitFor({ state: 'hidden' });
     }

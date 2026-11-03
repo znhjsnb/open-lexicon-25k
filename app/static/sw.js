@@ -1,5 +1,5 @@
-// Refresh the shell for short sense navigation and English mode labels.
-const SHELL_CACHE = 'open-lexicon-shell-v4.4';
+// Refresh the shell for the complete bilingual six-dimension workbench.
+const SHELL_CACHE = 'open-lexicon-shell-v4.5';
 const SHELL = ['./', './index.html', './styles.css', './app.js', './worker.js', './db.js', './data.js'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(SHELL_CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));

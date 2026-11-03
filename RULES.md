@@ -30,6 +30,13 @@
   - **长文本管道传输**：长正文 Prompt 统一采用 UTF-8 stdin 传递（`Get-Content -Raw -Encoding UTF8 task.md | codex exec ... -`），彻底避免 Windows 命令行换行截断与引号转义失效。
 - **协同底线**：**绝对严禁要求用户充当人肉打字员或在窗口间复制 Prompt（Zero Human-Relay Rule）**。
 
+### 4. 双模型方案对齐与共同敲定机制 (Dual-Model Architecture Consensus & Peer Review Protocol)
+- **核心原则**：重大架构重构、核心工程搭设、数据分片/索引体系设计或重大特性研发前，严禁单模型独断专行或单方面草率推进；必须严格执行 Antigravity（调度与架构者）与 Codex CLI（主力编程与严苛审查者）的**双模型方案互审与共同敲定**。
+- **三步闭环流程**：
+  1. **方案梳理与意图澄清 (Antigravity)**：通过 `/grill-me` 深度对齐等方式明确用户需求、架构分歧与设计树决策，形成自洽的架构设计提案；
+  2. **严苛对立面审查 (Codex CLI)**：通过标准输入管道以只读审查模式（`-s read-only -a never`）调取本地 Codex CLI，对设计方案进行无偏见的技术终审（深度排查并发性能陷阱、平台边界、数据一致性、降级防御与边界用例）；
+  3. **双模型共识与闭环落地**：Antigravity 充分消化并吸收 Codex 审查意见修正实施方案，形成双模型共识，向用户汇报后方可启动业务代码编写与落盘。
+
 ---
 
 ## 二、 沟通与协作四项铁律

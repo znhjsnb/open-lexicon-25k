@@ -37,7 +37,28 @@ function dayNumber(day = localDay()) { return Math.floor(Date.parse(`${day}T00:0
 function todayWords() { const words = progress[localDay()]; return Array.isArray(words) ? words.filter(word => typeof word === 'string') : []; }
 function pushMetric(key, value) { metrics[key].push(value); if (metrics[key].length > 100) metrics[key].shift(); }
 function escapeHtml(value) { return String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]); }
-function phonetic(value) { return value ? `/${String(value).replace(/^\/+|\/+$/g, '')}/` : ''; }
+function phonetic(value) {
+  if (!value) return '';
+  const text = String(value);
+  return text.includes('/') ? text : `/${text.replace(/^\/+|\/+$/g, '')}/`;
+}
+function label(zh, en) { return `<span class="label-zh">${zh}</span><span class="label-en" lang="en">${en}</span>`; }
+function englishPhonetic(value) {
+  const text = String(value || '')
+    .replace(/英美/g, 'UK/US')
+    .replace(/美式英语|美式常见变体|美式变体|美式|美音|美/g, 'US')
+    .replace(/英式英语|英式|英音|英/g, 'UK')
+    .replace(/强读/g, 'strong').replace(/通常弱读|弱读/g, 'weak')
+    .replace(/重读/g, 'stressed').replace(/复数/g, 'pl.').replace(/单数/g, 'sg.')
+    .replace(/亦作|亦读|也作|或|亦/g, 'or').replace(/；/g, '; ').replace(/，/g, ', ');
+  // Unrecognised teaching annotations must never leak into English reading mode.
+  return /[\u3400-\u9fff]/.test(text) ? (String(value).match(/\/[^/\u3400-\u9fff]+\//g) || []).join('; ') : phonetic(text);
+}
+function renderSensePhonetic(value) {
+  return /[\u3400-\u9fff]/.test(value)
+    ? `<span class="sense-phonetic">${label(escapeHtml(phonetic(value)), escapeHtml(englishPhonetic(value)))}</span>`
+    : `<span class="sense-phonetic" lang="en">${escapeHtml(phonetic(value))}</span>`;
+}
 function posName(value) { return String(value || '').split(/\s/)[0]; }
 function posClass(value) {
   const pos = posName(value);
@@ -683,12 +704,18 @@ async function selectWord(word, openMobile = false) {
 function renderDetail(entry) {
   const tags = normalizeTags(entry.tags);
   // Emphasize existing source formulas; never invent a morphological split.
-  const formula = String(entry.morphology_zh || '').match(/[A-Za-z][A-Za-z -]*(?:\s*\+\s*[-A-Za-z]+)+\s*→\s*[^；。\n]+/)?.[0];
-  const label = (zh, en) => `<span class="label-zh">${zh}</span><span class="label-en" lang="en">${en}</span>`;
-  const dimensionHeading = (number, title, en) => `<div class="dimension-heading"><span class="dimension-number">${label(`要素${number}`, ({ 一: '01', 二: '02', 三: '03', 四: '04' })[number])}</span><h2>${label(title, en)}</h2></div>`;
+  const formulaPattern = /[A-Za-z][A-Za-z -]*(?:\s*\+\s*[-A-Za-z]+)+\s*(?:→|->)\s*[^；;。\n]+/;
+  const formulaZh = String(entry.morphology_zh || '').match(formulaPattern)?.[0];
+  const formulaEn = String(entry.morphology_en || '').match(formulaPattern)?.[0];
+  const formula = /[\u3400-\u9fff]/.test(formulaZh || '') && formulaEn
+    ? `<p class="formula zh-content">${escapeHtml(formulaZh)}</p><p class="formula en-content" lang="en">${escapeHtml(formulaEn)}</p>`
+    : formulaZh || formulaEn ? `<p class="formula${/[\u3400-\u9fff]/.test(formulaZh || '') ? ' zh-content' : ''}">${escapeHtml(formulaZh || formulaEn)}</p>` : '';
+  const dimensionHeading = (number, title, en) => `<div class="dimension-heading"><span class="dimension-number">${label(`要素${number}`, ({ 一: '01', 二: '02', 三: '03', 四: '04', 五: '05', 六: '06' })[number])}</span><h2>${label(title, en)}</h2></div>`;
+  const englishNotes = (text, fallback) => text ? `<p class="deep-copy en-content" lang="en">${escapeHtml(text)}</p>` : `<p class="label-en source-note" lang="en">${fallback}</p>`;
   pinnedWord.innerHTML = `<span class="toolbar-word-badge"><strong lang="en">${escapeHtml(entry.word)}</strong><span class="pinned-phonetic">${escapeHtml(phonetic(entry.phonetic))}</span></span><span class="pinned-audio">${audioButton(entry.word, '英音', false, 'en-GB')}${audioButton(entry.word, '美音', true)}</span>`;
   pinnedWord.hidden = true;
   detail.innerHTML = `<header class="word-header"><div class="word-headline"><h1 class="word-heading" lang="en">${escapeHtml(entry.word)}</h1><div class="pronunciations"><span class="phonetic">${escapeHtml(phonetic(entry.phonetic))}</span>${audioButton(entry.word, '英音', false, 'en-GB')}${audioButton(entry.word, '美音', true)}</div></div><div class="tag-line">${tags.map(tag => `<span class="exam-tag ${tag.startsWith('CEFR') ? 'cefr-tag' : ''}">${escapeHtml(tag)}</span>`).join('')}</div>
+    ${entry.forms || entry.family ? `<div class="lexical-meta-grid zh-content" aria-label="词形与词族">${entry.forms ? `<div class="lexical-meta-item"><span class="lexical-meta-label">词形变化</span><p class="lexical-meta-copy">${escapeHtml(entry.forms)}</p></div>` : ''}${entry.family ? `<div class="lexical-meta-item"><span class="lexical-meta-label">派生词族</span><p class="lexical-meta-copy">${escapeHtml(entry.family)}</p></div>` : ''}</div>` : ''}
     <nav class="sense-quick-chips" aria-label="义项速览">${entry.senses.map((sense, index) => {
       const number = String(index + 1).padStart(2, '0');
       return `<button class="sense-chip" data-sense="${index + 1}">${label(`<span class="sense-chip-number">${number}</span> ${escapeHtml(sense.meaning_zh)}`, `Sense ${number}`)}</button>`;
@@ -698,11 +725,13 @@ function renderDetail(entry) {
       const collocations = String(sense.collocation_en || '').split(/\s*[;；]\s*/).filter(Boolean);
       const translations = String(sense.collocation_zh || '').split(/\s*[;；]\s*/);
       const pos = posName(sense.pos);
-      return `<section id="sense-${index + 1}" class="sense-card" tabindex="-1" aria-label="Sense ${index + 1}"><div class="${index === 0 ? 'dimension ' : ''}core-definitions" role="group" aria-label="要素一：释义与定义"><div class="sense-heading"><span class="sense-number">${String(index + 1).padStart(2, '0')}</span><span class="pos-tag ${posClass(sense.pos)}">${escapeHtml(pos)}<span class="zh-content">${escapeHtml(String(sense.pos || '').slice(pos.length))}</span></span><h3 class="zh-content">${escapeHtml(sense.meaning_zh)}</h3></div><p class="definition" lang="en">${escapeHtml(sense.english_definition)}</p></div>
+      return `<section id="sense-${index + 1}" class="sense-card" tabindex="-1" aria-label="Sense ${index + 1}"><div class="${index === 0 ? 'dimension ' : ''}core-definitions" role="group" aria-label="要素一：释义与定义"><div class="sense-heading"><span class="sense-number">${String(index + 1).padStart(2, '0')}</span><span class="pos-tag ${posClass(sense.pos)}">${escapeHtml(pos)}<span class="zh-content">${escapeHtml(String(sense.pos || '').slice(pos.length))}</span></span>${sense.phonetic ? renderSensePhonetic(sense.phonetic) : ''}<h3 class="zh-content">${escapeHtml(sense.meaning_zh)}</h3>${sense.meaning_en ? `<p class="sense-meaning-en" lang="en">${escapeHtml(sense.meaning_en)}</p>` : ''}</div><p class="definition" lang="en">${escapeHtml(sense.english_definition)}</p></div>
       <div class="${index === 0 ? 'dimension ' : ''}real-scenarios context-grid" role="group" aria-label="要素二：例句与搭配">${sense.sentence_en ? `<div class="example-card"><div class="example-heading"><span>${label('场景例句', 'Example')}</span>${audioButton(sense.sentence_en, '听例句')}</div><p class="example-en" lang="en">${highlighted(sense.sentence_en, entry.word)}</p><p class="example-zh zh-content">${escapeHtml(sense.sentence_zh)}</p></div>` : ''}${collocations.length ? `<div class="collocations"><h4>${label('高频搭配', 'Collocations')}</h4>${collocations.map((phrase, i) => `<div class="collocation"><p class="example-en" lang="en">${highlighted(phrase, entry.word)}</p><p class="example-zh zh-content">${escapeHtml(translations[i] || '')}</p></div>`).join('')}</div>` : ''}</div></section>`;
     }).join('')}</section>
-    <div class="deep-grid"><section class="dimension deep-card morphology" aria-label="要素三：现代公式化构词">${dimensionHeading('三', '现代公式化构词', 'Word formation')}${formula ? `<p class="formula${/[\u3400-\u9fff]/.test(formula) ? ' zh-content' : ''}">${escapeHtml(formula)}</p>` : ''}${String(entry.morphology_zh || '暂无构词说明').split(/(?=常用词族[：:]|派生词族?[：:]|复合词[：:])/u).map(text => `<p class="deep-copy zh-content">${escapeHtml(text)}</p>`).join('')}<p class="label-en source-note" lang="en">Word formation notes are available in bilingual mode.</p></section>
-    <section class="dimension deep-card etymology" aria-label="要素四：词源故事与高效记忆">${dimensionHeading('四', '词源故事', 'Word origin')}<p class="deep-copy zh-content">${escapeHtml(entry.etymology_zh || '暂无词源说明')}</p><p class="label-en source-note" lang="en">Origin notes are available in bilingual mode.</p></section></div>`;
+    <div class="deep-grid"><section class="dimension deep-card morphology" aria-label="要素三：现代公式化构词">${dimensionHeading('三', '现代公式化构词', 'Word formation')}${formula}${String(entry.morphology_zh || '暂无构词说明').split(/(?=常用词族[：:]|派生词族?[：:]|复合词[：:])/u).map(text => `<p class="deep-copy zh-content">${escapeHtml(text)}</p>`).join('')}${englishNotes(entry.morphology_en, 'Word formation notes are available in bilingual mode.')}</section>
+    <section class="dimension deep-card etymology" aria-label="要素四：词源故事">${dimensionHeading('四', '词源故事', 'Word origin')}<p class="deep-copy zh-content">${escapeHtml(entry.etymology_zh || '暂无词源说明')}</p>${englishNotes(entry.etymology_en, 'Origin notes are available in bilingual mode.')}</section>
+    <section class="dimension deep-card synonyms" aria-label="要素五：近义词辨析">${dimensionHeading('五', '近义词辨析', 'Synonyms &amp; nuances')}<p class="deep-copy zh-content">${escapeHtml(entry.synonyms_zh || '暂无近义辨析')}</p>${englishNotes(entry.synonyms_en, 'Synonym notes are available in bilingual mode.')}</section>
+    <section class="dimension deep-card mnemonic" aria-label="要素六：记忆锚点与助记">${dimensionHeading('六', '记忆锚点与助记', 'Mnemonic anchor')}<p class="deep-copy zh-content">${escapeHtml(entry.mnemonic_zh || '暂无助记说明')}</p>${englishNotes(entry.mnemonic_en, 'Mnemonic notes are available in bilingual mode.')}</section></div>`;
 }
 
 function stopSpeech() {
@@ -755,7 +784,12 @@ window.addEventListener('pagehide', stopSpeech);
 $('copy').onclick = async () => {
   const entry = state.selected;
   if (!entry) return;
-  const text = `# ${entry.word} ${phonetic(entry.phonetic)}\n\n${normalizeTags(entry.tags).join(' · ')}\n\n${entry.senses.map(s => `## ${s.pos} ${s.meaning_zh}\n\n${s.english_definition}\n\n${s.sentence_en}\n${s.sentence_zh}\n\n${s.collocation_en}\n${s.collocation_zh}`).join('\n\n')}\n\n## 现代构词\n${entry.morphology_zh}\n\n## 词源\n${entry.etymology_zh}`;
+  const text = [
+    `# ${entry.word} ${phonetic(entry.phonetic)}`, normalizeTags(entry.tags).join(' · '),
+    entry.forms && `## 词形变化\n${entry.forms}`, entry.family && `## 派生词族\n${entry.family}`,
+    ...entry.senses.map(s => [`## ${s.pos} ${s.meaning_zh}`, phonetic(s.phonetic), s.meaning_en, s.english_definition, s.sentence_en, s.sentence_zh, s.collocation_en, s.collocation_zh].filter(Boolean).join('\n\n')),
+    ...[['现代构词', 'morphology'], ['词源', 'etymology'], ['近义辨析', 'synonyms'], ['记忆锚点', 'mnemonic']].map(([title, key]) => `## ${title}\n${[entry[`${key}_zh`], entry[`${key}_en`]].filter(Boolean).join('\n\n')}`),
+  ].filter(Boolean).join('\n\n');
   try { await navigator.clipboard.writeText(text); toast('已复制词条 Markdown'); }
   catch { toast('复制未成功，请允许浏览器访问剪贴板'); }
 };
@@ -763,7 +797,10 @@ $('copy-anki').onclick = async () => {
   const entry = state.selected;
   if (!entry) return;
   const front = escapeHtml(`${entry.word} ${phonetic(entry.phonetic)}`);
-  const back = entry.senses.map(sense => `${escapeHtml(sense.pos)} ${escapeHtml(sense.meaning_zh)}<br>${escapeHtml(sense.english_definition)}<br>${escapeHtml(sense.sentence_en)}<br>${escapeHtml(sense.sentence_zh)}`).join('<br><br>');
+  const back = [
+    ...entry.senses.map(sense => [sense.pos, sense.meaning_zh, phonetic(sense.phonetic), sense.meaning_en, sense.english_definition, sense.sentence_en, sense.sentence_zh, sense.collocation_en, sense.collocation_zh].filter(Boolean).map(escapeHtml).join('<br>')),
+    ...[['词形变化', 'forms'], ['派生词族', 'family'], ['近义辨析', 'synonyms_zh'], ['记忆锚点', 'mnemonic_zh']].filter(([, key]) => entry[key]).map(([title, key]) => `${title}: ${escapeHtml(entry[key])}`),
+  ].join('<br><br>');
   try { await navigator.clipboard.writeText(`${front.replace(/[\t\r\n]/g, ' ')}\t${back.replace(/[\t\r\n]/g, ' ')}`); toast('已复制 Anki TSV，可导入为正反面'); }
   catch { toast('复制未成功，请允许浏览器访问剪贴板'); }
 };

@@ -6,6 +6,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { cpus } from 'node:os';
+import { DatabaseSync } from 'node:sqlite';
 import { normalizeTags, shardFor, DATA_VERSION } from '../app/static/data.js';
 
 const root = new URL('../app/static/', import.meta.url);
@@ -328,6 +329,38 @@ test('a new module session reads the stored shard without any network request', 
   failNetwork = false;
 });
 
+test('the 2026-11-03 data upgrade ignores stale IndexedDB keys and persists the complete replacement', async () => {
+  assert.equal(DATA_VERSION, '25k-2026-11-03');
+  globalThis.indexedDB = mockIndexedDB();
+  const key = `${DATA_VERSION}:a`;
+  const current = persisted.get(key);
+  const staleKey = '25k-2026-11-01:a';
+  const stale = { available: { word: 'available', senses: [], morphology_zh: 'stale' } };
+  persisted.delete(key);
+  persisted.set(staleKey, stale);
+  try {
+    const upgraded = await import('../app/static/db.js?unit=upgrade');
+    const before = fetchCount;
+    failNetwork = true;
+    await assert.rejects(upgraded.getWord('available'), /连接/);
+    failNetwork = false;
+    const result = await upgraded.getWord('available');
+    assert.equal(result.source, 'network');
+    assert.equal(fetchCount - before, 2);
+    for (const field of ['forms', 'family', 'synonyms_en', 'mnemonic_en']) assert.ok(result.entry[field]);
+    assert.ok(result.entry.senses[0].meaning_en);
+    assert.deepEqual(persisted.get(staleKey), stale);
+    assert.deepEqual(persisted.get(key).available, result.entry);
+    const reloaded = await import('../app/static/db.js?unit=upgrade-reload');
+    failNetwork = true;
+    assert.equal((await reloaded.getWord('available')).source, 'indexeddb');
+  } finally {
+    failNetwork = false;
+    persisted.delete(staleKey);
+    persisted.set(key, current);
+  }
+});
+
 test('failed shard requests are retryable; uncached offline words give an error', async () => {
   failNetwork = true;
   await assert.rejects(db.getWord('borrow'), /连接/);
@@ -390,8 +423,13 @@ test('all 25,006 index entries align with all 58,574 source senses across 27 sha
       assert.equal(entry.id, expected.get(word)?.id);
       assert.deepEqual(entry.senses.map(sense => ({ p: sense.pos, m: sense.meaning_zh })), expected.get(word).s);
       assert.deepEqual(normalizeTags(entry.tags), normalizeTags(expected.get(word).t));
-      assert.equal(typeof entry.morphology_zh, 'string');
-      assert.equal(typeof entry.etymology_zh, 'string');
+      assert.ok(Array.isArray(entry.tags) && entry.tags.every(tag => typeof tag === 'string'));
+      for (const field of ['forms', 'family', 'morphology_zh', 'morphology_en', 'etymology_zh', 'etymology_en', 'synonyms_zh', 'synonyms_en', 'mnemonic_zh', 'mnemonic_en']) {
+        assert.ok(typeof entry[field] === 'string' && entry[field].length > 0, `${word}.${field}`);
+      }
+      for (const sense of entry.senses) for (const field of ['phonetic', 'meaning_en']) {
+        assert.ok(typeof sense[field] === 'string' && sense[field].length > 0, `${word}.senses.${field}`);
+      }
       words++;
       senses += entry.senses.length;
     }
@@ -399,6 +437,36 @@ test('all 25,006 index entries align with all 58,574 source senses across 27 sha
   assert.equal(words, 25006);
   assert.equal(senses, 58574);
   report.integrity = { shards: 27, words, senses, shardBytes: bytes };
+});
+
+test('web exporter output matches SQLite and raw_json for every word and sense', async () => {
+  const sqlite = new DatabaseSync(fileURLToPath(new URL('../data/exports/open_lexicon_25k.db', import.meta.url)), { readOnly: true });
+  try {
+    const wordRow = sqlite.prepare('SELECT * FROM words WHERE id = ?');
+    const sourceSenses = new Map();
+    for (const row of sqlite.prepare('SELECT word_id, pos, phonetic, meaning_zh, meaning_en, english_definition, collocation_en, collocation_zh, sentence_en, sentence_zh FROM senses ORDER BY word_id, sense_index').iterate()) {
+      const { word_id, ...sense } = row;
+      if (!sourceSenses.has(word_id)) sourceSenses.set(word_id, []);
+      sourceSenses.get(word_id).push(Object.fromEntries(Object.entries(sense).map(([key, value]) => [key, value || ''])));
+    }
+    let count = 0;
+    for (const letter of [...'abcdefghijklmnopqrstuvwxyz', 'other']) {
+      const shard = JSON.parse(await readFile(new URL(`data/shards/${letter}.json`, root), 'utf8'));
+      for (const entry of Object.values(shard)) {
+        const row = wordRow.get(entry.id);
+        assert.ok(row, entry.word);
+        const raw = JSON.parse(row.raw_json);
+        const expected = { id: row.id, word: row.word.trim(), phonetic: row.phonetic || '', tags: normalizeTags(row.exam_tags), forms: String(raw.forms || '').trim(), family: String(raw.family || '').trim() };
+        for (const key of ['etymology_zh', 'etymology_en', 'morphology_zh', 'morphology_en', 'synonyms_zh', 'synonyms_en', 'mnemonic_zh', 'mnemonic_en']) expected[key] = row[key] || '';
+        expected.senses = sourceSenses.get(row.id) || [];
+        assert.deepEqual(entry, expected, entry.word);
+        count++;
+      }
+    }
+    assert.equal(count, sqlite.prepare('SELECT COUNT(*) AS n FROM words').get().n);
+    assert.equal(count, 25006);
+    report.exportParity = { words: count, senses: [...sourceSenses.values()].reduce((n, senses) => n + senses.length, 0), mismatches: 0 };
+  } finally { sqlite.close(); }
 });
 
 test('representative search sample records actual module timings without browser claims', () => {

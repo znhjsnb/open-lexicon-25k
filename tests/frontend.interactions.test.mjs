@@ -229,24 +229,35 @@ test('speech, bookmark, flip and check-in issue only 8ms haptics; unsupported vi
   assert.doesNotThrow(() => f.element('save').onclick());
 });
 
-test('entry renderer keeps short sense navigation and every complete definition and learning unit flat', () => {
+test('entry renderer keeps short sense navigation and every complete definition and learning unit flat', async () => {
   const f = fixture();
   const definition = i => `You use a before a singular countable noun when referring to something that has not been mentioned before, as in a book or a question about sense ${i}.`;
-  f.ui.renderDetail({ word: 'test', phonetic: 'test', tags: ['CET4'], morphology_zh: 'test + -ing → testing', etymology_zh: '词源故事', senses: [1, 2].map(i => ({
-    pos: 'art. 冠词', meaning_zh: `释义${i}`, english_definition: definition(i), sentence_en: `test sentence ${i}`, sentence_zh: `例句${i}`,
+  const entry = { word: 'test', phonetic: '/test/', tags: ['CET4'], forms: '复数 tests', family: '词族 testing', morphology_zh: 'test + -ing → 测试中；常用词族：testing', morphology_en: 'test + -ing -> testing; word formation', etymology_zh: '词源故事', etymology_en: 'Origin story', synonyms_zh: '近义辨析', synonyms_en: 'Synonym nuances', mnemonic_zh: '记忆口诀', mnemonic_en: 'Memory anchor', senses: [1, 2].map(i => ({
+    pos: 'art. 冠词', phonetic: i === 1 ? '英 /test/；美 /tɛst/' : '/test/', meaning_zh: `释义${i}`, meaning_en: `short meaning ${i}`, english_definition: definition(i), sentence_en: `test sentence ${i}`, sentence_zh: `例句${i}`,
     collocation_en: `test A${i}; test B${i}`, collocation_zh: `场景A${i}；场景B${i}`,
-  })) });
+  })) };
+  f.ui.renderDetail(entry);
   const html = f.element('detail').innerHTML;
-  for (const text of ['释义1', '释义2', definition(1), definition(2), '例句1', '例句2', '场景A1', '场景B2', 'test + -ing → testing', '词源故事']) assert.ok(html.includes(text), text);
+  for (const text of ['释义1', '释义2', definition(1), definition(2), '例句1', '例句2', '场景A1', '场景B2', 'test + -ing → 测试中；', '常用词族：testing']) assert.ok(html.includes(text), text);
+  for (const key of ['forms', 'family', 'morphology_en', 'etymology_zh', 'etymology_en', 'synonyms_zh', 'synonyms_en', 'mnemonic_zh', 'mnemonic_en']) assert.ok(html.includes(entry[key].replaceAll('>', '&gt;')), key);
+  assert.match(html, /class="lexical-meta-grid zh-content" aria-label="词形与词族"/);
+  assert.ok(html.indexOf('class="tag-line"') < html.indexOf('class="lexical-meta-grid'));
+  assert.ok(html.indexOf('class="lexical-meta-grid') < html.indexOf('class="sense-quick-chips"'));
+  assert.match(html, /<p class="formula zh-content">test \+ -ing → 测试中<\/p><p class="formula en-content" lang="en">test \+ -ing -&gt; testing<\/p>/);
+  assert.match(html, /<span class="sense-phonetic"><span class="label-zh">英 \/test\/；美 \/tɛst\/<\/span><span class="label-en" lang="en">UK \/test\/; US \/tɛst\/<\/span><\/span>/);
+  assert.match(html, /<span class="sense-phonetic" lang="en">\/test\/<\/span>/);
+  assert.doesNotMatch(html, /\/\/|source-note/);
   assert.doesNotMatch(html, /<details|<summary|aria-expanded|\shidden[\s=>]/);
-  assert.equal((html.match(/class="dimension /g) || []).length, 4);
-  for (const number of ['一', '二', '三', '四']) assert.ok(html.includes(`要素${number}`));
+  assert.equal((html.match(/class="dimension /g) || []).length, 6);
+  for (const number of ['一', '二', '三', '四', '五', '六']) assert.ok(html.includes(`要素${number}`));
+  assert.equal((html.match(/class="deep-copy en-content" lang="en"/g) || []).length, 4);
   const cards = html.split(/<section id="sense-\d+"/).slice(1);
   assert.equal(cards.length, 2);
   cards.forEach((card, i) => {
     for (const text of [`释义${i + 1}`, definition(i + 1), `例句${i + 1}`, `场景A${i + 1}`, `场景B${i + 1}`, '听例句']) assert.ok(card.includes(text), text);
     assert.match(card, /class="example-zh zh-content"/);
     assert.equal(card.match(/<p class="definition" lang="en">([^<]*)<\/p>/)[1], definition(i + 1));
+    assert.equal(card.match(/<p class="sense-meaning-en" lang="en">([^<]*)<\/p>/)[1], `short meaning ${i + 1}`);
   });
   assert.equal((html.match(/data-sense="/g) || []).length, 2);
   const navigation = html.match(/<nav class="sense-quick-chips"[^>]*>([\s\S]*?)<\/nav>/)[1];
@@ -265,6 +276,72 @@ test('entry renderer keeps short sense navigation and every complete definition 
   f.element('lang-bilingual').onclick();
   assert.equal(f.document.body.classList.contains('lang-en-only'), false);
   assert.equal(f.element('detail').innerHTML, html);
+  const copied = [];
+  f.context.navigator.clipboard = { writeText: async text => copied.push(text) };
+  f.ui.state.selected = entry;
+  await f.element('copy').onclick();
+  assert.match(copied[0], /^# test \/test\/\n\nCET4/);
+  for (const key of ['forms', 'family', 'morphology_zh', 'morphology_en', 'etymology_zh', 'etymology_en', 'synonyms_zh', 'synonyms_en', 'mnemonic_zh', 'mnemonic_en']) assert.ok(copied[0].includes(entry[key]), key);
+  for (const sense of entry.senses) for (const value of Object.values(sense)) assert.ok(copied[0].includes(value), value);
+  for (const title of ['现代构词', '词源', '近义辨析', '记忆锚点']) assert.ok(copied[0].includes(`## ${title}\n`));
+  // Tabs/newlines and HTML metacharacters must remain safe in either TSV column.
+  entry.word = 'test\t<&\n"'; entry.forms += '\t<&\r\n'; entry.senses[0].meaning_en += ' <script> & "quoted"';
+  await f.element('copy-anki').onclick();
+  const columns = copied[1].split('\t');
+  assert.equal(columns.length, 2);
+  assert.doesNotMatch(copied[1], /[\r\n]/);
+  assert.match(columns[0], /&lt;&amp; &quot;/);
+  assert.match(columns[1], /&lt;script&gt; &amp; &quot;quoted&quot;/);
+  assert.doesNotMatch(columns[1], /<script>/);
+  for (const sense of entry.senses) for (const key of ['phonetic', 'meaning_zh', 'english_definition', 'sentence_en', 'sentence_zh', 'collocation_en', 'collocation_zh']) assert.ok(columns[1].includes(sense[key]), key);
+  for (const key of ['family', 'synonyms_zh', 'mnemonic_zh']) assert.ok(columns[1].includes(entry[key]), key);
+  assert.ok(columns[1].includes('词形变化: 复数 tests &lt;&amp;  '));
+});
+
+test('pronunciation labels translate longest matches first and unknown Chinese annotations retain only IPA', async () => {
+  const f = fixture();
+  for (const [input, expected] of [
+    ['', ''], ['test', '/test/'], ['/ˈrekɔːd/', '/ˈrekɔːd/'],
+    ['英式英语 /a/；美式英语 /b/', 'UK /a/; US /b/'],
+    ['英式 /a/，英音 /b/，英 /c/', 'UK /a/, UK /b/, UK /c/'],
+    ['美式常见变体 /a/；美式变体 /b/；美式 /c/；美音 /d/；美 /e/', 'US /a/; US /b/; US /c/; US /d/; US /e/'],
+    ['英美 /a/；强读 /b/；通常弱读 /c/；弱读 /d/；重读 /e/', 'UK/US /a/; strong /b/; weak /c/; weak /d/; stressed /e/'],
+    ['复数 /a/；单数 /b/；亦作 /c/；亦读 /d/；也作 /e/；或 /f/；亦 /g/', 'pl. /a/; sg. /b/; or /c/; or /d/; or /e/; or /f/; or /g/'],
+    ['英美 /a/；其他读法 /b/', '/a/; /b/'], ['暂无读音', ''],
+  ]) assert.equal(f.context.englishPhonetic(input), expected, input);
+  for (const input of ['', null, undefined]) assert.equal(f.context.phonetic(input), '');
+  assert.equal(f.context.phonetic('英 /a/；美 /b/'), '英 /a/；美 /b/');
+  let compounds = 0;
+  for (const letter of [...'abcdefghijklmnopqrstuvwxyz', 'other']) {
+    const shard = JSON.parse(await fs.readFile(new URL(`../app/static/data/shards/${letter}.json`, import.meta.url), 'utf8'));
+    for (const entry of Object.values(shard)) for (const sense of entry.senses) {
+      assert.doesNotMatch(f.context.phonetic(sense.phonetic), /\/\//, entry.word);
+      const english = f.context.englishPhonetic(sense.phonetic);
+      assert.doesNotMatch(english, /[\u3400-\u9fff]|\/\//, entry.word);
+      if (/[\u3400-\u9fff]/.test(sense.phonetic)) { compounds++; assert.ok(english.length > 0, entry.word); }
+    }
+  }
+  assert.equal(compounds, 3689);
+});
+
+test('deep notes preserve English fallbacks, optional lexical strips and source-only formula variants', () => {
+  const f = fixture();
+  const base = { word: '<test>', tags: [], senses: [] };
+  f.ui.renderDetail(base);
+  let html = f.element('detail').innerHTML;
+  assert.doesNotMatch(html, /class="lexical-meta-grid|class="formula/);
+  for (const text of ['暂无构词说明', '暂无词源说明', '暂无近义辨析', '暂无助记说明', 'Word formation notes', 'Origin notes', 'Synonym notes', 'Mnemonic notes']) assert.ok(html.includes(text));
+  assert.match(html, /&lt;test&gt;/);
+  for (const [fields, expected] of [
+    [{ morphology_zh: 'test + -ing → testing' }, '<p class="formula">test + -ing → testing</p>'],
+    [{ morphology_en: 'test + -ing -> testing' }, '<p class="formula">test + -ing -&gt; testing</p>'],
+    [{ morphology_zh: 'test + -ing → 测试' }, '<p class="formula zh-content">test + -ing → 测试</p>'],
+  ]) {
+    f.ui.renderDetail({ ...base, ...fields, forms: '<forms>', family: '<family>' });
+    html = f.element('detail').innerHTML;
+    assert.ok(html.includes(expected));
+    assert.match(html, /&lt;forms&gt;/); assert.match(html, /&lt;family&gt;/);
+  }
 });
 
 test('sidebar pointer resizing clamps, ignores other pointers, persists once and cleans up cancellation', () => {

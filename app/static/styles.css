@@ -204,6 +204,10 @@ kbd { font: .6875rem/1.5 var(--sans); border: 1px solid var(--line); border-radi
 .tag-line { display: flex; gap: .25rem; flex-wrap: wrap; margin-top: .5rem; }
 .exam-tag { font-size: calc(.75rem * var(--font-scale)); font-weight: 550; letter-spacing: .02em; padding: .25rem .6rem; border-radius: .4rem; color: var(--muted); background: var(--example); }
 .cefr-tag { background: var(--gold-soft); color: var(--gold); }
+.lexical-meta-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: calc(.5rem * var(--reading-padding-scale)); margin-top: .625rem; }
+.lexical-meta-item { min-width: 0; padding: calc(.5rem * var(--reading-padding-scale)) calc(.75rem * var(--reading-padding-scale)); background: var(--example); border-radius: .5rem; }
+.lexical-meta-label { color: var(--muted); font-size: calc(.75rem * var(--font-scale)); font-weight: 650; }
+.lexical-meta-copy { margin: .125rem 0 0; font-size: calc(.8125rem * var(--font-scale)); line-height: var(--reading-line-height); white-space: pre-line; overflow-wrap: anywhere; }
 .dimension { min-width: 0; border: 1px solid var(--line); border-radius: .75rem; padding: calc(.875rem * var(--reading-padding-scale)) calc(1rem * var(--reading-padding-scale)); }
 .dimension-heading { display: flex; align-items: center; flex-wrap: wrap; gap: .375rem; margin-bottom: .625rem; }
 .dimension-number { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; padding: .125rem .375rem; border-radius: .35rem; color: var(--accent); background: var(--accent-soft); font-size: calc(.8125rem * var(--font-scale)); font-weight: 700; }
@@ -218,6 +222,8 @@ kbd { font: .6875rem/1.5 var(--sans); border: 1px solid var(--line); border-radi
 .pos-tag.adverb { color: var(--purple); background: var(--purple-soft); }
 .sense-number { color: var(--muted); font-size: calc(.8125rem * var(--font-scale)); font-variant-numeric: tabular-nums; letter-spacing: .02em; }
 .sense-heading h3 { font-size: calc(1.0625rem * var(--font-scale)); font-weight: 700; margin: 0; line-height: var(--reading-line-height); overflow-wrap: anywhere; }
+.sense-phonetic { color: var(--muted); font-size: calc(.875rem * var(--font-scale)); line-height: var(--reading-line-height); overflow-wrap: anywhere; }
+.sense-meaning-en { flex-basis: 100%; margin: 0; color: var(--muted); font-size: calc(.9375rem * var(--font-scale)); line-height: var(--reading-line-height); overflow-wrap: anywhere; }
 .definition { font-size: calc(.90625rem * var(--font-scale)); line-height: var(--reading-line-height); letter-spacing: .005em; margin: 0 0 .5rem; max-width: 85ch; overflow-wrap: anywhere; }
 .context-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: calc(.625rem * var(--reading-padding-scale)); }
 .example-card { background: var(--example); border-radius: .625rem; padding: calc(.5rem * var(--reading-padding-scale)) calc(.75rem * var(--reading-padding-scale)); min-width: 0; }
@@ -236,6 +242,10 @@ mark { background: transparent; color: var(--accent); font-weight: 650; }
 .deep-card .dimension-number { background: var(--paper); }
 .deep-card.etymology { background: var(--parchment); border-color: var(--gold-soft); }
 .etymology .dimension-number { color: var(--gold); background: var(--gold-soft); }
+.deep-card.synonyms { background: var(--green-soft); }
+.synonyms .dimension-number { color: var(--green); }
+.deep-card.mnemonic { background: var(--purple-soft); }
+.mnemonic .dimension-number { color: var(--purple); }
 .deep-copy { font-size: calc(.875rem * var(--font-scale)); line-height: var(--reading-line-height); margin: 0; white-space: pre-line; overflow-wrap: anywhere; }
 .deep-copy + .deep-copy { margin-top: .5rem; }
 .deep-card .formula { display: inline-block; max-width: 100%; border-radius: .5rem; background: var(--paper); padding: calc(.5rem * var(--reading-padding-scale)) calc(.75rem * var(--reading-padding-scale)); font-size: calc(1rem * var(--font-scale)); font-weight: 700; line-height: var(--reading-line-height); color: var(--accent); margin: 0 0 .625rem; overflow-wrap: anywhere; }
@@ -267,13 +277,20 @@ body.resizing, body.resizing * { cursor: col-resize !important; user-select: non
 .core-definitions, .real-scenarios { border: 0; padding: 0; border-radius: 0; }
 .deep-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: calc(.75rem * var(--reading-padding-scale)); margin-top: calc(.75rem * var(--reading-padding-scale)); }
 .label-en { display: none; }
+.en-content { display: block; }
+.deep-copy.en-content { color: var(--muted); margin-top: .375rem; }
+.deep-card .formula.en-content { display: none; }
 .lang-en-only .content .zh-content, .lang-en-only .content .label-zh { display: none; }
 .lang-en-only .content .label-en { display: inline; }
+.lang-en-only .deep-copy.en-content { color: var(--ink); margin-top: 0; }
+.lang-en-only .deep-card .formula.en-content { display: inline-block; }
+.lang-en-only .sense-meaning-en { color: var(--ink); font-weight: 650; }
 .lang-en-only .definition { font-size: calc(1rem * var(--font-scale)); font-weight: 650; }
 .lang-en-only .example-en { font-size: calc(.9375rem * var(--font-scale)); }
 .source-note { color: var(--muted); font-size: calc(.8125rem * var(--font-scale)); }
 /* Adapt to the actual reading pane, including after the sidebar is resized. */
 @container (min-width: 640px) {
+  .lexical-meta-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .context-grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
   .deep-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
