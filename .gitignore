@@ -5,7 +5,10 @@ __pycache__/
 node_modules/
 .tmp/
 *.log
+
+# Generated database exports and static search index / 27 detail shards
 data/exports/
 app/static/data/
-验收工作台.html
 
+# Local acceptance workbench
+验收工作台.html

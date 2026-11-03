@@ -51,12 +51,25 @@
 
 ## 📐 六维词条架构 (Schema)
 
-条目采用标准化 JSON 结构存储，各字段严格定义（详见 [docs/SCHEMA.md](docs/SCHEMA.md)）：
+条目采用标准化 JSON 结构存储。客户端将学习内容按以下六维平铺展开，核心字段对应如下（字段类型详见 [docs/SCHEMA.md](docs/SCHEMA.md)）：
+
+| 维度 | 学习内容 | 源 JSON 字段 |
+| :--- | :--- | :--- |
+| **01** | 释义与定义：词性、逐义项音标、中英文简义与完整英文定义 | `senses[].pos / phonetic / meaning_zh / meaning_en / english_definition` |
+| **02** | 例句与搭配：真实语境及中英对照 | `senses[].sentence_en / sentence_zh / collocation_en / collocation_zh` |
+| **03** | 现代公式化构词 | `morphology_enriched.zh / en` |
+| **04** | 词源故事 | `etymology_story.zh / en` |
+| **05** | 近义词辨析 | `synonyms_and_nuances.zh / en` |
+| **06** | 记忆锚点与助记 | `mnemonic_anchor.zh / en` |
+
+词头 `word`、音标 `phonetic` 与考纲标签 `exam_tags` 位于词条顶部；`forms`（词形变化）和 `family`（派生词族）是中文教学说明字符串，显示在标签与义项导航之间，不额外计为维度。下面是简化示例：
 
 ```json
 {
   "word": "available",
   "phonetic": "/əˈveɪ.lə.bəl/",
+  "forms": "比较级：more available；最高级：most available。",
+  "family": "availability（可用性）；unavailable（不可用的）。",
   "senses": [
     {
       "pos": "adj. 形容词",
@@ -90,6 +103,19 @@
 }
 ```
 
+静态分片保留 `forms` / `family` 与全部义项字段，将 `exam_tags` 写为 `tags`，四组深层双语对象分别展开为 `morphology_zh/en`、`etymology_zh/en`、`synonyms_zh/en`、`mnemonic_zh/en`。
+
+---
+
+## 📖 纯静态词典客户端 (`app/static/`)
+
+- **浏览器内检索与离线词库**：Web Worker 加载轻量搜索索引；详情按首字母从 27 个分片（`a`–`z` 与 `other`）读取，并缓存到 IndexedDB。点击“准备离线词库”可下载全部分片（约 88 MiB），支持暂停与恢复；Service Worker 缓存页面外壳，首次联网准备完成后可离线刷新与查词。
+- **快速定位与浏览**：A–Z 字母导航与二级前缀定位；支持英文词头、中文释义检索、考纲、词性和收藏筛选。当前提供 10 个考纲筛选项（CET4、CET6、考研、IELTS、TOEFL、GRE、高考、TEM4、TEM8、SAT），以及 A–Z、考纲核心、多义词丰富度、Z–A 四种排序。每页 50 词，全库共 501 页，末页 6 词，支持页码跳转及上下滚动补载。
+- **六维平铺阅读**：逐义项展示释义、音标、完整英文定义、双语例句与搭配；构词、词源、近义辨析和助记在宽屏采用 2×2 卡片，窄屏单列。词形与词族默认可见；切换“中英双语 / English”时保留阅读位置，English 使用真实英文正文，隐藏中文词形/词族说明。
+- **`aA 排版`与沉浸阅读**：五档字号（85% / 95% / 100% / 115% / 130%）、四种字族、三档行距与密度，以及纸白 / 暖黄 / 素灰 / 深黑四种纸色；设置持久保存，可恢复默认。另有全站深浅主题、沉浸阅读和 240–640px 可调侧栏。
+- **听读与学习工具**：英音 / 美音及例句发音药丸按钮、收藏、完整词条 Markdown / Anki TSV 复制、每日一词和备考抽认；抽认卡支持 3D 翻转，学习进度保存在当前设备。朗读使用设备语音，离线朗读需预先安装英语语音包。
+- **键盘与动效**：`/` 聚焦搜索、`↑` / `↓` 切词、`Enter` 开始阅读；支持减少动效偏好。
+
 ---
 
 ## 📦 多端分发产物
@@ -117,16 +143,35 @@ python src/export_databases.py --all
 ```
 
 ### 2. 启动纯静态词典客户端
+
+先准备静态数据：若 `app/static/data/search_index.json` 或 `app/static/data/shards/*.json` 尚未生成，在已有 SQLite 导出的基础上运行：
+
+```bash
+python src/export_web_shards.py
+```
+
+然后从项目根目录启动：
+
 ```bash
 python -m http.server 8765 --bind 127.0.0.1 --directory app/static
 ```
 在浏览器中打开 `http://127.0.0.1:8765`。检索在 Web Worker 中运行，详细词条按字母下载并保存在 IndexedDB，无需启动数据库 API。
 
-静态数据位于 `app/static/data/`；若尚未生成，先运行 `python src/export_web_shards.py`（需已有 SQLite 导出）。发布时将 **`app/static/` 整个目录连同 data 上传**，可放在静态站点子目录。数据目录受 `.gitignore` 保护，提交源码不会自动包含它。
+### 3. 部署到 GitHub Pages / Cloudflare Pages
 
-页面左下角“准备离线词库”可缓存全部 27 个分片，完成后可离线刷新与查词。首次访问需要联网；离线朗读还需设备已安装英语语音包。旧 `app/server.py` 仍供其他 API 使用方调用。
+将 **`app/static/` 整个目录作为静态站点内容发布**，保留以下相对目录结构，也可部署在站点子目录：
 
-实现边界、测试命令及尚待完成的浏览器验收见 [前端验收记录](docs/FRONTEND_ACCEPTANCE.md)。
+```text
+app/static/
+├── index.html、styles.css、app.js、worker.js、db.js、data.js、sw.js
+└── data/
+    ├── search_index.json
+    └── shards/          # 27 个 JSON：a.json–z.json、other.json
+```
+
+`app/static/data/` 是被 `.gitignore` 忽略的派生产物，**只推送源码不会带上搜索索引和 27 个分片**。通过 Pages 发布时，须在构建/上传发布产物前生成或补齐这些文件，再发布完整目录；仅上传 HTML/CSS/JS 无法提供全库查询。线上使用 HTTPS，以支持 Service Worker 离线缓存。
+
+页面左下角“准备离线词库”用于缓存全部分片。旧 `app/server.py` 仍供其他 API 使用方调用。实现边界、测试命令与浏览器验收结果见 [前端验收记录](docs/FRONTEND_ACCEPTANCE.md)。
 
 ---
 
@@ -161,7 +206,10 @@ for r in results:
 dict/
 ├── app/                                # 本地极速查词服务 (Python 3 零外部依赖)
 │   ├── server.py                       # 支持 FTS5 全文搜索、多字段过滤的 HTTP 服务
-│   └── static/                         # 查词前端界面 (HTML/CSS/JS)
+│   └── static/                         # 纯静态词典客户端 (HTML/CSS/JS、Worker、离线缓存)
+│       └── data/                       # 【派生产物，Git 忽略】发布时必须携带
+│           ├── search_index.json       # Web Worker 轻量检索索引
+│           └── shards/                 # 27 个按字母划分的完整词条 JSON
 ├── data/
 │   ├── enriched/                       # 【核心源码】26 个批次 JSON (总计 218 MB)
 │   ├── sample_1000.json                # 【快速测试】精选 1,000 核心词样本
@@ -176,6 +224,7 @@ dict/
 │   ├── export_sqlite.py                # SQLite + FTS5 编译脚本
 │   ├── export_anki.py                  # Anki 牌组导出脚本
 │   ├── export_jsonl.py                 # JSONL 语料导出脚本
+│   ├── export_web_shards.py            # 从 SQLite 生成静态搜索索引与 27 分片
 │   └── mass_producer.py                # 批次富化流水线调度核心
 ├── LICENSE                             # CC-BY-SA 4.0 (数据) + MIT (代码) 双许可证
 └── README.md                           # 本说明文件
